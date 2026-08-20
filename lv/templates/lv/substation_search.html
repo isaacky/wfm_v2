@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SEARCH SSN</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <h2 class="text-center display-4 text-uppercase text-bold">Search By SSN</h2>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="{% url 'lv:search-by-ssn' %}">
+                        {% csrf_token %}
+                        <div class="input-group input-group-lg">
+                            <input type="text" name="keyword" class="form-control form-control-lg"
+                                   placeholder="Type The SSN Number here" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-10 offset-md-1">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            {% if data %}
+                                <div class="row">
+
+                                    <div class="col px-4">
+                                        <div class="card-body p-0 table-responsive" style="height: 500px">
+                                            <table class="table table-sm table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>SSN</th>
+                                                    <th>NAME</th>
+                                                    <th>LOCATION</th>
+                                                    <th>ORIGIN</th>
+                                                    <th>FEEDER</th>
+                                                    <th></th>
+
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for d in data %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}.</td>
+                                                        <td><a href="{% url 'lv:ssn-detail' d.id %}">{{ d.ssn }}</a>
+                                                        </td>
+                                                        <td>{{ d.name }}</td>
+                                                        <td class="text-uppercase">{{ d.physicallocation }}</td>
+                                                        <td>{{ d.originofelement }}</td>
+                                                        <td>{{ d.feederofelement }}</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-info">
+                                                                    Action
+                                                                </button>
+                                                                <button
+                                                                        type="button"
+                                                                        class="btn btn-info dropdown-toggle dropdown-icon "
+                                                                        data-toggle="dropdown"
+                                                                        aria-expanded="false"
+                                                                >
+                                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                                </button>
+                                                                <div class="dropdown-menu" role="menu" style="">
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:load-checks-new' d.id %}">Load Checks</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:lvinspection-new' d.id %}">LV
+                                                                        Inspection</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:lvmaintenance-new' d.id %}">LV
+                                                                        Maintenance</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:lvfailure-new' d.id %}">TX
+                                                                        Failure</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:substation-new' d.id %}">Substation
+                                                                        Inspection</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:substation-maintenance-new' d.id %}">Substation
+                                                                        Maintenance</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:commission-new' d.id %}">Commission</a>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'lv:poledefects-list' d.id %}">Maintain
+                                                                        Pole Defect </a>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            {% else %}
+                                <p>
+                                    NO RESULTS FOUND. KINDLY SHARE WITH TFRT FOR ADDITION
+                                </p>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

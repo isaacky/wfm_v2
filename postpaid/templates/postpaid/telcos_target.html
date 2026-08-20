@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>Field Ops | Telcos</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">
+        Telcos Meter Inspection Target
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Telcos</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">There are <strong style="color :red"> </strong> Sites Pending Inspection
+                        </h5><br><br>
+                        <p>
+                        <form action="{% url 'postpaid:telcos-search-by-meter' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Meter Number"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+
+                        <p>
+                        <form action="{% url 'postpaid:telcos-search-by-siteid' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Site ID"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+
+
+                        {% if meters %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Site ID</th>
+                                        <th>MeterNo</th>
+                                        <th>Account</th>
+
+                                        <th>Site Name</th>
+                                       
+                                       <th>County</th>
+                                        <th>Type</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in meters %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                             <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="{% url 'postpaid:inspect-telcos' meterr.id %}">{{ meterr.siteid }}</a>
+                                            </td>
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="{% url 'postpaid:inspect-telcos' meterr.id %}">{{ meterr.meterno }}</a>
+                                            </td>
+                                            <td>{{ meterr.accountno }}</td>
+                                             <td class="text-uppercase">{{ meterr.sitename }}</td>
+                                           
+                                           <td>{{ meterr.county }}</td>
+                                           <td class="text-uppercase">{{ meterr.telcos_type }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <p>
+                                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                </div>
+                                </p>
+                                {#              <p>#}
+                                {#                <a href="{% url 'postpaid:threephase-target-export' %}" class="btn btn-primary btn-sm">Export Target List to csv</a>#}
+                                {#              </p>#}
+
+                            </div>
+                        {% else %}
+                            <p>
+                                NO RECORDS FOUND.
+                            </p>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

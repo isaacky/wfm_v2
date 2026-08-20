@@ -1,0 +1,84 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Zero Bill</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">METER NUMBER : {{ meter.meterno}}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">View Upload</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<section class="content">
+  <!-- Default box -->
+
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="">
+            <form
+              class="form-horizontal"
+              method="POST"
+              enctype="multipart/form-data"
+              novalidate
+            >
+              {% csrf_token %} {% include 'form_snippet.html' %}
+
+              <div class="content-section">
+                <form method="POST">
+                  <fieldset class="form-group">
+                    <div id="event_name">ABC ..</div>
+                    <div id="recurring_event">
+                      <select id="id_recurring_event">
+                        <option value="Yes">Yes</option>
+                        <option value="No" selected="true">No</option>
+                      </select>
+                    </div>
+                    <div id="recurrence_pattern">
+                      somethings ..................
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-info">SUBMIT</button>
+              </div>
+              <!-- /.card-footer -->
+            </form>
+
+            <div class="text-center mt-5 mb-3">
+              <a
+                href="{% url 'postpaid:results-list' %}"
+                class="btn btn-sm btn-primary"
+                >Back</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.container-fluid -->
+
+{% endblock content %}

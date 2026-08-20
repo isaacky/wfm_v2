@@ -1,0 +1,1525 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | TRANSDIST INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div>
+                        {% if sub_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ sub_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-header">
+                        <h5 class="text-bold">SUBSTATION: {{ substation.transdist }}</h5>
+                        <h5 class="text-bold text-uppercase">TYPE: {{ substation.transdist.type }}</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#f{{ ssn.id }}">
+                            New Incoming Feeder Inspection
+                        </button>
+                        <div class="card-header">
+                            <h3 class="card-title">List of Incoming Feeder Inspections</h3>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Name Of Incoming Feeder</th>
+                                    <th>Meter Number</th>
+                                    <th>VT Ratio</th>
+                                    <th>VT Class</th>
+                                    <th>VT Burden</th>
+                                    <th>CT Ratio</th>
+                                    <th>CT Class</th>
+                                    <th>CT Burden</th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pd in feederinspectin %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td class="text-uppercase">{{ pd.feeder_source }}</td>
+                                        <td>{{ pd.meternumber }}</td>
+                                        <td>{{ pd.vt_ratio }}</td>
+                                        <td>{{ pd.class_vt }}</td>
+                                        <td>{{ pd.vt_burden_va }}</td>
+                                        <td>{{ pd.metering_core_ctratio }}</td>
+                                        <td>{{ pd.metering_core_class_ct }}</td>
+                                        <td>{{ pd.metering_core_burden_va }}</td>
+                                        <td><a
+                                                href="{% url 'transdist:incomer-delete' pd.id %}"
+                                                title="CLICK TO DELETE"
+                                                class="btn btn-sm btn-danger"
+                                        >
+                                            <i class="fas fa-trash"></i
+                                            ></a></td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="modal fade" id="f{{ ssn.id }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Incoming Feeder Inspection for - {{ ssn }}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                          action="{% url 'transdist:feederinspection-new' substation.id %}"
+                                          novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            <label for="feeder_source" class="col-sm-4 col-form-label">Name of Incoming
+                                                Feeder</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.feeder_source }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.feeder_source.help_text }}</em></span>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="metering_vt_ratio" class="col-sm-4 col-form-label">Metering
+                                                VT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.metering_vt_ratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.metering_vt_ratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="class_vt" class="col-sm-4 col-form-label">Metering VT
+                                                Class</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.class_vt }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.class_vt.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="vt_burden_va" class="col-sm-4 col-form-label">Metering VT
+                                                Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.vt_burden_va }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.vt_burden_va.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_ctratio" class="col-sm-4 col-form-label">Metering
+                                                Core CT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.metering_core_ctratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.metering_core_ctratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_class_ct" class="col-sm-4 col-form-label">Metering
+                                                Core Class of CT</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.metering_core_class_ct }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.metering_core_class_ct.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_burden_va" class="col-sm-4 col-form-label">Metering
+                                                Core Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.metering_core_burden_va }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.metering_core_burden_va.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="dt_visit" class="col-sm-4 col-form-label">Date of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.dt_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.dt_visit.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="tm_visit" class="col-sm-4 col-form-label">Time of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.tm_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.tm_visit.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="feeder_metered" class="col-sm-4 col-form-label">Is Feeder
+                                                Line Metered?</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.feeder_metered }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.feeder_metered.help_text }}</em></span>
+                                        </div>
+                                        <div id="feeder_metered">
+
+                                            <div class="form-group row">
+                                                <label for="meternumber" class="col-sm-4 col-form-label">Meter
+                                                    Number</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.meternumber }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.meternumber.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="meterbrand" class="col-sm-4 col-form-label">Meter
+                                                    Brand</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.meterbrand }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.meterbrand.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metermodel" class="col-sm-4 col-form-label">Meter
+                                                    Model</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.metermodel }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.metermodel.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metertype" class="col-sm-4 col-form-label">Meter
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.metertype }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.metertype.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="classofmeter" class="col-sm-4 col-form-label">Class Of
+                                                    Meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.classofmeter }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.classofmeter.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ratio" class="col-sm-4 col-form-label">CT Ratio
+                                                    programmed
+                                                    on the meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.ct_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.ct_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vt_ratio" class="col-sm-4 col-form-label">VT Ratio
+                                                    programmed
+                                                    on the meter
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.vt_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.vt_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ration_linked_yard" class="col-sm-4 col-form-label">Metering
+                                                    Core CT Ratio linked to meter (All Phases) </label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.ct_ration_linked_yard }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.ct_ration_linked_yard.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="vt_ration_linked_yard" class="col-sm-4 col-form-label">Metering
+                                                    Core VT Ratio linked to meter (All Phases)</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.vt_ration_linked_yard }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.vt_ration_linked_yard.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="dt_on_meter_during_visit" class="col-sm-4 col-form-label">Date
+                                                    on Meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.dt_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.dt_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="tm_on_meter_during_visit" class="col-sm-4 col-form-label">Time
+                                                    on meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.tm_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.tm_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import]</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.reading_180 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.reading_180.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180_img" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import] Image</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.reading_180_img }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.reading_180_img.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_1801" class="col-sm-4 col-form-label">1.8.0.1
+                                                    [Import] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.reading_1801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.reading_1801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_280" class="col-sm-4 col-form-label">2.8.0
+                                                    [Export]</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.reading_280 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.reading_280.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_2801" class="col-sm-4 col-form-label">2.8.0.1
+                                                    [Export] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.reading_2801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.reading_2801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="powerfactor" class="col-sm-4 col-form-label">Power
+                                                    Factor</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.powerfactor }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.powerfactor.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_redphase" class="col-sm-4 col-form-label">Voltage Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.vlt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.vlt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_yellowphase" class="col-sm-4 col-form-label">Voltage
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.vlt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.vlt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_bluephase" class="col-sm-4 col-form-label">Voltage Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.vlt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.vlt_bluephase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_redphase" class="col-sm-4 col-form-label">Current Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.crnt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.crnt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_yellowphase" class="col-sm-4 col-form-label">Current
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.crnt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.crnt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_bluephase" class="col-sm-4 col-form-label">Current Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_form.crnt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_form.crnt_bluephase.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label for="remarks" class="col-sm-4 col-form-label">Remarks after site
+                                                checks / verification</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.remarks }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.remarks.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="recommendation" class="col-sm-4 col-form-label">Proposed
+                                                Corrective action / Recommendation</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_form.recommendation }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_form.recommendation.help_text }}</em></span>
+                                        </div>
+                                        <hr>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            onclick="history.back()">Close
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <hr>
+                    <div class="card-body">
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#p{{ ssn.id }}">
+                            New Power TX Inspection
+                        </button>
+                        <div class="card-header">
+                            <h3 class="card-title">List Of Power TX Inspections</h3>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Meter Number</th>
+                                    <th>Rated Power (MVA)</th>
+                                    <th>Load Loss (KW)</th>
+                                    <th></th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pd_ptx in powertxinspectin %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td>{{ pd_ptx.meternumber }}</td>
+                                        <td>{{ pd_ptx.rated_mva }}</td>
+                                        <td>{{ pd_ptx.noloadloss }}</td>
+                                     <td><a
+                                                href="{% url 'transdist:powertx-delete' pd_ptx.id %}"
+                                                title="CLICK TO DELETE"
+                                                class="btn btn-sm btn-danger"
+                                        >
+                                            <i class="fas fa-trash"></i
+                                            ></a></td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="modal fade" id="p{{ ssn.id }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Power TX Inspection - {{ ssn }}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                          action="{% url 'transdist:powertxinspection-new' substation.id %}"
+                                          novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            <label for="powername" class="col-sm-4 col-form-label">Name</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.powername }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.powername.help_text }}</em></span>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="istherenameplate" class="col-sm-4 col-form-label">Is There a
+                                                Nameplate</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.istherenameplate }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.istherenameplate.help_text }}</em></span>
+                                        </div>
+                                        <div id="istherenameplate">
+                                            <div class="form-group row">
+                                                <label for="nameplateimg" class="col-sm-4 col-form-label">Nameplate
+                                                    Image</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.nameplateimg }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.nameplateimg.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="rated_mva" class="col-sm-4 col-form-label">Rated Power
+                                                (MVA)</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.rated_mva }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.rated_mva.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="noloadloss" class="col-sm-4 col-form-label">No Load Loss
+                                                (KW)</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.noloadloss }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.noloadloss.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="loadloss" class="col-sm-4 col-form-label">Load Loss
+                                                (KW)</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.loadloss }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.loadloss.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_vt_ratio" class="col-sm-4 col-form-label">Metering
+                                                VT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_vt_ratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_vt_ratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_vt_class" class="col-sm-4 col-form-label">Metering VT
+                                                Class</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_vt_class }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_vt_class.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_burden_vt" class="col-sm-4 col-form-label">Metering
+                                                VT
+                                                Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_core_burden_vt }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_core_burden_vt.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_ctratio" class="col-sm-4 col-form-label">Metering
+                                                Core CT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_core_ctratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_core_ctratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_class_ct" class="col-sm-4 col-form-label">Metering
+                                                Core Class of CT</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_core_class_ct }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_core_class_ct.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_burden_ct" class="col-sm-4 col-form-label">Metering
+                                                Core Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.metering_core_burden_ct }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.metering_core_burden_ct.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="dt_visit" class="col-sm-4 col-form-label">Date of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.dt_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.dt_visit.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="tm_visit" class="col-sm-4 col-form-label">Time of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.tm_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.tm_visit.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="ismetered" class="col-sm-4 col-form-label">Is
+                                                Transformer/Incomer Metered?</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.ismetered }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.ismetered.help_text }}</em></span>
+                                        </div>
+                                        <div id="ismetered">
+                                            <div class="form-group row">
+                                                <label for="meternumber" class="col-sm-4 col-form-label">Meter
+                                                    Number</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.meternumber }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.meternumber.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="meterbrand" class="col-sm-4 col-form-label">Meter
+                                                    Brand</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.meterbrand }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.meterbrand.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metermodel" class="col-sm-4 col-form-label">Meter
+                                                    Model</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.metermodel }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.metermodel.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metertype" class="col-sm-4 col-form-label">Meter
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.metertype }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.metertype.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="classofmeter" class="col-sm-4 col-form-label">Class Of
+                                                    Meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.classofmeter }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.classofmeter.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ratio" class="col-sm-4 col-form-label">CT Ratio
+                                                    programmed
+                                                    on the meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.ct_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.ct_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vt_ratio" class="col-sm-4 col-form-label">VT Ratio
+                                                    programmed
+                                                    on the meter
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.vt_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.vt_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ration_linked_meter" class="col-sm-4 col-form-label">CT
+                                                    Ratio
+                                                    linked to meter (all phases) </label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.ct_ration_linked_meter }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.ct_ration_linked_meter.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vt_ration_linked_meter" class="col-sm-4 col-form-label">VT
+                                                    Ratio
+                                                    linked to meter (all phases)</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.vt_ration_linked_meter }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.vt_ration_linked_meter.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="dt_on_meter_during_visit" class="col-sm-4 col-form-label">Date
+                                                    on Meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.dt_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.dt_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="tm_on_meter_during_visit" class="col-sm-4 col-form-label">Time
+                                                    on meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.tm_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.tm_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import]</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.reading_180 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.reading_180.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180_img" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import] Image</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.reading_180_img }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.reading_180_img.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_1801" class="col-sm-4 col-form-label">1.8.0.1
+                                                    [Import] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.reading_1801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.reading_1801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_280" class="col-sm-4 col-form-label">2.8.0
+                                                    [Export]</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.reading_280 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.reading_280.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_2801" class="col-sm-4 col-form-label">2.8.0.1
+                                                    [Export] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.reading_2801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.reading_2801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="powerfactor" class="col-sm-4 col-form-label">Power
+                                                    Factor</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.powerfactor }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.powerfactor.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_redphase" class="col-sm-4 col-form-label">Voltage Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.vlt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.vlt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_yellowphase" class="col-sm-4 col-form-label">Voltage
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.vlt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.vlt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_bluephase" class="col-sm-4 col-form-label">Voltage Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.vlt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.vlt_bluephase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_redphase" class="col-sm-4 col-form-label">Current Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.crnt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.crnt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_yellowphase" class="col-sm-4 col-form-label">Current
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.crnt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.crnt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_bluephase" class="col-sm-4 col-form-label">Current Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ powertx_form.crnt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ powertx_form.crnt_bluephase.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label for="remarks" class="col-sm-4 col-form-label">Remarks after site
+                                                checks / verification</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.remarks }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.remarks.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="recommendation" class="col-sm-4 col-form-label">Proposed
+                                                Corrective action / Recommendation</label>
+                                            <div class="col-sm-8">
+                                                {{ powertx_form.recommendation }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ powertx_form.recommendation.help_text }}</em></span>
+                                        </div>
+                                        <hr>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            onclick="history.back()">Close
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <hr>
+                    <div class="card-body">
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#out{{ ssn.id }}">
+                            New Outgoing Feeder Inspection
+                        </button>
+                        <div class="card-header">
+                            <h3 class="card-title">List Of Outgoing Feeder Inspections</h3>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Name Of Incoming Feeder</th>
+                                    <th>Meter Number</th>
+                                    <th>VT Ratio</th>
+                                    <th>VT Class</th>
+                                    <th>VT Burden</th>
+                                    <th>CT Ratio</th>
+                                    <th>CT Class</th>
+                                    <th>CT Burden</th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pd in feederinspection_outgoing %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td class="text-uppercase">{{ pd.feeder_source }}</td>
+                                        <td>{{ pd.meternumber }}</td>
+                                        <td>{{ pd.vt_ratio }}</td>
+                                        <td>{{ pd.class_vt }}</td>
+                                        <td>{{ pd.vt_burden_va }}</td>
+                                        <td>{{ pd.metering_core_ctratio }}</td>
+                                        <td>{{ pd.metering_core_class_ct }}</td>
+                                        <td>{{ pd.metering_core_burden_va }}</td>
+                                    <td><a
+                                                href="{% url 'transdist:outgoing-delete' pd.id %}"
+                                                title="CLICK TO DELETE"
+                                                class="btn btn-sm btn-danger"
+                                        >
+                                            <i class="fas fa-trash"></i
+                                            ></a></td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="modal fade" id="out{{ ssn.id }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Outgoing Feeder on - {{ ssn }}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                          action="{% url 'transdist:feederinspection-outgoing-new' substation.id %}"
+                                          novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            <label for="feeder_source" class="col-sm-4 col-form-label">Name Of Outgoing
+                                                Feeder</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.feeder_source }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.feeder_source.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_ctratio" class="col-sm-4 col-form-label">Metering
+                                                Core CT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.metering_core_ctratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.metering_core_ctratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_vt_ratio" class="col-sm-4 col-form-label">Metering
+                                                VT Ratio</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.metering_vt_ratio }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.metering_vt_ratio.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="class_vt" class="col-sm-4 col-form-label">Metering VT
+                                                Class</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.class_vt }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.class_vt.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="vt_burden_va" class="col-sm-4 col-form-label">Metering VT
+                                                Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.vt_burden_va }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.vt_burden_va.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_class_ct" class="col-sm-4 col-form-label">Metering
+                                                Core Class of CT</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.metering_core_class_ct }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.metering_core_class_ct.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metering_core_burden_va" class="col-sm-4 col-form-label">Metering
+                                                Core Burden (VA)</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.metering_core_burden_va }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.metering_core_burden_va.help_text }}</em></span>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="dt_visit" class="col-sm-4 col-form-label">Date of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.dt_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.dt_visit.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="tm_visit" class="col-sm-4 col-form-label">Time of
+                                                Visit</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.tm_visit }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.tm_visit.help_text }}</em></span>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label for="feeder_metered" class="col-sm-4 col-form-label">Is Feeder
+                                                Line Metered?</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.feeder_metered }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.feeder_metered.help_text }}</em></span>
+                                        </div>
+                                        <div>
+                                            <div class="form-group row">
+                                                <label for="meternumber" class="col-sm-4 col-form-label">Meter
+                                                    Number</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.meternumber }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.meternumber.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="meterbrand" class="col-sm-4 col-form-label">Meter
+                                                    Brand</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.meterbrand }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.meterbrand.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metermodel" class="col-sm-4 col-form-label">Meter
+                                                    Model</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.metermodel }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.metermodel.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metertype" class="col-sm-4 col-form-label">Meter
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.metertype }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.metertype.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="classofmeter" class="col-sm-4 col-form-label">Class Of
+                                                    Meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.classofmeter }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.classofmeter.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ratio" class="col-sm-4 col-form-label">CT Ratio
+                                                    programmed
+                                                    on the meter</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.ct_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.ct_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vt_ratio" class="col-sm-4 col-form-label">VT Ratio
+                                                    programmed
+                                                    on the meter
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.vt_ratio }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.vt_ratio.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ct_ration_linked_yard" class="col-sm-4 col-form-label">Metering
+                                                    Core CT Ratio linked to meter (All Phases) </label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.ct_ration_linked_yard }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.ct_ration_linked_yard.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="vt_ration_linked_yard" class="col-sm-4 col-form-label">Metering
+                                                    Core VT Ratio linked to meter (All Phases)</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.vt_ration_linked_yard }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.vt_ration_linked_yard.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="dt_on_meter_during_visit" class="col-sm-4 col-form-label">Date
+                                                    on Meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.dt_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.dt_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="tm_on_meter_during_visit" class="col-sm-4 col-form-label">Time
+                                                    on meter during Visit</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.tm_on_meter_during_visit }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.tm_on_meter_during_visit.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import]</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.reading_180 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.reading_180.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180_img" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import] Image</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.reading_180_img }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.reading_180_img.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_1801" class="col-sm-4 col-form-label">1.8.0.1
+                                                    [Import] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.reading_1801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.reading_1801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_280" class="col-sm-4 col-form-label">2.8.0
+                                                    [Export]</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.reading_280 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.reading_280.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_2801" class="col-sm-4 col-form-label">2.8.0.1
+                                                    [Export] Memory</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.reading_2801 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.reading_2801.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="powerfactor" class="col-sm-4 col-form-label">Power
+                                                    Factor</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.powerfactor }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.powerfactor.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_redphase" class="col-sm-4 col-form-label">Voltage Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.vlt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.vlt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_yellowphase" class="col-sm-4 col-form-label">Voltage
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.vlt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.vlt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="vlt_bluephase" class="col-sm-4 col-form-label">Voltage Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.vlt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.vlt_bluephase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_redphase" class="col-sm-4 col-form-label">Current Red
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.crnt_redphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.crnt_redphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_yellowphase" class="col-sm-4 col-form-label">Current
+                                                    Yellow phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.crnt_yellowphase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.crnt_yellowphase.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="crnt_bluephase" class="col-sm-4 col-form-label">Current Blue
+                                                    phase</label>
+                                                <div class="col-sm-8">
+                                                    {{ feeder_outgoing_form.crnt_bluephase }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ feeder_outgoing_form.crnt_bluephase.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="remarks" class="col-sm-4 col-form-label">Remarks after site
+                                                checks / verification</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.remarks }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.remarks.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="recommendation" class="col-sm-4 col-form-label">Proposed
+                                                Corrective action / Recommendation</label>
+                                            <div class="col-sm-8">
+                                                {{ feeder_outgoing_form.recommendation }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ feeder_outgoing_form.recommendation.help_text }}</em></span>
+                                        </div>
+                                        <hr>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            onclick="history.back()">Close
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <hr>
+                    <div class="card-body">
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#a{{ ssn.id }}">
+                            New Substation (Auxilliary) TX Inspection
+                        </button>
+                        <div class="card-header">
+                            <h3 class="card-title">List Of Aux Tx Inspections</h3>
+                        </div>
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Substation Number</th>
+                                    <th>Meter Number</th>
+                                    <th>Meter Type</th>
+                                    <th></th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pd_a in auxtxinspectin %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td>{{ pd_a.ssn }}</td>
+                                        <td>{{ pd_a.meternumber }}</td>
+                                        <td>{{ pd_a.metertype }}</td>
+                                     <td><a
+                                                href="{% url 'transdist:auxtx-delete' pd_a.id %}"
+                                                title="CLICK TO DELETE"
+                                                class="btn btn-sm btn-danger"
+                                        >
+                                            <i class="fas fa-trash"></i
+                                            ></a></td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="modal fade" id="a{{ ssn.id }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Aux Tx Inspection - {{ ssn }}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                          action="{% url 'transdist:auxtxinspection-new' substation.id %}"
+                                          novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            <label for="ssn" class="col-sm-4 col-form-label">Sub-Station
+                                                Number</label>
+                                            <div class="col-sm-8">
+                                                {{ auxtx_form.ssn }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ auxtx_form.ssn.help_text }}</em></span>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="mounting_strx" class="col-sm-4 col-form-label">Mounting
+                                                Structure</label>
+                                            <div class="col-sm-8">
+                                                {{ auxtx_form.mounting_strx }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ auxtx_form.mounting_strx.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="metered" class="col-sm-4 col-form-label">Metered?</label>
+                                            <div class="col-sm-8">
+                                                {{ auxtx_form.metered }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ auxtx_form.metered.help_text }}</em></span>
+                                        </div>
+                                        <div id="metered-aux">
+
+                                            <div class="form-group row">
+                                                <label for="meternumber" class="col-sm-4 col-form-label">Meter
+                                                    Number</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.meternumber }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.meternumber.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="meterbrand" class="col-sm-4 col-form-label">Meter
+                                                    Brand</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.meterbrand }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.meterbrand.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metermodel" class="col-sm-4 col-form-label">Meter
+                                                    Model</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.metermodel }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.metermodel.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="metertype" class="col-sm-4 col-form-label">Meter
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.metertype }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.metertype.help_text }}</em></span>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="reading_180" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import]</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.reading_180 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.reading_180.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="reading_180_img" class="col-sm-4 col-form-label">1.8.0
+                                                    [Import] Image</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.reading_180_img }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.reading_180_img.help_text }}</em></span>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="reading_280" class="col-sm-4 col-form-label">2.8.0
+                                                    [Export]</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.reading_280 }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.reading_280.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="remarks" class="col-sm-4 col-form-label">Remarks after site
+                                                    checks / verification</label>
+                                                <div class="col-sm-8">
+                                                    {{ auxtx_form.remarks }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ auxtx_form.remarks.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="recommendation" class="col-sm-4 col-form-label">Proposed
+                                                Corrective action / Recommendation</label>
+                                            <div class="col-sm-8">
+                                                {{ auxtx_form.recommendation }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ auxtx_form.recommendation.help_text }}</em></span>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            onclick="history.back()">Close
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+                    <hr>
+                    <div class="card-body">
+
+
+                        <div class="card-header">
+                            <h3 class="card-title">List Of Outgoing Feeder Inspections</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <form class="form-horizontal" action="{% url 'transdist:transdist-update' substation.id %}"
+                                  method="post">
+
+                                {% csrf_token %}
+
+                                <hr>
+
+                                <div class="form-group row">
+                                    <label for="county" class="col-sm-3 col-form-label text-sm">County</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.county }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.county.help_text }}</em></span>
+                                </div>
+
+                                <hr>
+
+                                <div class="text-center mt-5 mb-3">
+                                    <button
+                                            type="submit"
+                                            name="finalsubmission"
+                                            class="btn btn-sm btn-success"
+                                            value="finalsubmission"
+                                    >
+                                        Final Submit
+                                    </button>
+                                    <button
+                                            type="submit"
+                                            name="draft"
+                                            value="draft"
+                                            class="btn btn-sm btn-primary"
+                                    >
+                                        Save Draft
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

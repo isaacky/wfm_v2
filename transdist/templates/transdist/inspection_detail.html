@@ -1,0 +1,1008 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>TRANSDIST | INSPECTION PRINT {{ lvinspection.id }}</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}"/>
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> TRANSMISSION & PRIMARY SUBSTATION INSPECTION
+                    <!-- <small class="float-right">Date Of Inspection: {% now "d-m-Y" %}</small> -->
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ lvinspection.id }}</b><br/>
+                <br/>
+
+                <h5 class="text-bold">NAME: {{ lvinspection.transdist }}</h5> <br/>
+                <b>INTERNALCODE:</b> {{ lvinspection.transdist.internalcode }}<br/>
+                <b>SUBSTATION TYPE:</b> {{ lvinspection.transdist.type }}<br/>
+
+                <b>REGION:</b> {{ lvinspection.transdist.region }}
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col"></div>
+
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col float-right">
+                <br/>
+                <b>INSPECTION DATE:</b> {{ lvinspection.dtupdate|date:"d M Y" }}<br/>
+                <b>INSPECTED BY:</b>KPL {{ lvinspection.inspector }}<br/>
+                <b>SIGN</b>____________________________ <br/><br/>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br/>
+        <!-- Table row -->
+        <div class="row">
+            <h5 class="text-bold">INCOMING FEEDER INSPECTIONS</h5>
+            <div class="col-12 table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>INSPECTION ITEM</th>
+                        {% for my in feederinspection %}
+                            <th>FEEDER INFO</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>NAME OF INCOMING FEEDER</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.feeder_source }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="text-uppercase">Metering VT Ratio</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metering_vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="text-uppercase">Metering VT Class</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.class_vt }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering VT Burden (VA)</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vt_burden_va }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="text-uppercase">Metering Core CT Ratio</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metering_core_ctratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="text-uppercase">Metering Core Class of CT</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metering_core_class_ct }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td class="text-uppercase">Metering Core Burden (VA)</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metering_core_burden_va }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="text-uppercase">
+                            Date of Visit
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.dt_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="text-uppercase">
+                           Time of Visit
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.tm_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="text-uppercase">
+                            Is Feeder Line Metered?
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.feeder_metered }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td class="text-uppercase">Meter Number</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.meternumber }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td class="text-uppercase">Meter Brand</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.meterbrand }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td class="text-uppercase">Meter Model</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metermodel }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td class="text-uppercase">
+                            Meter Type
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.metertype }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td class="text-uppercase">Class Of Meter</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.classofmeter }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td class="text-uppercase">CT Ratio indicated on the meter</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.ct_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td class="text-uppercase">VT Ratio Indicated on the meter</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td class="text-uppercase">Metering Core CT Ratio linked to meter (All Phases)</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.ct_ration_linked_yard }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td class="text-uppercase">Metering Core VT Ratio linked to meter (All Phases)</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vt_ration_linked_yard }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td class="text-uppercase">Date on Meter during Visit</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.dt_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td class="text-uppercase">Time on meter during Visit</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.tm_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td class="text-uppercase">1.8.0 [Import]</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.reading_180 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td class="text-uppercase">1.8.0.1 [Import] Memory</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.reading_1801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td class="text-uppercase">2.8.0 [Export]</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.reading_280 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td class="text-uppercase">2.8.0.1 [Export] Memory</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.reading_2801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td class="text-uppercase">Power Factor</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.powerfactor }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td class="text-uppercase">Voltage Red phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vlt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Yellow phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vlt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Blue phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.vlt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td class="text-uppercase">Current Red phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.crnt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td class="text-uppercase">Current Yellow phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.crnt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td class="text-uppercase">Current Blue phase</td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.crnt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td class="text-uppercase">
+                            Remarks after site checks / verification
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.remarks }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td class="text-uppercase">
+                            Proposed Corrective action / Recommendation
+                        </td>
+                        {% for my in feederinspection %}
+                            <td>{{ my.recommendation }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <hr/>
+            <h5 class="text-bold">POWER TRANSFORMER INSPECTIONS</h5>
+            <!-- /.card-body -->
+            <div class="col-12 table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>INSPECTION ITEM</th>
+                        {% for ptx in powertxinspections %}
+                            <th>POWER TX INFO</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="text-uppercase">Name</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.powername }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td class="text-uppercase">Name Plate</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.istherenameplate }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="text-uppercase">Rated Power (MVA)</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.rated_mva }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="text-uppercase">No Load Loss (KW)</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.noloadloss }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="text-uppercase">Load Loss (KW)</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.loadloss }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering VT ratio</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering VT Class</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_vt_class }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering Core VT Burden</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_core_burden_vt }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering Core CT Ratio</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_core_ctratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering Core CT Class</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_core_class_ct }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering Core CT Burden</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metering_core_burden_ct }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Is Transformer Metered?</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.ismetered }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Meter Number</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.meternumber }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Meter Brand</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.meterbrand }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="text-uppercase">Meter Model</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metermodel }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="text-uppercase">Meter Type (Smart or AMR)</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.metertype }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td class="text-uppercase">Class of Meter</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.classofmeter }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="text-uppercase">
+                            CT Ratio indicated on the meter
+                        </td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.ct_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="text-uppercase">
+                            VT Ratio Indicated on the meter
+                        </td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="text-uppercase">
+                            VT Ratio Linted to meter
+                        </td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.vt_ration_linked_meter }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td class="text-uppercase">CT Ratio Linked to meter</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.ct_ration_linked_meter }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr>
+                        <td>18</td>
+                        <td class="text-uppercase">Date of Visit</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.dt_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td class="text-uppercase">Time of Visit</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.tm_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td class="text-uppercase">Date on Meter during Visit</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.dt_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td class="text-uppercase">Time on meter during Visit</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.tm_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td class="text-uppercase">1.8.0 [Import]</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.reading_180 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td class="text-uppercase">1.8.0.1 [Import] Memory</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.reading_1801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td class="text-uppercase">2.8.0 [Export]</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.reading_280 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td class="text-uppercase">2.8.0.1 [Export] Memory</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.reading_2801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td class="text-uppercase">Power Factor</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.powerfactor }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td class="text-uppercase">Voltage Red phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.vlt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Yellow phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.vlt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Blue phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.vlt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td class="text-uppercase">Current Red phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.crnt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td class="text-uppercase">Current Yellow phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.crnt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td class="text-uppercase">Current Blue phase</td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.crnt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td class="text-uppercase">
+                            Remarks after site checks / verification
+                        </td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.remarks }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td class="text-uppercase">
+                            Proposed Corrective action / Recommendation
+                        </td>
+                        {% for ptx in powertxinspections %}
+                            <td>{{ ptx.recommendation }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <hr/>
+            <h5>OUTGOING FEEDER INSPECTIONS</h5>
+            <div class="col-12 table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>INSPECTION ITEM</th>
+                        {% for my in feederinspection_outgoing %}
+                            <th>FEEDER INFO</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>NAME OF OUTGOING FEEDER</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.feeder_source }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="text-uppercase">Metering VT Ratio</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metering_vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="text-uppercase">Metering VT Class</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.class_vt }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="text-uppercase">Metering VT Burden (VA)</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vt_burden_va }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td class="text-uppercase">Metering Core CT Ratio</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metering_core_ctratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td class="text-uppercase">Metering Core Class of CT</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metering_core_class_ct }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td class="text-uppercase">Metering Core Burden (VA)</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metering_core_burden_va }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td class="text-uppercase">
+                            Date of Visit
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.dt_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td class="text-uppercase">
+                           Time of Visit
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.tm_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td class="text-uppercase">
+                            Is Feeder Line Metered?
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.feeder_metered }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td class="text-uppercase">Meter Number</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.meternumber }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td class="text-uppercase">Meter Brand</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.meterbrand }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td class="text-uppercase">Meter Model</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metermodel }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td class="text-uppercase">
+                            Meter Type
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.metertype }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td class="text-uppercase">Class Of Meter</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.classofmeter }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td class="text-uppercase">CT Ratio indicated on the meter</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.ct_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td class="text-uppercase">VT Ratio Indicated on the meter</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vt_ratio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td class="text-uppercase">Metering Core CT Ratio linked to meter (All Phases)</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.ct_ration_linked_yard }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td class="text-uppercase">Metering Core VT Ratio linked to meter (All Phases)</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vt_ration_linked_yard }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td class="text-uppercase">Date on Meter during Visit</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.dt_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td class="text-uppercase">Time on meter during Visit</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.tm_on_meter_during_visit }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td class="text-uppercase">1.8.0 [Import]</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.reading_180 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>23</td>
+                        <td class="text-uppercase">1.8.0.1 [Import] Memory</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.reading_1801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>24</td>
+                        <td class="text-uppercase">2.8.0 [Export]</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.reading_280 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td class="text-uppercase">2.8.0.1 [Export] Memory</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.reading_2801 }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>26</td>
+                        <td class="text-uppercase">Power Factor</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.powerfactor }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td class="text-uppercase">Voltage Red phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vlt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Yellow phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vlt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>28</td>
+                        <td class="text-uppercase">Voltage Blue phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.vlt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>29</td>
+                        <td class="text-uppercase">Current Red phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.crnt_redphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>30</td>
+                        <td class="text-uppercase">Current Yellow phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.crnt_yellowphase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>31</td>
+                        <td class="text-uppercase">Current Blue phase</td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.crnt_bluephase }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>32</td>
+                        <td class="text-uppercase">
+                            Remarks after site checks / verification
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.remarks }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td class="text-uppercase">
+                            Proposed Corrective action / Recommendation
+                        </td>
+                        {% for my in feederinspection_outgoing %}
+                            <td>{{ my.recommendation }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <hr>
+            <h5 class="text-bold">AUX TRANSFORMER INSPECTIONS</h5>
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>INSPECTION ITEM</th>
+                    {% for ptx in auxinspections %}
+                        <th>AUX TX INFO</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td class="text-uppercase">Sub-Station Number</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.ssn }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td class="text-uppercase">Mounting Structure</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.mounting_strx }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="text-uppercase">Metered?</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.metered }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="text-uppercase">Load Loss (KW)Meter Number</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.meternumber }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td class="text-uppercase">Meter Brand</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.meterbrand }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td class="text-uppercase">Meter Model</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.metermodel }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td class="text-uppercase">Meter Type</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.metertype }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td class="text-uppercase">1.8.0 [Import] - Active</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.reading_180 }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td class="text-uppercase">2.8.0 [Emport] - Reverse</td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.reading_280 }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td class="text-uppercase">
+                        Remarks after site checks / verification
+                    </td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.remarks }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td class="text-uppercase">
+                        Proposed Corrective action / Recommendation
+                    </td>
+                    {% for ptx in auxinspections %}
+                        <td>{{ ptx.recommendation }}</td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr/>
+        <br/>
+
+
+        <!-- /.row -->
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener('load', window.print())
+</script>
+</body>
+</html>

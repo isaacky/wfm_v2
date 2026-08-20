@@ -1,0 +1,121 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | AMCORDER</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Amcorder Analysis</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Amcorder Analysis</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Input Form</h3>
+                                <br>
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+
+                                    {{ form.consistence.label_tag }}
+                                    {{ form.consistence }}
+
+                                    {{ form.anomalies.label_tag }}
+                                    {{ form.anomalies }}
+
+                                    {{ form.raw_logger.label_tag }}
+                                    {{ form.raw_logger }}
+
+                                    {{ form.logger_analysed.label_tag }}
+                                    {{ form.logger_analysed }}
+
+                                    {{ form.site_images.label_tag }}
+                                    {{ form.site_images }}
+
+                                    <hr>
+
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+

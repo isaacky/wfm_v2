@@ -1,0 +1,166 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY LV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-uppercase">
+        My Failure Inspections
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+{#                        <h3 class="card-title"><p>#}
+{#                            <a href="{% url 'lvinspections:lvinspection-new' data.id %}" class="btn btn-primary btn-sm">New#}
+{#                                Inspection</a>#}
+{#                        </p></h3>#}
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0 table-responsive p-0">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ID</th>
+                                <th>SSN</th>
+                                <th>SUBSTATION</th>
+                                <th>DATE INSPECTED</th>
+                                <th>SAVE STATUS</th>
+                                <th>APPROVED STATUS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for my in mylvinspections %}
+                                <tr>
+                                    <td>{{ forloop.counter }}.</td>
+                                    <td>{{ my.id }}</td>
+                                    <td>{{ my.substation }}</td>
+                                    <td>{{ my.substation.name }}</td>
+                                    <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                    <td>
+                                        {% if my.save_status == True %}
+                                            <span class="badge bg-success">SUBMITTED</span>
+                                        {% elif my.save_status == False %}
+                                            <span class="badge bg-warning">DRAFT</span>
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        {% if my.aprv_status == True %}
+                                            <span class="badge bg-success">APPROVED</span>
+                                        {% elif my.aprv_status == False %}
+                                            <span class="badge bg-warning">PENDING</span>
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {% if my.save_status == False %}
+                                            <a href="{% url 'lv:lvfailure-update' my.id %}"
+                                               class="btn btn-sm btn-primary btn-sm"> <i
+                                                    class="fas fa-edit"></i></a>
+                                            <a href="{% url 'lv:lvfailure-delete' my.id %}"
+                                               class="btn btn-sm btn-primary btn-sm"> <i
+                                                    class="fas fa-trash"></i></a>
+                                        {% elif my.save_status == True %}
+                                            <a href="#"
+                                               class="btn btn-sm btn-secondary btn-sm"> <i
+                                                    class="fas fa-plus"></i></a>
+                                            <a href="{% url 'lv:lvinspection-print' my.id %}"
+                                               target="_blank" class="btn btn-sm btn-success btn-sm"> <i
+                                                    class="fas fa-print"></i></a>
+
+                                        {% endif %}
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <p>
+                        <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if mylvinspections.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ mylvinspections.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ mylvinspections.number }} of {{ mylvinspections.paginator.num_pages }}.
+                    </span>
+
+                      {% if mylvinspections.has_next %}
+                          <a href="?page={{ mylvinspections.next_page_number }}">next</a>
+                          <a href="?page={{ mylvinspections.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                        </div>
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-primary btn-sm">Export List to csv</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

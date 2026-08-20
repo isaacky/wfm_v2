@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | AMCORDER INSTALL</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Amcorder Installation</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Amcorder Installation</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Input Form</h3>
+                                <br>
+
+                            </div>
+                             <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+                                    <button type="button" id="find-me" class="btn-primary">Click Here To Pick Location</button>
+                                    <br/>
+                                    <p id="status"></p>
+                                    <a id="map-link" target="_blank"></a>
+
+                                    {{ form.latitude }} {{ form.longitude }}
+
+
+
+
+                                    {{ form.conn_config.label_tag }}
+                                    {{ form.conn_config }}
+
+                                    {{ form.ct_ratio.label_tag }}
+                                    {{ form.ct_ratio }}
+
+                                    {{ form.vt_ratio.label_tag }}
+                                    {{ form.vt_ratio }}
+
+                                    {{ form.ct_programing.label_tag }}
+                                    {{ form.ct_programing }}
+
+                                    {{ form.vt_programing.label_tag }}
+                                    {{ form.vt_programing }}
+
+                                    {{ form.logger_red_serial.label_tag }}
+                                    {{ form.logger_red_serial }}
+
+                                    {{ form.logger_yellow_serial.label_tag }}
+                                    {{ form.logger_yellow_serial }}
+
+                                    {{ form.logger_blue_serial.label_tag }}
+                                    {{ form.logger_blue_serial }}
+
+                                    {{ form.date_installed.label_tag }}
+                                    {{ form.date_installed }}
+
+                                     {{ form.time_installed.label_tag }}
+                                    {{ form.time_installed }}
+
+                                    {{ form.instal_point.label_tag }}
+                                    {{ form.instal_point }}
+
+                                     {{ form.log_interval.label_tag }}
+                                    {{ form.log_interval }}
+
+                                     {{ form.start_time.label_tag }}
+                                    {{ form.start_time }}
+
+                                     {{ form.read_180.label_tag }}
+                                    {{ form.read_180 }}
+
+                                     {{ form.read_181.label_tag }}
+                                    {{ form.read_181 }}
+
+                                     {{ form.read_182.label_tag }}
+                                    {{ form.read_182 }}
+
+                                     {{ form.feeder_name.label_tag }}
+                                    {{ form.feeder_name }}
+
+                                    {{ form.feeder_meter_number.label_tag }}
+                                    {{ form.feeder_meter_number }}
+
+                                    {{ form.feeder_voltage.label_tag }}
+                                    {{ form.feeder_voltage }}
+
+                                    <hr>
+
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+

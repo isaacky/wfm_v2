@@ -1,0 +1,443 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>BOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">UPLOADED TICKETS ANALYTICS</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <!-- Faulty Meters-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">FAULTY METERS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:faulty-meter-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{faultymeters}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:faulty-meter-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-danger"
+                          >{{faultymeters_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:faulty-meter-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved Uploads
+                        <span class="float-right badge bg-success"
+                          >{{faultymeters_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+            <!-- Meters Not in INCMS-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">METERS NOT In INCMS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:meters-notincms-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{metersnotincms}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:meters-notincms-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-info"
+                          >{{metersnotincms_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:meters-notincms-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved
+                        <span class="float-right badge bg-success"
+                          >{{metersnotincms_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+            <!-- Rebilling-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">REBILLING TICKETS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:billing-issues-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{rebilling_issues}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:billing-issues-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-info"
+                          >{{rebilling_issues_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:billing-issues-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved
+                        <span class="float-right badge bg-success"
+                          >{{rebilling_issues_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+            <!-- irregularity Rebilling-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">IRREGULARITY TICKETS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:irregularity-issues-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{irregularity_issues}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:irregularity-issues-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-info"
+                          >{{irregularity_issues_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:irregularity-issues-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved
+                        <span class="float-right badge bg-success"
+                          >{{irregularity_issues_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+            <!-- Direct Coonections-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">DIRECT CONNECTIONS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:direct-connections-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{directconnections}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:direct-connections-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-info"
+                          >{{directconnections_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:direct-connections-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved
+                        <span class="float-right badge bg-success"
+                          >{{directconnections_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+            <!-- Direct Coonections-->
+            <div class="col-md-2">
+              <!-- Widget: user widget style 2 -->
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-primary">
+                  <!-- /.widget-user-image -->
+                  <h4 class="">ILLEGAL RETROFITS</h4>
+                </div>
+                <div class="card-footer p-0">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:illegalretrofits-list' %}"
+                        class="nav-link"
+                      >
+                        Total Uploads
+                        <span class="float-right badge bg-primary"
+                          >{{directconnections}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:direct-connections-pending' %}"
+                        class="nav-link"
+                      >
+                        Pending Resolution
+                        <span class="float-right badge bg-info"
+                          >{{directconnections_pending}}</span
+                        >
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="{% url 'main:direct-connections-resolved' %}"
+                        class="nav-link"
+                      >
+                        Resolved
+                        <span class="float-right badge bg-success"
+                          >{{directconnections_resolved}}</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /.widget-user -->
+            </div>
+
+            <!-- /.col -->
+
+            <!-- /.col -->
+          </div>
+          <div class="row">
+            <div class="card-body">
+              <h5 class="card-title">County Analysis</h5>
+              ( <strong style="color: blue"> uploaded</strong>:
+              <strong style="color: red"> pending</strong>:
+              <strong style="color: green"> resolved</strong>)
+              <br />
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Meters Not INCMS</th>
+                    <th>Faulty Meters</th>
+                    <th>Re-Billings</th>
+                    <th>irregularities</th>
+                    <th>Direct Connections</th>
+                    <th>Idle Meters</th>
+                    <th>Illegal Retrofits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic.name}}</td>
+                    <td>
+                      <strong style="color: blue"
+                        >{{analytic.meternotinincms}}</strong
+                      >:
+                      <strong style="color: red"
+                        >{{analytic.notinincms_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.notinincms_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue">{{analytic.faulty}}</strong>:
+                      <strong style="color: red"
+                        >{{analytic.faulty_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.faulty_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue">{{analytic.billing}}</strong>:
+                      <strong style="color: red"
+                        >{{analytic.billing_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.billing_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue"
+                        >{{analytic.irregularity}}</strong
+                      >:
+                      <strong style="color: red"
+                        >{{analytic.irregularity_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.irregularity_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue"
+                        >{{analytic.directconnection}}</strong
+                      >:
+                      <strong style="color: red"
+                        >{{analytic.directconnection_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.directconnection_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue">{{analytic.idle}}</strong>:
+                      <strong style="color: red"
+                        >{{analytic.idle_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.idle_resolved}}</strong
+                      >
+                    </td>
+                    <td>
+                      <strong style="color: blue">{{analytic.retrofits}}</strong
+                      >:
+                      <strong style="color: red"
+                        >{{analytic.retrofits_pending}}</strong
+                      >:
+                      <strong style="color: green"
+                        >{{analytic.retrofits_resolved}}</strong
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

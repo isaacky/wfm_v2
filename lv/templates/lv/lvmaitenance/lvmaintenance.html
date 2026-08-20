@@ -1,0 +1,296 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV MAITENANCE</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-7">
+
+
+                <div class="card">
+                    <div>
+                        {% if sub_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ sub_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5>SSN : {{ lv.substation.name }}</h5>
+                        <h5>DATE OF INSPECTION: {{ lv.dtupdate }}</h5>
+                        <p>All Fields are required</p>
+                        <form class="form-horizontal" method="Post" action="{% url 'lv:lvmaintenance-update' lv.id %}">
+
+                            {% csrf_token %}
+
+
+                            <hr>
+                            <h5>Are there Sags/Clashing Conductors - {{ lv.poor_sags_cl_cond }}-</h5>
+                            <h5>Spans That Require Retention - {{ lv.retention_req }}</h5>
+                            <br>
+                            <div class="form-group row">
+
+                                <label for="retention_req" class="col-sm-3 col-form-label text-sm">Enter Number Of Spans
+                                    Mainteined</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.retention_req }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.retention_req.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <h5>Is there Vegetation OnThe LV Line? - {{ lv.lvline_veg }}</h5>
+                            <h5>Spans require trace clearance - {{ lv.traceclear_span }}</h5>
+                            <br>
+
+
+                            <div class="form-group row">
+                                <label for="traceclear_span" class="col-sm-3 col-form-label text-sm">Enter Number Of
+                                    Spans Mainteined</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.traceclear_span }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.traceclear_span.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Uprating Of Conductors? - {{ lv.conductors_uprate }}</h5>
+                            <h5>Total Conductor Lenth(m) - {{ lv.conductors_uprate_span }}</h5>
+                            <br>
+                            <div class="form-group row">
+                                <label for="conductors_uprate_span" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    on Conductors Lenth(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.conductors_uprate_span }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.conductors_uprate_span.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Is PME installed(Every 4LV Spans)? - {{ lv.pme_installed }}</h5>
+                            <h5>Missing In How Many Poles?? - {{ lv.pme_missing_poles }}</h5>
+                            <br>
+
+
+                            <div class="form-group row">
+                                <label for="pme_missing_poles" class="col-sm-3 col-form-label text-sm">Maintenace on
+                                    PME</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.pme_missing_poles }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.pme_missing_poles.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Overdistance LV Network? - {{ lv.lv_overdistance }}</h5>
+                            <h5>Distance From Tx To Furthest Customer? - {{ lv.lv_overdistance_l }}</h5>
+                            <br>
+                            <div class="form-group row">
+                                <label for="lv_overdistance_l" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    on Overdistance LV
+                                    Network?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.lv_overdistance_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.lv_overdistance_l.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Illegal Connections to recover? - {{ lv.illegal_connections }}</h5>
+                            <h5>Approximate Length(m)? - {{ lv.illegal_connections_l }}</h5>
+                            <br>
+
+                            <div class="form-group row">
+                                <label for="illegal_connections_l" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    on Illegal
+                                    Connections to recover?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.illegal_connections_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.illegal_connections_l.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Number of sections that require Jumper Rehabilitation?
+                                - {{ lv.jumper_rehab_sect }}</h5>
+
+                            <div class="form-group row">
+                                <label for="jumper_rehab_sect" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    on Jumper Rehabilitation?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.jumper_rehab_sect }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.jumper_rehab_sect.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <h5>LV Reconducturing with PVC/ABC? - {{ lv.reconducturing_pvc }}</h5>
+                            <h5>Total Lenth of Conductor? - {{ lv.reconducturing_pvc_l }}</h5>
+                            <br>
+
+                            <div class="form-group row">
+                                <label for="reconducturing_pvc_l" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    LV
+                                    Reconducturing with PVC/ABC?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.reconducturing_pvc_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.reconducturing_pvc_l.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5>Posho Mill on Single Phase - {{ lv.poshomills_onsingle_p }}</h5>
+                            <h5>How Many? - {{ lv.poshomills_onsingle_p_n }}</h5>
+                            <br>
+                            <div class="form-group row">
+                                <label for="poshomills_onsingle_p_n" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    on the Posho Mill?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.poshomills_onsingle_p_n }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.poshomills_onsingle_p_n.help_text }}</em></span>
+                            </div>
+                            
+                             <hr>
+                             
+                           <div class="form-group row">
+                                <label for="txposition" class="col-sm-3 col-form-label text-sm">Transformer Position</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txposition }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txposition.help_text }}</em></span>
+                            </div>
+                            <hr>
+                        <div class="form-group row">
+                                <label for="other_defects" class="col-sm-3 col-form-label text-sm">Are there other defaults that require maintenance?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.other_defects }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.other_defects.help_text }}</em></span>
+                            </div>
+
+
+
+
+
+                            <hr>
+
+
+                            <div class="form-group row">
+                                <label for="inspect_notes" class="col-sm-3 col-form-label text-sm">Maintenance
+                                    Notes</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.inspect_notes }}
+                                </div>
+                                 <span class="text-danger"><em>{{ sub_form.inspect_notes.help_text }}</em></span>
+                            </div>
+                            <hr>
+
+
+
+                            <div>
+                                <ul>
+                                    {% for field in sub_form %}
+                                        <!-- /.card-body -->
+                                        {% if field.errors %}
+                                            <!-- /.card-body -->
+                                            {% for error in field.errors %}
+                                                <li style="color: red">{{ error }}</li>
+                                            {% endfor %}
+                                            <!-- /.card-body -->
+                                        {% endif %}
+                                        <!-- /.card-body -->
+                                    {% endfor %}
+                                    <li style="color: red">{{ sub_form.non_field_errors }}</li>
+                                </ul>
+                            </div>
+
+
+                            {#                            <div class="form-group row">#}
+                            {#                                <div class="col-sm-10">#}
+                            {#                                    <button type="submit" class="btn btn-primary">Submit Inspection</button>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            <div class="text-center mt-5 mb-3">
+                                <button
+                                        type="submit"
+                                        name="finalsubmission"
+                                        class="btn btn-sm btn-success"
+                                        value="finalsubmission"
+                                >
+                                    Final Submit
+                                </button>
+                                <button
+                                        type="submit"
+                                        name="draft"
+                                        value="draft"
+                                        class="btn btn-sm btn-primary"
+                                >
+                                    Save Draft
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

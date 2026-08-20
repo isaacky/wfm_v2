@@ -1,0 +1,163 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | ANOMALOUS ACCOUNTS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+ <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:anomalous-target' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">
+        Anomalous Accounts in  {{ county }} county
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Anomalous</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <br>
+                        <p>
+                        <form action="{% url 'postpaid:anomalous-search-by-meter' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Meter Number"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+
+                        <p>
+
+
+                            {% if meters %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                           
+                                            <th>METER NUMBER</th>
+                                            <th>ACCOUNT NUMBER</th>
+                                            <th>TYPE</th>
+                                            <th>ANOMALY TYPE</th>
+                                            <th>SOURCE</th>
+                                            <th>CORDINATES</th>
+                                           
+                                            
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for meterr in meters %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+{#                                                  {% if meterr.anomaly_type == 'FAULTY' %}#}
+{#                                                <td><a href="{% url 'postpaid:anomalous-replace-faulty' meterr.id %}"><span class="badge bg-danger">REPLACE</span></a></td>#}
+{#                                                {% elif meterr.anomaly_type == 'BYPASSED' %}#}
+{#                                                <td><a href=""><span class="badge bg-primary">ISSUE DI</span></a></td>#}
+{#                                                 {% elif meterr.anomaly_type == 'TAMPERED' %}#}
+{#                                                <td><a href=""><span class="badge bg-primary">ISSUE DI</span></a>#}
+{#                                               <a href=""><span class="badge bg-danger">REPLACE</span></a></td>#}
+{#                                                {% endif %}#}
+                                       
+                                                <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                        href="{% url 'postpaid:anomalous-replace-faulty' meterr.id %}">{{ meterr.meterno }}</a>
+                                                </td>
+                                                <td>{{ meterr.accountno }}</td>
+                                                <td>{{ meterr.type|upper }}</td>
+
+                                                <td>{{ meterr.anomaly_type }}</td>
+                                                 <td>{{ meterr.source|upper }}</td>
+                                                
+                                                <td><a href="http://maps.google.com/maps?q={{ meterr.longitude }},{{ meterr.latitude }}">{{ meterr.longitude }}, {{ meterr.latitude }}</a></td>
+
+
+                                                
+                                              
+                               
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <p>
+                                    <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                    </div>
+                                    </p>
+
+                                    <p>
+                                        <a href="{% url 'postpaid:anomalous_target_export-uploads' %}"
+                                           class="btn btn-primary btn-sm">Export Target List to csv</a>
+                                    </p>
+
+                                </div>
+                            {% else %}
+                                <p>
+                                    NO RECORDS FOUND.
+                                </p>
+                            {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

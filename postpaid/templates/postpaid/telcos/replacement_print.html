@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WORKFORCE | TELCOS PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> SMART METER: <strong>{{ meter.newmeter }}</strong>
+                    <small class="float-right"> {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ meter.id }}</b><br>
+                <br>
+                <b>SITE ID:</b> {{ meter.siteid }}<br>
+                <b>SITE NAME:</b> {{ meter.sitename}}<br>
+                <b>COUNTY:</b> {{ meter.county}}<br>
+                <b>LOCATION:</b> {{ meter.y}},{{ meter.x}}<br>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+
+                <br>
+
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>REPLACEMENT DATE:</b> {{ meter.dtadd|date:"d M Y" }}<br>
+                <b>REPLACED BY:</b>KPL {{ meter.inspector}}-({{ meter.inspector.user.name }})<br>
+                <b>SIGN</b>____________________________ <br><br>
+                <b>COLLABORATION DATE:</b> {{ meter.dtupdate|date:"d M Y" }}<br>
+                <b>COLLABORATED BY:</b>{{ meter.concurrence_staff }}-({{ meter.concurrence_staff.user.name }})<br>
+                 <b>SIGN</b>____________________________ <br>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                 <table class="table table-sm table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ITEM</th>
+                                <th>FINDINGS</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>REMOVAL METER</td>
+                                <td>{{ meter.oldmeter }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>REMOVAL METER METERING STATUS</td>
+                                <td>{{ meter.meteringstatus }}
+                                <br>
+                                {% if meter.meteringstatus != 'okay' %}
+                                    {{ meter.faultystatus }}
+                                     {{ meter.bypassstatus }}
+                                     {{ meter.tamperedstatus }}
+                                {% endif %}
+                            </td>
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>REMOVAL READING</td>
+                                <td> {{ meter.removal_reading }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>INSTALLED METER</td>
+                                <td>{{ meter.newmeter }}</td>
+
+
+                            </tr>
+                             <tr>
+                                <td>5</td>
+                                <td>INSTALLED METER READING</td>
+                                <td>{{ meter.install_reading }}</td>
+
+
+                            </tr>
+                             <tr>
+                                <td>6.</td>
+                                <td>REMOVAL NOTES</td>
+                                <td>{{ meter.comment }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>COLLABORATION CONSENT</td>
+                                <td>{{ meter.concurrence }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>COLLABORATION NOTES</td>
+                                <td>{{ meter.concurrence_notes }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td> REMOVED METER IMAGE <br>
+                                    <img
+                                    src="{{ meter.removal_img.url }}"
+                                    class="product-image"
+                                    alt="Meter Image"
+                            /></td>
+                               <td> INSTALLED METER IMAGE <br>
+                                   <img
+                                    src="{{ meter.install_img.url }}"
+                                    class="product-image"
+                                    alt="Meter Image"
+                            /></td>
+
+
+
+                            </tr>
+
+
+
+
+
+                            </tbody>
+                        </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+                        </td>
+                        <td></td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | ANOMALOUS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<button
+  title="GO BACK"
+  type="button"
+  class="btn btn-default btn-sm"
+  onclick="history.back()"
+>
+  <i class="fas fa-reply"></i>
+</button>
+<a
+  href="{% url 'postpaid:anomalous-useranalytics' %}"
+  class="btn btn-default btn-sm"
+  title="REFRESH"
+>
+  <i class="fas fa-sync-alt"></i>
+</a>
+<hr />
+<h1 class="m-0 text-bold">
+  {{ county }} COUNTY ANOMALOUS USER ANALYTICS
+  <br />
+</h1>
+
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <section class="content">
+    <div class="row">
+      <!-- /.col -->
+      <div class="col-md-12">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">{{ title }}</h3>
+
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <div class="mailbox-controls">
+              <!-- Check all button -->
+
+              <!-- /.btn-group -->
+
+              <!-- /.float-right -->
+            </div>
+            <div class="card-body table-responsive p-0">
+              <br />
+              <table id="example11" class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Staff Name</th>
+                    <th>Mobile</th>
+
+                    <th>Total</th>
+                    <th>Today</th>
+                    <th>Yesturday</th>
+                    <th>{{ yesterday_1 }}</th>
+                    <th>{{ yesterday_2 }}</th>
+                    <th>{{ yesterday_3 }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                      <a href="#"
+                        >{{ analytic.user__user_id__stid }} -
+                        {{analytic.user__user_id__name }}</a
+                      >
+                    </td>
+                    <td>{{ analytic.user__user_id__mobile }}</td>
+
+                    <td>
+                      <strong>{{ analytic.the_count }}</strong>
+                    </td>
+                    <td>
+                      <strong>{{ analytic.today }}</strong>
+                    </td>
+                    <td>
+                      <strong>{{ analytic.yesturday }}</strong>
+                    </td>
+                    <td>
+                      <strong>{{ analytic.yesturday_1 }}</strong>
+                    </td>
+                    <td>
+                      <strong>{{ analytic.yesturday_2 }}</strong>
+                    </td>
+                    <td>
+                      <strong>{{ analytic.yesturday_3 }}</strong>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- /.mail-box-messages -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer p-0">
+            <div class="mailbox-controls">
+              <!-- Check all button -->
+
+              <!-- /.btn-group -->
+
+              <div class="float-right">
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if data.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ data.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                      Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                    </span>
+
+                    {% if data.has_next %}
+                    <a href="?page={{ data.next_page_number }}">next</a>
+                    <a href="?page={{ data.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+                </div>
+                <!-- /.btn-group -->
+              </div>
+              <!-- /.float-right -->
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+  var grapg1 = {{df_lv_county | safe }}
+      Plotly.plot("chart1", grapg1, {})
+</script>
+{% endblock content %}

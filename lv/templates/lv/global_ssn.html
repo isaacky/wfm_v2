@@ -1,0 +1,178 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SSN's</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        SUBSTATIONS
+        <br>
+
+
+    </h1>
+
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+             <div class="col-lg-12">
+                 <div class="card">
+              <div class="card-header">
+                <h5 class="m-0"><a href="{% url 'lv:ssn-new' %}" class="btn btn-primary">Add New Substation</a></h5>
+              </div>
+                 <div class="card-header">
+                <form action="{% url 'lv:global-ssn-search' %}">
+                                        <div class="input-group input-sm">
+                                            {% csrf_token %}
+                                            <input
+                                                    type="text"
+                                                    name="ssn"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  SSN"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">List of Substations</h6>
+
+                  <div class="card-body p-0 table-responsive p-0">
+                        <table  class="table table-sm table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>SSN</th>
+                                <th>NAME</th>
+                                <th>GNUMBER</th>
+                                <th>INTERNAL CODE</th>
+                                <th>ORIGIN ELEMENT</th>
+                                 <th>FEEDER ELEMENT</th>
+                                <th>LENGTH</th>
+                                <th>RATING</th>
+                                <th>VOLTAGE</th>
+                                <th>MAKE</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for my in ssn %}
+                                <tr>
+                                    <td>{{ forloop.counter }}.</td>
+                                    <td>{{ my.ssn }}</td>
+                                    <td>{{ my.name}}</td>
+                                    <td>{{ my.gnumber }}</td>
+                                    <td>{{ my.internalcode }}</td>
+                                    <td>{{ my.originofelement }}</td>
+                                    <td>{{ my.feederofelement }}</td>
+                                    <td>{{ my.lenghth }}</td>
+                                    <td>{{ my.rating }}</td>
+                                    <td>{{ my.voltage }}</td>
+                                    <td>{{ my.make }}</td>
+
+                                    <td>
+                                        <a href="{% url 'lv:global-substation-update' my.id %}"
+                                           class="btn btn-sm btn-secondary btn-sm"> <i
+                                                class="fas fa-edit"></i></a>
+                                    </td>
+
+
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+               <div class="card-footer">
+                        <p>
+                        <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if ssn.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ ssn.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ ssn.number }} of {{ ssn.paginator.num_pages }}.
+                    </span>
+
+                      {% if ssn.has_next %}
+                          <a href="?page={{ ssn.next_page_number }}">next</a>
+                          <a href="?page={{ ssn.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                        </div>
+                        </p>
+                        <p>
+                            <a href="{% url 'lv:ssn-print' %}" class="btn btn-primary btn-sm">Export List to csv</a>
+                        </p>
+                    </div>
+
+
+              </div>
+            </div>
+             </div>
+
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

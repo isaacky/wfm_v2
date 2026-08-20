@@ -1,0 +1,146 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>BOA | All Uploads</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">METER NUMBER : {{ meter.meternumber}}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">View Upload</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<section class="content">
+  <!-- Default box -->
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <img
+            src="{{ meter.meterimg.url }}"
+            class="product-image"
+            alt="Meter Image"
+          />
+          <div class="ribbon-wrapper ribbon-xl">
+            {% if meter.status == 'pending' %}
+            <div class="ribbon bg-danger text-lg">PENDING</div>
+            {% elif meter.status == 'solved' %}
+            <div class="ribbon bg-success text-lg">SOLVED</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="">
+            {% if meter.anomalytype == 'faultymeter' %}
+            <h3 class="text-primary">CASE - FAULTY METER</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+
+            {% elif meter.anomalytype == 'meternotinincms' %}
+            <h3 class="text-primary">CASE - METER NOT IN INCMS</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+
+            {% elif meter.anomalytype == 'retrofit' %}
+            <h3 class="text-primary">CASE - ILLEGAL RETROFIT</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% elif meter.anomalytype == 'directconnecction' %}
+            <h3 class="text-primary">CASE - DIRECT CONNECTION</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% elif meter.anomalytype == 'idle' %}
+            <h3 class="text-primary">CASE - IDLE METER</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% endif %}
+
+            <h5 class="d-block">Naration</h5>
+            <p class="text-muted">{{ meter.naration}}</p>
+
+            <div class="text-muted">
+              <p class="text-sm">
+                Date Uploaded
+                <b class="d-block">{{ meter.dtadd}}</b>
+              </p>
+              <p class="text-sm">
+                Upoaded By:
+                <b class="d-block">KPL{{ meter.user}}-({{ meter.user.name}})</b>
+                <b class="d-block">{{ meter.user.mobile}}</b>
+              </p>
+            </div>
+
+            <div class="text-muted">
+              <p class="text-sm">
+                Customer Details
+                <b class="d-block">{{ meter.customername}}</b>
+                <b class="d-block">Telephone: {{ meter.customercontact}}</b>
+                <b class="d-block">Location: {{ meter.physicallocation}}</b>
+              </p>
+            </div>
+
+            <div class="text-muted">
+              <p class="text-sm">
+                Asigned To: {% if meter.asigned %}
+                <b class="d-block"
+                  >KPL{{ meter.asigned}} -({{asigned.name}} -
+                  {{asigned.mobile}})</b
+                >
+                {% else %}
+                <b class="d-block">NOT ASIGNED</b>
+                {% endif %}
+              </p>
+            </div>
+
+            <div class="text-muted">
+              <p class="text-sm">
+                Responsible:
+                <b class="d-block"
+                  >KPL{{ username.stid}} -({{username.name}} -
+                  {{username.mobile}})</b
+                >
+              </p>
+              <p class="text-sm">
+                CSE Narration
+                <b class="d-block">{{ meter.asigned_narration}}</b>
+              </p>
+            </div>
+
+            <div class="text-center mt-5 mb-3">
+              <a
+                href="{% url 'main:my-uploaded-list' %}"
+                class="btn btn-sm btn-primary"
+                >My Uploads</a
+              >
+              <a
+                href="{% url 'main:all-uploads' %}"
+                class="btn btn-sm btn-primary"
+                >All Uploads</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.container-fluid -->
+
+{% endblock content %}

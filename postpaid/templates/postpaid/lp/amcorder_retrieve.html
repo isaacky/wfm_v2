@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | AMCORDER</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Amcorder Retrieval</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Amcorder Retrieval</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Input Form</h3>
+                                <br>
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+
+                                    {{ form.read_180.label_tag }}
+                                    {{ form.read_180 }}
+
+                                    {{ form.read_181.label_tag }}
+                                    {{ form.read_181 }}
+
+                                    {{ form.read_182.label_tag }}
+                                    {{ form.read_182 }}
+
+                                    {{ form.feeder_read_180.label_tag }}
+                                    {{ form.feeder_read_180 }}
+
+                                    {{ form.feeder_read_181.label_tag }}
+                                    {{ form.feeder_read_181 }}
+
+                                    {{ form.feeder_read_182.label_tag }}
+                                    {{ form.feeder_read_182 }}
+
+                                    {{ form.logger_phase_a.label_tag }}
+                                    {{ form.logger_phase_a }}
+
+                                    {{ form.logger_phase_b.label_tag }}
+                                    {{ form.logger_phase_b }}
+
+                                    {{ form.logger_phase_c.label_tag }}
+                                    {{ form.logger_phase_c }}
+
+                                    {{ form.peak_load.label_tag }}
+                                    {{ form.peak_load }}
+
+                                    {{ form.computed_kwh_logged.label_tag }}
+                                    {{ form.computed_kwh_logged }}
+
+                                    {{ form.meter_consumption.label_tag }}
+                                    {{ form.meter_consumption }}
+
+                                    {{ form.logger_consumption.label_tag }}
+                                    {{ form.logger_consumption }}
+
+                                    {{ form.variance_consumption.label_tag }}
+                                    {{ form.variance_consumption }}
+
+                                    {{ form.consistence.label_tag }}
+                                    {{ form.consistence }}
+
+                                    {{ form.comments.label_tag }}
+                                    {{ form.comments }}
+
+                                    <hr>
+
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,496 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MV INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-7">
+
+                <div class="card">
+                <div>
+                                {% if lv_form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ lv_form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
+                    <div class="card-body">
+                        <form class="form-horizontal" action="{% url 'mediumv:mvinspection-update' lv %}" method="post">
+
+                            {% csrf_token %}
+
+
+                        <div class="form-group row">
+                                <label for="feeder_section" class="col-sm-3 col-form-label text-sm">Feeder Section</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.feeder_section }}
+                                    <span class="text-danger"><em>{{ lv_form.feeder_section.help_text }}</em></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="no_poleswithoutstays" class="col-sm-3 col-form-label text-sm">No. Of Poles
+                                    Without Stays</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_poleswithoutstays }}
+                                    <span class="text-danger"><em>{{ lv_form.no_poleswithoutstays.help_text }}</em></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="no_rottentxstructure" class="col-sm-3 col-form-label text-sm">No. Rotten
+                                    Structure</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_rottentxstructure }}
+                                    <span class="text-danger"><em>{{ lv_form.no_rottentxstructure.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_leaningtxstructure" class="col-sm-3 col-form-label text-sm">No. Leaning
+                                    Structure</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_leaningtxstructure }}
+                                    <span class="text-danger"><em>{{ lv_form.no_leaningtxstructure.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_sagstoretention" class="col-sm-3 col-form-label text-sm">No. Sags That
+                                    Require Retention</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_sagstoretention }}
+                                    <span class="text-danger"><em>{{ lv_form.no_sagstoretention.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_sectionstodoublejumper" class="col-sm-3 col-form-label text-sm">No. Of
+                                    Sections to Double Jumper</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_sectionstodoublejumper }}
+                                    <span class="text-danger"><em>{{ lv_form.no_sectionstodoublejumper.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_replacefusemounts" class="col-sm-3 col-form-label text-sm">No. Of Fuse
+                                    Mounts To Be Replaced</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_replacefusemounts }}
+                                    <span class="text-danger"><em>{{ lv_form.no_replacefusemounts.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_bypassedhtfuses" class="col-sm-3 col-form-label text-sm">No. Of HT Fuses
+                                    Bypassed</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_bypassedhtfuses }}
+                                    <span class="text-danger"><em>{{ lv_form.no_bypassedhtfuses.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_spurtaplins" class="col-sm-3 col-form-label text-sm">No. Of Spur Tuplins
+                                    To Install</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_spurtaplins }}
+                                    <span class="text-danger"><em>{{ lv_form.no_spurtaplins.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_faultyabswitces" class="col-sm-3 col-form-label text-sm">No. Of Faulty
+                                    A/B Switches</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_faultyabswitces }}
+                                    <span class="text-danger"><em>{{ lv_form.no_faultyabswitces.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_installabswitces" class="col-sm-3 col-form-label text-sm">No. Of New A/B
+                                    Switches To Install </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_installabswitces }}
+                                    <span class="text-danger"><em>{{ lv_form.no_installabswitces.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_overhangingtrees" class="col-sm-3 col-form-label text-sm">No. Of
+                                    Locations With Overhanging Trees </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_overhangingtrees }}
+                                    <span class="text-danger"><em>{{ lv_form.no_overhangingtrees.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_tracemaint" class="col-sm-3 col-form-label text-sm">No. Of KMs That
+                                    Require Trace Maintenance </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_tracemaint }}
+                                    <span class="text-danger"><em>{{ lv_form.no_tracemaint.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_upratingconductors" class="col-sm-3 col-form-label text-sm">No. Of KMs
+                                    That Require Uprating Conductors </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_upratingconductors }}
+                                    <span class="text-danger"><em>{{ lv_form.no_upratingconductors.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_autoclosures" class="col-sm-3 col-form-label text-sm">No. Of Auto
+                                    Closeres Required </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_autoclosures }}
+                                    <span class="text-danger"><em>{{ lv_form.no_autoclosures.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_autoclosuresfaulty" class="col-sm-3 col-form-label text-sm">No. Of Auto
+                                    Faulty Closeres</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_autoclosuresfaulty }}
+                                    <span class="text-danger"><em>{{ lv_form.no_autoclosuresfaulty.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_faultyhvcable" class="col-sm-3 col-form-label text-sm">No. Of Cables
+                                    Faulty</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_faultyhvcable }}
+                                    <span class="text-danger"><em>{{ lv_form.no_faultyhvcable.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_structureswithouttx" class="col-sm-3 col-form-label text-sm">No. Of
+                                    Structures Without TX</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_structureswithouttx }}
+                                    <span class="text-danger"><em>{{ lv_form.no_structureswithouttx.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_jumpercableswithoutlugs" class="col-sm-3 col-form-label text-sm">No. Of
+                                    HV Jumppe Cables Without Lugs</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_jumpercableswithoutlugs }}
+                                    <span class="text-danger"><em>{{ lv_form.no_jumpercableswithoutlugs.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_disconnsurged" class="col-sm-3 col-form-label text-sm">No. Of
+                                    Disconnected Surge Diverters</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_disconnsurged }}
+                                    <span class="text-danger"><em>{{ lv_form.no_disconnsurged.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_txmissingearthing" class="col-sm-3 col-form-label text-sm">No. Of TX
+                                    Missing Earthing</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_txmissingearthing }}
+                                    <span class="text-danger"><em>{{ lv_form.no_txmissingearthing.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_ssnnumberless" class="col-sm-3 col-form-label text-sm">No. Of Substation
+                                    Without Numbers</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_ssnnumberless }}
+                                    <span class="text-danger"><em>{{ lv_form.no_ssnnumberless.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="no_wayleaveinfrng" class="col-sm-3 col-form-label text-sm">No. Of Locations
+                                    With Wayleave Infringment</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_wayleaveinfrng }}
+                                    <span class="text-danger"><em>{{ lv_form.no_wayleaveinfrng.help_text }}</em></span>
+                                </div>
+                            </div>
+                        <div class="form-group row">
+                                <label for="no_leakingpininsul" class="col-sm-3 col-form-label text-sm">No. Of Leaking
+                                    Pin Insulators</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_leakingpininsul }}
+                                    <span class="text-danger"><em>{{ lv_form.no_leakingpininsul.help_text }}</em></span>
+                                </div>
+                            </div>
+                        <div class="form-group row">
+                                <label for="no_leakingsuspinsul" class="col-sm-3 col-form-label text-sm">No. Of Leaking
+                                    Suspension Insulators</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.no_leakingsuspinsul }}
+                                    <span class="text-danger"><em>{{ lv_form.no_leakingsuspinsul.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="comments" class="col-sm-3 col-form-label text-sm">Overall Remarks</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.comments }}
+                                    <span class="text-danger"><em>{{ lv_form.comments.help_text }}</em></span>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <div>
+                                <ul>
+                                    {% for field in lv_form %}
+                                        <!-- /.card-body -->
+                                        {% if field.errors %}
+                                            <!-- /.card-body -->
+                                            {% for error in field.errors %}
+                                                <li style="color: red">{{ error }}</li>
+                                            {% endfor %}
+                                            <!-- /.card-body -->
+                                        {% endif %}
+                                        <!-- /.card-body -->
+                                    {% endfor %}
+                                    <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                                </ul>
+                            </div>
+
+
+                            <div class="text-center mt-5 mb-3">
+                        <button
+                                type="submit"
+                                name="finalsubmission"
+                                class="btn btn-sm btn-success"
+                                value="finalsubmission"
+                        >
+                            Final Submit
+                        </button>
+                        <button
+                                type="submit"
+                                name="draft"
+                                value="draft"
+                                class="btn btn-sm btn-primary"
+                        >
+                            Save Draft
+                        </button>
+                    </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        Pick Cordinates for Pole Defects
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                data-target="#m{{ data.ssn }}">
+                            New Pole Defect
+                        </button>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">List Of Pole Defects on the SSN</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="width: 10px">#</th>
+                                        <th>Pole Type</th>
+                                        <th>Defect Type</th>
+                                        <th>Fitting Type</th>
+                                        <th>Location</th>
+                                        <th>Cordinates</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for pd in poledefects %}
+                                        <tr>
+                                            <td><a href="{% url 'mediumv:mediumv-delete-pole' pd.id %}"
+                                               class="btn btn-sm btn-danger btn-sm"> <i
+                                                    class="fas fa-trash"></i></a></td>
+                                            <td>{{ forloop.counter }}.</td>
+                                            <td>{{ pd.defect_type }}</td>
+                                            <td>{{ pd.pole_type }}</td>
+                                            <td>{{ pd.polefitting_type }}</td>
+                                            <td>{{ pd.location }}</td>
+                                            <td>{{ pd.x }},{{ pd.y }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+
+                        <div class="modal fade" id="m{{ data.ssn }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Pole Defects for ssn - {{ data.ssn }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div>
+                                {% if pole_form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ pole_form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                                        <p>
+                                        <form class="form-horizontal" method="Post"
+                                              action="{% url 'mediumv:mvpoledefects-new' %}">
+                                            {% csrf_token %}
+                                            <button type="button" id="find-me_p" class="btn btn-default">Show my
+                                                location
+                                            </button>
+                                            <br/>
+                                            <p id="status_p"></p>
+                                            <a id="map-link_p" target="_blank"></a>
+
+
+                                            {{ pole_form.x }} {{ pole_form.y }}
+
+
+                                            <hr>
+                                            <div class="form-group row">
+                                                <label for="defect_type" class="col-sm-4 col-form-label">Pole
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.pole_type }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="defect_type" class="col-sm-4 col-form-label">Defect
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.defect_type }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="polefitting_type" class="col-sm-4 col-form-label">Pole Fitting
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.polefitting_type }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="location" class="col-sm-4 col-form-label">Location</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.location }}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <ul>
+                                                    {% for field in pole_form %}
+                                                        <!-- /.card-body -->
+                                                        {% if field.errors %}
+                                                            <!-- /.card-body -->
+                                                            {% for error in field.errors %}
+                                                                <li style="color: red">{{ error }}</li>
+                                                            {% endfor %}
+                                                            <!-- /.card-body -->
+                                                        {% endif %}
+                                                        <!-- /.card-body -->
+                                                    {% endfor %}
+                                                    <li style="color: red">{{ pole_form.non_field_errors }}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="offset-sm-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </p>
+                                        <p>This will save the Pole and its cordinates</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                onclick="history.back()">Close
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

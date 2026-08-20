@@ -1,0 +1,217 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | REPLACEMENTS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+     <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <h1 class="m-0">
+        Telcos Replacements
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'postpaid:telcos-rplc_target' %}">Telcos Target List</a>
+            </li>
+            <li class="breadcrumb-item active">My-Inspections</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <p>
+                        <form action="{% url 'postpaid:search-by-newmeter-replaced' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search by New Meter"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </p>
+                     <p>
+                        <form action="{% url 'postpaid:search-by-siteid-replaced' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Site ID"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </p>
+
+
+                        <p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Account Number</th>
+                                    <th>Removal Meter</th>
+                                    <th>New Meter</th>
+                                    <th>Customer</th>
+                                    <th>Site ID</th>
+                                    <th>Site Name</th>
+                                    <th>Metering Status</th>
+
+                                    <th>Removal Reading</th>
+                                    <th>Install Reading</th>
+                                     <th>Valideted</th>
+                                    
+                                    <th>Date Replaced</th>
+                                    <th>Collaboration Status</th>
+                                    <th></th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for meterr in meters %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ meterr.accountno }}</td>
+                                        <td>{{ meterr.oldmeter }}</td>
+                                        <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                href="{% url 'postpaid:view-replaced_site' meterr.id %}">{{ meterr.newmeter }}</a>
+                                        </td>
+                                        <td>{{ meterr.telcos.telcos_type }}</td>
+                                        <td>{{ meterr.siteid }}</td>
+                                        <td class="text-uppercase">{{ meterr.sitename }}</td>
+
+                                        <td>{{ meterr.meteringstatus }}</td>
+                                        <td>{{ meterr.removal_reading }}</td>
+                                        <td>{{ meterr.install_reading }}</td>
+                                        <td>
+                                            {% if meterr.validate_status == False %}
+                                                <small class="badge badge-danger"
+                                                ><i class="fas fa-lock-open"></i> PENDING</small
+                                                >
+                                            {% elif meterr.validate_status == True %}
+                                                <small class="badge badge-success"
+                                                ><i class="fas fa-lock"></i> VALIDATED</small
+                                                >
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td>{{ meterr.dtadd|date:"d M Y" }}</td>
+                                        <td>
+                                            {% if meterr.concurrence_status == False %}
+                                                <small class="badge badge-danger"
+                                                ><i class="fas fa-user"></i> PENDING</small
+                                                >
+                                            {% elif meterr.concurrence_status == True %}
+                                                <small class="badge badge-success"
+                                                ><i class="fas fa-users"></i> COLLABORATED</small
+                                                >
+                                            {% endif %}
+                                        </td>
+                                        {% if meterr.concurrence_status == True %}
+                                            <td>
+                                                <a
+                                                        href="{% url 'postpaid:replacement_print' meterr.id %}"
+                                                        target="_blank"
+                                                        class="btn btn-sm btn-success btn-sm"
+                                                >
+                                                    <i class="fas fa-print"></i
+                                                    ></a>
+                                            </td>
+                                        {% endif %}
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        </p>
+                        <div class="pagination pagination-sm m-0 float-right">
+              <span class="step-links">
+                {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                {% endif %}
+
+                  <span class="current">
+                  Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                </span>
+
+                  {% if meters.has_next %}
+                      <a href="?page={{ meters.next_page_number }}">next</a>
+                      <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                      >
+                  {% endif %}
+              </span>
+                        </div>
+                     <p>
+                            <a href="#" class="btn btn-primary btn-sm">Export
+                                to csv(Last 7 Days)</a>
+                        </p>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

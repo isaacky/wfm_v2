@@ -1,0 +1,342 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | COUNTY LV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        {{ county }} COUNTY LV INSPECTIONS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                 <div class="col-md-3">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+
+                            <ul class="nav nav-pills flex-column">
+                                <li>
+                                    <p>Filter By Date Range</p>
+                                    <form action="{% url 'lv:county-lv-pages-datarange' %}">
+                                        {% csrf_token %}
+
+                                        <div class="input-group input-sm">
+                                            <input
+                                                    type="date"
+                                                    name="datefrom"
+                                                    required
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Search By  Name"
+                                            />
+                                            <input
+                                                    type="date"
+                                                    name="dateto"
+                                                    required
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Date"
+                                            />
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default btn-sm">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+
+                                    <p>Filter By SSN</p>
+                                    <form action="{% url 'lv:county-lv-pages-ssn' %}">
+                                        <div class="input-group input-sm">
+                                            {% csrf_token %}
+                                            <input
+                                                    type="text"
+                                                    name="ssn"
+                                                    required
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Search By  SSN"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+
+                                    <p>Filter By Approval Status</p>
+                                    <form action="{% url 'lv:county-lv-pages-aprvstatus' %}">
+                                        <div class="input-group input-sm">
+                                            {% csrf_token %}
+                                            <select name="aprvstatus" class="form-control form-control-sm" data-select2-id="1"
+                                                    tabindex="-1"
+                                                    aria-hidden="true">
+                                                <option value="True" selected="selected" data-select2-id="3">Approved</option>
+                                                <option value="False" data-select2-id="35">Pending</option>
+                                                <option data-select2-id="36">Declined</option>
+                                            </select>
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Inspector</p>
+                                    <form action="{% url 'lv:county-lv-pages-staff' %}">
+                                        <div class="input-group input-sm">
+                                            <input
+                                                    type="text"
+                                                    name="staff"
+                                                    required
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Search By Inspector Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Approver</p>
+                                    <form action="{% url 'lv:county-lv-pages-approver' %}">
+                                        <div class="input-group input-sm">
+                                            <input
+                                                    type="text"
+                                                    name="staff"
+                                                    required
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Search By Approver Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <br>
+
+
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:county-lvinspections-dashboard' %}" class="nav-link">
+                                        LV Analytics Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:county-lvinspections-staff-analytics' %}" class="nav-link">
+                                        LV Inspection Inspector Analystics
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Todays Progress
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <div>
+                                <a href="{% url 'lv:county-lv-pages' %}"
+                                   class="btn btn-sm btn-primary">REMOVE FILTERS</a>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                 <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title3 }}</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                           <div id="chart1"></div>
+                        </div>
+
+                    </div>
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>POORSAGS</th>
+                                        <th>LINE VEGETATION</th>
+                                        <th>UPRATE CONDUCT</th>
+                                        <th>PME</th>
+                                        <th>ILLEGAL CONN</th>
+                                        <th>JUMPER REHAB</th>
+                                        <th>OVERDISTANCE</th>
+                                        <th>LV RECONDUCTERING</th>
+                                        <th>POSHO MILLS</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for foo in lv_def %}
+                                        <td>{{ foo.poorsags }}</td>
+                                   <td>{{ foo.vegline }}</td>
+                                        <td>{{ foo.uprate_cond }}</td>
+                                        <td>{{ foo.pme }}</td>
+                                        <td>{{ foo.con_illegal }}</td>
+                                        <td>{{ foo.jumper_rehab }}</td>
+                                        <td>{{ foo.overdistance }}</td>
+                                        <td>{{ foo.lvreconductor }}</td>
+                                        <td>{{ foo.poshomill }}</td>
+
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                <div class="col-md-4">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title2 }}</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="card-body p-0">
+
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>DEFECT TYPE</th>
+                                        <th>POLE TYPE</th>
+
+                                        <th>COUNT</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for p in pole_defects %}
+                                        <tr>
+                                        <td>{{ p.defect_type }}</td>
+                                            <td>{{ p.pole_type }}</td>
+
+                                            <td>{{ p.id }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    <!-- /.card -->
+
+
+                </div>
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{lvinspection_daily_trend | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

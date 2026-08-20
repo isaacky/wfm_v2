@@ -1,0 +1,152 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Debt List</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">
+  My Actioned Accounts Today
+ 
+</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'revenue:debt-list' %}">My-Debt List</a>
+    </li>
+    <li class="breadcrumb-item active">MY-Actioned</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+         
+          <h5 class="card-title">You have  actioned {{meters_count|intcomma}} Accounts Today. {{paid}} Accounts Paid ({{ paid_amount.amountpaid__sum|intcomma }}), {{fdc}} Accounts Were found Disconnected and you disconnected {{disconnected}} Accounts</h5><br><br>
+        
+          {% if meters %}
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                  <tr>
+                    <th></th>
+                    <th>MeterNo</th>
+                    <th>Account</th>
+                    <th>Customer Name</th>
+                    <th>Status</th>
+                    <th>Overdue Amount</th>
+                    <th>Amount Paid</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meterr in meters %}
+                  <tr>
+                  <td>{{forloop.counter}}</td> 
+                  <td>{{meterr.meterno}} </td>
+                   <td>{{meterr.accountno}}</td>
+
+                   <td>{{meterr.target.name}}</td>
+                   <td>{{meterr.collection_status|upper}}</td>
+                   <td>{{meterr.totalbalance|intcomma}}</td>
+                   <td>{{meterr.amountpaid|intcomma}}</td>
+                   
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <p>
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+    
+                    {% if meters.has_next %}
+                    <a href="?page={{ meters.next_page_number }}">next</a>
+                    <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+              </div>
+              </p>
+             
+          </div>
+          {% else %}
+          <p>
+            NO RECORDS FOUND.
+          </p>
+          {% endif %}
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

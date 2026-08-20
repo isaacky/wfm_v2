@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Revenue Collection Campaign Analytics</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            Overall Global Achievement
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Task</th>
+
+                <th>Target Accounts</th>
+                <th>Target Amount</th>
+                <th>Overall Achievement</th>
+                <th>Todays Progress</th>
+                <th>Yesterdays Achievement</th>
+                <th>{{yesterday_2}}</th>
+                <th>{{yesterday_3}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>Cummulative</td>
+                <td>{{target|intcomma}}</td>
+                <td>{{target_amt.total_price|floatformat:2|intcomma}}</td>
+                <td>{{achieved_All}}</td>
+                <td>{{achieved_t}}</td>
+                <td>{{achieved_y}}</td>
+                <td>{{achieved_y_2}}</td>
+                <td>{{achieved_y_3}}</td>
+              </tr>
+              <tr>
+                <td>2.</td>
+                <td>Accounts Paid</td>
+                <td></td>
+                <td></td>
+                <td>{{meters_paid_o}}</td>
+                <td>{{meters_paid_d}}</td>
+                <td>{{meters_paid_y}}</td>
+                <td>{{meters_paid_y_2}}</td>
+                <td>{{meters_paid_y_3}}</td>
+              </tr>
+              <tr>
+                <td>3.</td>
+                <td>Accounts Disconnected</td>
+                <td></td>
+                <td></td>
+                <td>{{meters_disc_o}}</td>
+                <td>{{meters_disc_d}}</td>
+                <td>{{meters_disc_y}}</td>
+                <td>{{meters_disc_y_2}}</td>
+                <td>{{meters_disc_y_3}}</td>
+              </tr>
+              <tr>
+                <td>4.</td>
+                <td>Found Disconnected</td>
+                <td></td>
+                <td></td>
+                <td>{{meters_fdc_o}}</td>
+                <td>{{meters_fdc_d}}</td>
+                <td>{{meters_fdc_y}}</td>
+                <td>{{meters_fdc_y_2}}</td>
+                <td>{{meters_fdc_y_3}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br />
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

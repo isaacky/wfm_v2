@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | RESOLVE DEBT ACCOUNT</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0"> {{ img.name}}</h1>
+    <h1 class="m-0"> TOTAL BALANCE =  {{ img.totalbalance|intcomma }}</h1>
+    <h1 class="m-0"> AMOUNT PAID =  {{ img.amount_paid|intcomma }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Revenue Collect</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+
+
+          <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">Record Form</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div>
+       <form
+          class="form-horizontal"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          {% csrf_token %}
+          {% include 'form_snippet.html' %}
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-info">SUBMIT</button>
+            
+        
+          </div>
+          <!-- /.card-footer -->
+        </form>
+      </div>
+   
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

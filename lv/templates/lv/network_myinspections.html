@@ -1,0 +1,962 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        MY INSPECTIONS
+        <br/>
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button
+                                        type="button"
+                                        class="btn btn-tool"
+                                        data-card-widget="collapse"
+                                >
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:loadchecks-my' %}" class="nav-link">
+                                        My Load Checks
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:lvinspection-my' %}" class="nav-link">
+                                        My LV Inspections
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="{% url 'lv:lvmaintenance-my' %}" class="nav-link">
+                                        My LV Maintenance
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:lvfailure-my' %}" class="nav-link">
+                                        My TX Failure Inspections
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:substation-my' %}" class="nav-link">
+                                        My Subsation Inspections
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:substation-maintenance-my' %}" class="nav-link">
+                                        My Substation Maintenance
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:commission-my' %}" class="nav-link"> My Commission
+                                        Inspections </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                            href="{% url 'mediumv:mv-inspections-my' %}"
+                                            class="nav-link"
+                                    >
+                                        My MV Inspections
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'mediumv:mvmaintenance-my' %}" class="nav-link">
+                                        My MV Maintenance
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:poledefects-maintenance-my' %}" class="nav-link">
+                                        My LV Pole Maintenance
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'mediumv:poledefects-maintenance-my' %}" class="nav-link">
+                                        My MV Pole Maintenance
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            {% if title == 'My LV Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation__name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-update' my.id %}"
+                                                                class="btn btn-sm btn-primary"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:lvisnpection-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My LV Maintenance' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">
+                                                    {{ my.lvinspection__substation__ssn }}
+                                                </td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-update' my.lvinspection %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My TX Failure Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:lvfailure-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:lvfailure-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger btn-sm"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:txfailure-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My MV Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>FEEDER</th>
+                                            <th>SECTION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.feeder.name }}</td>
+                                                <td class="text-uppercase">{{ my.feeder_section }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'mediumv:mvinspection-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'mediumv:mvinspection-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger btn-sm"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'mediumv:mvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My Substation Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:substation-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:substation-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:substation-inspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                 {% elif title == 'My Load Checks' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation__name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:loadchecks-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:substation-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:substation-inspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                             {% elif title == 'My Substation Maintenance' %}
+                             <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>MAINTENANCE DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.inspection.substation.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:substation-maintenance-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:substation-maintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                             
+                            {% elif title == 'My MV Maintenance Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>FEEDER</th>
+                                            <th>FEEDER SECTION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.mvinspection.feeder }}</td>
+                                                <td class="text-uppercase">{{ my.feeder_section.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'mediumv:mvmaintenance-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'mediumv:mvmaintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My TX Commissions' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:commission-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:commission-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My Pole Defects Maintenance' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>MAINTENANCE DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>POLE TYPE</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.poledefect.substation.name }}</td>
+                                                <td class="text-uppercase">{{ my.pole_type }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:poledefect-maintainance-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:polemaintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My MV Pole Defects Maintenance' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>MAINTENANCE DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>POLE TYPE</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.poledefect.substation.name }}</td>
+                                                <td class="text-uppercase">{{ my.pole_type }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'mediumv:poledefect-maintainance-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'mediumv:polemaintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0"></div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df_lv_county | safe }}
+            Plotly.plot("chart1", grapg1, {})
+    </script>
+{% endblock content %}

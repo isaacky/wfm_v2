@@ -1,0 +1,337 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | TOWER INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        TOWER INSPECTION
+        <br/>
+    </h1>
+
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Location
+                                    & Name</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#timeline"
+                                                        data-toggle="tab">Insulator Inspection</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Conductor Inspection</a>
+                                </li>
+                                 <li class="nav-item"><a class="nav-link" href="#earth" data-toggle="tab">Earth&OPGW Inspection</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#T-Foundations" data-toggle="tab">Tower Foundations</a>
+                                </li>
+                                 <li class="nav-item"><a class="nav-link" href="#Finalize" data-toggle="tab">Finalize Inspection</a>
+                                </li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="activity">
+                                    <div>
+                                        {% if insp_form.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ insp_form.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <!-- Post -->
+                                    <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-location' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+                                        <br>
+                                        <button type="button" id="find-me" class="btn-warning">Click Here To Pick
+                                            Location
+                                        </button>
+                                        <br/>
+                                        <p id="status"></p>
+                                        <a id="map-link" target="_blank"></a>
+
+                                        <div class="form-group row">
+
+                                            {{ insp_form.latitude }} {{ insp_form.longitude }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ insp_form.line_name.label_tag }}
+                                            {{ insp_form.line_name }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ insp_form.towerno.label_tag }}
+                                            {{ insp_form.towerno }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ insp_form.towerno_to.label_tag }}
+                                            {{ insp_form.towerno_to }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ insp_form.span_lng.label_tag }}
+                                            {{ insp_form.span_lng }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ insp_form.voltage.label_tag }}
+                                            {{ insp_form.voltage }}
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /.post -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="timeline">
+                                    <!-- The timeline -->
+                                    <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-insulators' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            {{ ins_form.insul_bkn_dsk.label_tag }}
+                                            {{ ins_form.insul_bkn_dsk }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ ins_form.flashed_insul.label_tag }}
+                                            {{ ins_form.flashed_insul }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ ins_form.rusted_pins.label_tag }}
+                                            {{ ins_form.rusted_pins }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ ins_form.comments.label_tag }}
+                                            {{ ins_form.comments }}
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="settings">
+                                   <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-conductors' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            {{ cond_form.cond_bkn.label_tag }}
+                                            {{ cond_form.cond_bkn }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ cond_form.dampers_missn.label_tag }}
+                                            {{ cond_form.dampers_missn }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ cond_form.sag_increase.label_tag }}
+                                            {{ cond_form.sag_increase }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ cond_form.loose_clamp.label_tag }}
+                                            {{ cond_form.loose_clamp }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ cond_form.cond_joins.label_tag }}
+                                            {{ cond_form.cond_joins }}
+                                        </div>
+
+                                        <div class="form-group row">
+                                            {{ cond_form.comments.label_tag }}
+                                            {{ cond_form.comments }}
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            <div class="tab-pane" id="earth">
+                                   <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-earth' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            {{ earth_form.bonding.label_tag }}
+                                            {{ earth_form.bonding }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ earth_form.spicebox.label_tag }}
+                                            {{ earth_form.spicebox }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ earth_form.sag_increase.label_tag }}
+                                            {{ earth_form.sag_increase }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ earth_form.loose_clamp.label_tag }}
+                                            {{ earth_form.loose_clamp }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ earth_form.dumper_vibtation.label_tag }}
+                                            {{ earth_form.dumper_vibtation }}
+                                        </div>
+
+                                        <div class="form-group row">
+                                            {{ earth_form.comments.label_tag }}
+                                            {{ earth_form.comments }}
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                             <div class="tab-pane" id="T-Foundations">
+                                   <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-foundation' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+
+                                        <div class="form-group row">
+                                            {{ found_form.cracks_damages.label_tag }}
+                                            {{ found_form.cracks_damages }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ found_form.errosion.label_tag }}
+                                            {{ found_form.errosion }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ found_form.wildlife.label_tag }}
+                                            {{ found_form.wildlife }}
+                                        </div>
+                                      <div class="form-group row">
+                                            {{ found_form.poles.label_tag }}
+                                            {{ found_form.poles }}
+                                        </div>
+                                      <div class="form-group row">
+                                            {{ found_form.verticality.label_tag }}
+                                            {{ found_form.verticality }}
+                                        </div>
+
+                                        <div class="form-group row">
+                                            {{ found_form.ro_way.label_tag }}
+                                            {{ found_form.ro_way }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ found_form.trees_row.label_tag }}
+                                            {{ found_form.trees_row }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ found_form.encrouch.label_tag }}
+                                            {{ found_form.encrouch }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ found_form.clamps_corrosion.label_tag }}
+                                            {{ found_form.clamps_corrosion }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ found_form.vandalism.label_tag }}
+                                            {{ found_form.vandalism }}
+                                        </div>
+                                         <div class="form-group row">
+                                            {{ found_form.arcing_horns.label_tag }}
+                                            {{ found_form.arcing_horns }}
+                                        </div>
+                                        <div class="form-group row">
+                                            {{ found_form.number_plate.label_tag }}
+                                            {{ found_form.number_plate }}
+                                        </div>
+                                       <div class="form-group row">
+                                            {{ found_form.comments.label_tag }}
+                                            {{ found_form.comments }}
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                             <div class="tab-pane" id="Finalize">
+                                   <form class="form-horizontal"
+                                          action="{% url 'transmission:tower-update-finalize' inspection %}"
+                                          method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+
+                                     <p>Confirm all the entries are correct</p>
+
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Final Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

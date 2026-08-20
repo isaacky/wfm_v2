@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KYN | LV INSPECTION PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <img src="{% static 'assets/images/logo.png' %}" alt="kplc">
+                    <i class=""></i> KYN
+                    <small class="float-right">Print Date: {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ lvinspection.id }}</b><br>
+                <br>
+                <b>SSN NUMBER:</b> {{ lvinspection.lvinspection.substation }}<br>
+                <b>NAME:</b> {{ lvinspection.lvinspection.substation.name }}<br>
+                <b>INTERNALCODE:</b> {{ lvinspection.lvinspection.substation.internalcode }}<br>
+                <b>ORIGINALELEMENT:</b> {{ lvinspection.lvinspection.substation.originofelement }}<br>
+                <b>FEEDERELEMENT:</b> {{ lvinspection.lvinspection.substation.feederofelement }}<br>
+                <b>PHYSICAL LOCATION:</b> {{ lvinspection.lvinspection.substation.physicallocation }}<br>
+                <b>COUNTY:</b> {{ lvinspection.lvinspection.substation.county.name }}
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+
+                <br>
+                <b>MAKE:</b> {{ lvinspection.lvinspection.substation.make.name }}<br>
+                <b>VOLTAGE:</b> {{ lvinspection.lvinspection.substation.voltage }}<br>
+                <b>RATING:</b> {{ lvinspection.lvinspection.substation.rating }}
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>INSPECTION DATE:</b> {{ lvinspection.dtupdate|date:"d M Y" }}<br>
+                <b>INSPECTED BY:</b>KPL {{ lvinspection.inspectedby }}<br>
+                <b>SIGN</b>____________________________ <br><br>
+                <b>APPROVED DATE:</b> {{ lvinspection.aprv_dt|date:"d M Y" }}<br>
+                <b>APPROVED BY:</b>KPL {{ lvinspection.aprv_by }}<br>
+                <b>SIGN</b>____________________________ <br>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>INSPECTION ITEM</th>
+                        <th>FINDINGS</th>
+                        <th>MAINTENANCE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>SSN</td>
+                        <td>{{ lvinspection.lvinspection.substation.ssn }}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>SSN NAME</td>
+                        <td>{{ lvinspection.lvinspection.substation.name }}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>ORIGIN OF ELEMENT</td>
+                        <td> {{ lvinspection.lvinspection.substation.originofelement }}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>FEEDER ELEMENT</td>
+                        <td>{{ lvinspection.lvinspection.substation.feederofelement }}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>5.</td>
+                        <td>LOCATION</td>
+                        <td>{{ lvinspection.lvinspection.substation.physicallocation }}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>6.</td>
+                        <td>DATE OF INSPECTION</td>
+                        <td>{{ lvinspection.lvinspection.dtupdate }}</td>
+                        <td>{{ lvinspection.dtupdate }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>7.</td>
+                        <td>INSPECTOR</td>
+                        <td class="text-uppercase">KPL{{ lvinspection.lvinspection.inspectedby }}
+                            - {{ lvinspection.lvinspection.inspectedby.user.name }}
+                            <br>
+                            <span>MOBILE : {{ lvinspection.lvinspection.inspectedby.user.mobile }}</span></td>
+                        <td class="text-uppercase">KPL{{ lvinspection.inspectedby }}
+                            - {{ lvinspection.inspectedby.user.name }}
+                            <br>
+                            <span>MOBILE : {{ lvinspection.inspectedby.user.mobile }}</span></td>
+
+                    </tr>
+                    <tr>
+                        <td>8.</td>
+                        <td>INSPECTOR MOTES</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.inspect_notes }}</td>
+                        <td></td>
+
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p><strong>INSPECTION DETAILS</strong></p>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>9.</td>
+                        <td>ARE THERE POOR SAGS/ CLASHING CONDUCTORS?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.poor_sags_cl_cond }} <br>
+                            SPANS REQUIRE RETENSIONING: {{ lvinspection.lvinspection.retention_req }}
+                        </td>
+                        <td>{{ lvinspection.retention_req }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>10.</td>
+                        <td>IS THERE VEGETATION ON THE LV LINE?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.lvline_veg }} <br>
+                            SPANS REQUIRE TRACE CLEARANCE: {{ lvinspection.lvinspection.traceclear_span }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.traceclear_span }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>11.</td>
+                        <td>UPRATING OF CONDUCTORS?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.conductors_uprate }} <br>
+                            SPANS REQUIRE: {{ lvinspection.lvinspection.conductors_uprate_span }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.conductors_uprate_span }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>12.</td>
+                        <td>IS PME INSTALLED (EVERY 4LV SPAN)</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.pme_installed }} <br>
+                            MISSING IN HOW MANY POLES: {{ lvinspection.lvinspection.pme_missing_poles }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.pme_missing_poles }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>13.</td>
+                        <td>OVERDISTANCE LV NETWORK</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.lv_overdistance }} <br>
+                            APPROX LENGTH: {{ lvinspection.lvinspection.lv_overdistance_l }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.lv_overdistance_l }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>14.</td>
+                        <td>ILLEGAL CONNECTIONS TO RECOVER?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.illegal_connections }} <br>
+                            APPROX LENGTH: {{ lvinspection.lvinspection.illegal_connections_l }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.illegal_connections_l }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>15.</td>
+                        <td>SECTIONS THAT REQUIRE JUMPER REHAB?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.jumper_rehab_sect }} <br>
+
+
+                        </td>
+                        <td>{{ lvinspection.jumper_rehab_sect }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>16.</td>
+                        <td>LV RECONDUCTURING WITH PVC?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.reconducturing_pvc }} <br>
+                            APPROX LENGTH: {{ lvinspection.lvinspection.reconducturing_pvc_l }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.reconducturing_pvc_l }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>17.</td>
+                        <td>POSHO MILLS ON SINGLE PHASE?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.poshomills_onsingle_p }} <br>
+                            HOW MANY: {{ lvinspection.lvinspection.poshomills_onsingle_p_n }} <br>
+
+                        </td>
+                        <td>{{ lvinspection.poshomills_onsingle_p_n }}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>18.</td>
+                        <td>NOTES?</td>
+                        <td class="text-uppercase">{{ lvinspection.lvinspection.inspect_notes }}
+
+                        </td>
+                        <td class="text-uppercase">{{ lvinspection.inspect_notes }}
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>19.</td>
+                        <td>APPROVAL NOTES</td>
+                        <td class="text-uppercase">{{ lvinspection.aprv_notes }}
+
+                        </td>
+                        <td class="text-uppercase">
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        </td>
+        <td></td>
+
+        </tr>
+
+
+        </tbody>
+        </table>
+</div>
+<!-- /.col -->
+</div>
+<!-- /.row -->
+
+
+<!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

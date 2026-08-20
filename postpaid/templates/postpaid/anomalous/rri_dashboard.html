@@ -1,0 +1,164 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | RRI DASHBOARD</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:anomalous-dashboard' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">RRI Dashboard</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Analytics</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-none">
+                    <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Inspections</span>
+                        <span class="info-box-number">{{ total_inspections }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-none">
+                    <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Anomalous Accounts</span>
+                        <span class="info-box-number">{{ total_inspections }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-sm">
+                    <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Recoveries(Kwhr)</span>
+                        <span class="info-box-number">0.00</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow">
+                    <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total recoveries(Ksh)</span>
+                        <span class="info-box-number">0.00</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box shadow-lg">
+                    <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Recovered Payments(Ksh)</span>
+                        <span class="info-box-number">0.00</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart1"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+             <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart2"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div> <div class="col-md-6 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart3"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{meter_type | safe }}
+        Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{anomaly_type | safe }}
+        Plotly.plot("chart2", grapg2, {})
+
+        var grapg3 = {{daily_trend_plot | safe }}
+        Plotly.plot("chart3", grapg3, {})
+
+
+
+        {#var grapg1 = {{daily_trend_plot | safe }}#}
+        {#Plotly.plot("chart1", grapg1, {})#}
+        {##}
+        {#var grapg2 = {{target_achievement | safe }}#}
+        {#Plotly.plot("chart2", grapg2, {})#}
+        {##}
+        {##}
+        {##}
+        {#var grapg4 = {{metering_status_notokay | safe }}#}
+        {#Plotly.plot("chart4", grapg4, {})#}
+        {##}
+        {#var grapg5 = {{non_consent | safe }}#}
+        {#Plotly.plot("chart5", grapg5, {})#}
+
+
+    </script>
+{% endblock content %}
+</div>

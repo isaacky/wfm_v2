@@ -1,0 +1,195 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | COUNTY MV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        {{ county }} COUNTY MV INSPECTIONS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                   <li class="nav-item">
+                                    <a href="{% url 'mediumv:county-mvinspections' %}" class="nav-link">
+                                        MV Inspections(Approved)
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="{% url 'mediumv:county-mv-pending' %}" class="nav-link">
+                                        MV Inspections Pending Approval
+
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                    Inspector Analystics
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+
+
+                                <!-- /.btn-group -->
+
+
+                                <!-- /.float-right -->
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td></td>
+                                        <th>Report ID</th>
+                                        <th>Inspection Date</th>
+                                        <th>Feeder</th>
+                                        <th>Section</th>
+                                         <th>Staff</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for my in data %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}.</td>
+                                            <td>{{ my.id }}</td>
+                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                            <td class="text-uppercase">{{ my.feeder }}</td>
+                                            <td class="text-uppercase">{{ my.feeder_section }}</td>
+                                           <td class="text-uppercase">KPL{{ my.inspectedby }}</td>
+                                            <td>
+                                                {% if my.aprv_status == False %}
+                                                    <a href="{% url 'mediumv:mvinspection-approve' my.id %}"
+                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                            class="fas fa-edit"></i></a>
+                                                     <a href="{% url 'mediumv:mvinspection-approve' my.id %}"
+                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                            class="fas fa-trash"></i></a>
+
+                                                {% elif my.aprv_status == True %}
+                                                    <a href="{% url 'mediumv:mvinspection-print' my.id %}" target="_blank"
+                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                            class="fas fa-print"></i></a>
+
+                                                {% endif %}
+
+
+                                            </td>
+
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df_lv_county | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

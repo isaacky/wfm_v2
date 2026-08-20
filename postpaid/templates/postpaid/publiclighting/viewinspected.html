@@ -1,0 +1,164 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | VIEW INSPECTED COUNTY ACC</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">METER NUMBER : {{ meter.meterno }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'postpaid:view-publiclighting' %}">Inspected List</a>
+            </li>
+            <li class="breadcrumb-item active">View Upload</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <section class="content">
+        <!-- Default box -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img
+                                src="{{ meter.public_l_img.url }}"
+                                class="product-image"
+                                alt="Meter Image"
+                        />
+                        <div class="ribbon-wrapper ribbon-xl">
+                            {% if meter.meteringstatus == 'okay' %}
+                                <div class="ribbon bg-success text-lg">OKAY</div>
+                            {% elif meter.meteringstatus == 'faulty' %}
+                                <div class="ribbon bg-danger text-lg">FAULTY</div>
+                            {% elif meter.meteringstatus == 'tampered' %}
+                                <div class="ribbon bg-danger text-lg">TAMPERED</div>
+                            {% elif meter.meteringstatus == 'bypassed' %}
+                                <div class="ribbon bg-success text-lg">BYPASSED</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            {% if meter.anomalytype == 'faultymeter' %}
+                                <h3 class="text-primary">CASE - FAULTY METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'meternotinincms' %}
+                                <h3 class="text-primary">CASE - METER NOT IN INCMS</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'retrofit' %}
+                                <h3 class="text-primary">CASE - ILLEGAL RETROFIT</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'directconnecction' %}
+                                <h3 class="text-primary">CASE - DIRECT CONNECTION</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'idle' %}
+                                <h3 class="text-primary">CASE - IDLE METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% endif %}
+
+                            <div class="text-muted">
+                                <p class="text-sm">
+                                   COUNTY
+                                    <b class="d-block">{{ meter.county.name }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Customer
+                                    <b class="d-block">{{ meter.target.customer }}</b>
+                                </p>
+                                 <p class="text-sm">
+                                    Meter Number
+                                    <b class="d-block">{{ meter.meterno }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Account Number
+                                    <b class="d-block">{{ meter.accountno }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    County
+                                    <b class="d-block">{{ meter.county.name }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Meter Reading
+                                    <b class="d-block">{{ meter.reading }}</b>
+                                </p>
+                                 <p class="text-sm">
+                                    System Reading
+                                    <b class="d-block">{{ meter.target.system_reading }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Date Uploaded
+                                    <b class="d-block">{{ meter.dtadd }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Upoaded By:
+                                    <b class="d-block">KPL{{ meter.inspector }}-({{ meter.inspector_id__mobile }})</b>
+                                    <b class="d-block">{{ meter.inspector.mobile }}</b>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">METERING STATUS:</dt>
+                                    <dd class="col-sm-8">{{ meter.meteringstatus }}</dd>
+                                    <dt class="col-sm-4">Faulty Status:</dt>
+                                    <dd class="col-sm-8">{{ meter.faultystatus }}</dd>
+
+                                    <dt class="col-sm-4">Tampered Status:</dt>
+                                    <dd class="col-sm-8">{{ meter.tamperedstatus }}</dd>
+                                    <dt class="col-sm-4">Bypass Status:</dt>
+                                    <dd class="col-sm-8">{{ meter.bypassstatus }} </dd>
+                                </dl>
+                            </div>
+
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">INSTALLATION STATUS:</dt>
+                                    <dd class="col-sm-8">{{ meter.installationstatus }}</dd>
+                                    <dt class="col-sm-4">Not Okay Status:</dt>
+                                    <dd class="col-sm-8">{{ meter.notokaystatus }}</dd>
+
+
+                                </dl>
+                            </div>
+
+                            <div class="text-center mt-5 mb-3">
+                                <a
+                                        href="{% url 'postpaid:view-telcos' %}"
+                                        class="btn btn-sm btn-primary"
+                                >Back</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

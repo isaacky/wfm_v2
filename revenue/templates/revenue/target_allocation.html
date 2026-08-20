@@ -1,0 +1,390 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | REVENUE TARGET ALLOCATION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        DEBT LIST ALLOCATION
+        <br/>
+    </h1>
+{#    <h5>These are generated reports for the Last 12 Months</h5>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button
+                                        type="button"
+                                        class="btn btn-tool"
+                                        data-card-widget="collapse"
+                                >
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="{% url 'revenue:county-asignments' %}" class="nav-link">
+                                        Asignments
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="" class="nav-link">
+                                        Un Asigned List
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-10">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <p>
+                            <form action="{% url 'revenue:search-by-itin' %}">
+                                <div class="input-group">
+                                    <input
+                                            type="text"
+                                            name="keyword"
+                                            required
+                                            class="form-control form-control-lg"
+                                            placeholder="Search By Itin"
+                                    />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            </p>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <div>
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            {% if title == 'County-target-list' %}
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        action="{% url 'revenue:asign-accounts' %}"
+                                        novalidate
+                                >
+                                    {% csrf_token %}
+                                    {{ m_form.asigned_to.label_tag }}
+                                    {{ m_form.asigned_to }}
+                                    {{ m_form.dt_asigned.label_tag }}
+                                    {{ m_form.dt_asigned }}
+                                    {#                                    <select class="form-control select2" style="width: 100%;" name="asigned_to" id="id_asigned_to" required>#}
+                                    {#                <option value="0" selected disabled> Select Staff </option>#}
+                                    {#                {% for obj in objectlist %}#}
+                                    {#                <option value="{{ obj.user }}">{{ obj.user.name }} </option>#}
+                                    {#                {% endfor %}#}
+                                    {#            </select>#}
+                                    <hr>
+
+                                    <div class="card-body p-0 table-responsive">
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>MeterNo</th>
+                                                <th>Account</th>
+
+                                                <th>Customer Name</th>
+                                                <th>Total Amount</th>
+                                                <th>Paid Amount</th>
+                                                <th>Itin</th>
+                                                <th>Sector</th>
+                                                <th>Zone</th>
+                                                <th>Location</th>
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for meterr in meters %}
+                                                <tr>
+                                                    {#                  <td>{{forloop.counter}}</td> #}
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input largerCheckbox"
+                                                                   type="checkbox"
+                                                                   value="{{ meterr.id }}" id="{{ meterr.id }}"
+                                                                   name="z">
+
+                                                        </div>
+                                                    </td>
+                                                    <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                            href="{% url 'revenue:view-debtaccount' meterr.id %}">{{ meterr.meterno }}</a>
+                                                    </td>
+                                                    <td>{{ meterr.accountno }}</td>
+
+                                                    <td>{{ meterr.name }}</td>
+
+                                                    <td class="text-right">{{ meterr.totalbalance|intcomma }}</td>
+                                                    <td class="text-right">{{ meterr.amount_paid|intcomma }}</td>
+                                                    <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                            href="{% url 'revenue:debtlist-itins' meterr.itin %}">{{ meterr.itin }}</a>
+                                                    </td>
+                                                    <td>{{ meterr.sector }}</td>
+                                                    <td>{{ meterr.zone }}</td>
+                                                    <td>{{ meterr.location }}</td>
+                                                    {#                   <td>{{meterr.xcood}},{{meterr.ycood}}</td>#}
+
+
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <p>
+                                        <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                        </div>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT</button>
+
+
+                                    </div>
+                                    <!-- /.card-footer -->
+                                </form>
+                            {% elif title == 'County-target-asignments' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>MeterNo</th>
+                                            <th>Account</th>
+
+                                            <th>Customer Name</th>
+                                            <th>Total Amount</th>
+                                            <th>Paid Amount</th>
+                                            <th>Itin</th>
+                                            <th>Sector</th>
+                                            <th>Zone</th>
+                                            <th>Asigned To</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for meterr in meters %}
+                                            <tr>
+                                                {#                  <td>{{forloop.counter}}</td> #}
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input largerCheckbox"
+                                                               type="checkbox"
+                                                               value="{{ meterr.id }}" id="{{ meterr.id }}"
+                                                               name="z">
+
+                                                    </div>
+                                                </td>
+                                                <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                        href="{% url 'revenue:view-debtaccount' meterr.id %}">{{ meterr.meterno }}</a>
+                                                </td>
+                                                <td>{{ meterr.accountno }}</td>
+
+                                                <td>{{ meterr.name }}</td>
+
+                                                <td class="text-right">{{ meterr.totalbalance|intcomma }}</td>
+                                                <td class="text-right">{{ meterr.amount_paid|intcomma }}</td>
+                                                <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                        href="{% url 'revenue:debtlist-itins' meterr.itin %}">{{ meterr.itin }}</a>
+                                                </td>
+                                                <td>{{ meterr.sector }}</td>
+                                                <td>{{ meterr.zone }}</td>
+                                                <td>{{ meterr.asigned_to.user.name }}</td>
+                                                {#                   <td>{{meterr.xcood}},{{meterr.ycood}}</td>#}
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <p>
+                                    <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                    </div>
+                                    </p>
+                                </div>
+                            {% elif title == 'My TX Failure Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.substation.name }}</td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:lvfailure-update' my.id %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:lvfailure-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger btn-sm"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:txfailure-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            {% endif %}
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0"></div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df_lv_county | safe }}
+            Plotly.plot("chart1", grapg1, {})
+    </script>
+{% endblock content %}

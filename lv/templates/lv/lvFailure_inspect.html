@@ -1,0 +1,405 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SSN FAILURE REPORT</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        All The fields are required upon final submission of this Inspection
+                    </div>
+                    <div class="card-body">
+                        <form class="form-horizontal" action="{% url 'lv:lvfailure-update' tx_f_id %}" method="post">
+                            {% csrf_token %}
+                            <button type="button" id="find-me" class="btn btn-default">
+                                Show my location
+                            </button>
+                            <br/>
+                            <p id="status"></p>
+                            <a id="map-link" target="_blank"></a>
+                            <hr>
+
+                            {{ form.longitude }} {{ form.latitude }}
+
+                            <div class="form-group row">
+                                <label for="serialno" class="col-sm-3 col-form-label text-sm"
+                                >Serial No.</label
+                                >
+                                <div class="col-sm-9">{{ form.serialno }}</div>
+                            </div>
+
+                            <div class="form-group row" id="retention_req">
+                                <label for="voltage" class="col-sm-3 col-form-label text-sm"
+                                >Voltage</label
+                                >
+                                <div class="col-sm-9">{{ form.voltage }}</div>
+                            </div>
+                            <div class="form-group row" >
+                                <label for="txweight" class="col-sm-3 col-form-label text-sm"
+                                >Transformer Weight</label
+                                >
+                                <div class="col-sm-9">{{ form.txweight }}</div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="kvarating" class="col-sm-3 col-form-label text-sm"
+                                >KVA Rating</label
+                                >
+                                <div class="col-sm-9">{{ form.kvarating }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="gnumber" class="col-sm-3 col-form-label text-sm"
+                                >G Number</label
+                                >
+                                <div class="col-sm-9">{{ form.gnumber }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="make" class="col-sm-3 col-form-label text-sm"
+                                >Transformer Make</label
+                                >
+                                <div class="col-sm-9">{{ form.make }}</div>
+                            </div>
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="yom" class="col-sm-3 col-form-label text-sm"
+                                >YOM</label
+                                >
+                                <div class="col-sm-9">{{ form.yom }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tx_position" class="col-sm-3 col-form-label text-sm"
+                                >TX Position</label
+                                >
+                                <div class="col-sm-9">{{ form.tx_position }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="incidence_no" class="col-sm-3 col-form-label text-sm"
+                                >Incidence Number</label
+                                >
+                                <div class="col-sm-9">{{ form.incidence_no }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="failure_type" class="col-sm-3 col-form-label text-sm"
+                                >Failure Type</label
+                                >
+                                <div class="col-sm-9">{{ form.failure_type }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tx_status" class="col-sm-3 col-form-label text-sm"
+                                >Tx Status</label
+                                >
+                                <div class="col-sm-9">{{ form.tx_status }}</div>
+                            </div>
+                            <div class="form-group row" id="refubby">
+                                <label for="refubby" class="col-sm-3 col-form-label text-sm"
+                                >Refurbished By</label
+                                >
+                                <div class="col-sm-9">{{ form.refubby }}</div>
+                            </div>
+                            <div class="form-group row" id="workshop">
+                                <label for="workshop" class="col-sm-3 col-form-label text-sm"
+                                >Workshop</label
+                                >
+                                <div class="col-sm-9">{{ form.workshop }}</div>
+                            </div>
+                            <div class="form-group row" id="contractor">
+                                <label for="contractor" class="col-sm-3 col-form-label text-sm"
+                                >Contractor</label
+                                >
+                                <div class="col-sm-9">{{ form.contractor }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="weathercond" class="col-sm-3 col-form-label text-sm"
+                                >Weather Condition</label
+                                >
+                                <div class="col-sm-9">{{ form.weathercond }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="hvearth_intact" class="col-sm-3 col-form-label text-sm"
+                                >HV Earth Intact</label
+                                >
+                                <div class="col-sm-9">{{ form.hvearth_intact }}</div>
+                            </div>
+                            <div class="form-group row" id="hvearth_intact">
+                                <label for="hvearth_values" class="col-sm-3 col-form-label text-sm"
+                                >HV Earth Values</label
+                                >
+                                <div class="col-sm-9">{{ form.hvearth_values }}</div>
+                            </div>
+                            <div class="form-group row" id="hvearth_values_missing">
+                                <label for="hvearth_values_missing" class="col-sm-3 col-form-label text-sm"
+                                >Reason for HV Earth Not Intact</label
+                                >
+                                <div class="col-sm-9">{{ form.hvearth_values_missing }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="surgearrestors" class="col-sm-3 col-form-label text-sm"
+                                >Surge Arrestors</label
+                                >
+                                <div class="col-sm-9">{{ form.surgearrestors }}</div>
+                            </div>
+                            <div class="form-group row" id="surgearrestors">
+                                <label for="surgearrestors_values" class="col-sm-3 col-form-label text-sm"
+                                >Surge Arrestors Values</label
+                                >
+                                <div class="col-sm-9">{{ form.surgearrestors_values }}</div>
+                            </div>
+                            <div class="form-group row" id="surge_arrestors_missing">
+                                <label for="surge_arrestors_missing" class="col-sm-3 col-form-label text-sm"
+                                >Reason for Surge Arrestors Not Intact</label
+                                >
+                                <div class="col-sm-9">{{ form.surge_arrestors_missing }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tx_isolation" class="col-sm-3 col-form-label text-sm"
+                                >TX Isolation</label
+                                >
+                                <div class="col-sm-9">{{ form.tx_isolation }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="expulsionondirectlink" class="col-sm-3 col-form-label text-sm"
+                                >Expulsion Fuses on direct Link</label
+                                >
+                                <div class="col-sm-9">{{ form.expulsionondirectlink }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="powderondirectlink" class="col-sm-3 col-form-label text-sm"
+                                >Power Fuses on direct Link</label
+                                >
+                                <div class="col-sm-9">{{ form.powderondirectlink }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="c_lvleads" class="col-sm-3 col-form-label text-sm"
+                                >Condition of LV Leads</label
+                                >
+                                <div class="col-sm-9">{{ form.c_lvleads }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="c_fusecarriers" class="col-sm-3 col-form-label text-sm"
+                                >Condition of Fuse Carriers</label
+                                >
+                                <div class="col-sm-9">{{ form.c_fusecarriers }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="d_fusecarriers" class="col-sm-3 col-form-label text-sm"
+                                >Fuse Carriers</label
+                                >
+                                <div class="col-sm-9">{{ form.d_fusecarriers }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="shortet_lv_c_1" class="col-sm-3 col-form-label text-sm"
+                                >Shorted LV C1</label
+                                >
+                                <div class="col-sm-9">{{ form.shortet_lv_c_1 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="shortet_lv_c_2" class="col-sm-3 col-form-label text-sm"
+                                >Shorted LV C2</label
+                                >
+                                <div class="col-sm-9">{{ form.shortet_lv_c_2 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="shortet_lv_c_3" class="col-sm-3 col-form-label text-sm"
+                                >Shorted LV C3</label
+                                >
+                                <div class="col-sm-9">{{ form.shortet_lv_c_3 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fuse_size_c_1" class="col-sm-3 col-form-label text-sm"
+                                >Fuse Size C1</label
+                                >
+                                <div class="col-sm-9">{{ form.fuse_size_c_1 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fuse_size_c_2" class="col-sm-3 col-form-label text-sm"
+                                >Fuse Size C2</label
+                                >
+                                <div class="col-sm-9">{{ form.fuse_size_c_2 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fuse_size_c_3" class="col-sm-3 col-form-label text-sm"
+                                >Fuse Size C3</label
+                                >
+                                <div class="col-sm-9">{{ form.fuse_size_c_3 }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="hvlv_m_ohms" class="col-sm-3 col-form-label text-sm"
+                                >HV LV (ohms)</label
+                                >
+                                <div class="col-sm-9">{{ form.hvlv_m_ohms }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="hvearth_m_ohms" class="col-sm-3 col-form-label text-sm"
+                                >HV Earth (ohms)</label
+                                >
+                                <div class="col-sm-9">{{ form.hvearth_m_ohms }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lvearth_m_ohms" class="col-sm-3 col-form-label text-sm"
+                                >LV Earth (ohms)</label
+                                >
+                                <div class="col-sm-9">{{ form.lvearth_m_ohms }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="R_Y" class="col-sm-3 col-form-label text-sm"
+                                >R-Y</label
+                                >
+                                <div class="col-sm-9">{{ form.R_Y }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Y_B" class="col-sm-3 col-form-label text-sm"
+                                >Y-B</label
+                                >
+                                <div class="col-sm-9">{{ form.Y_B }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="B_R" class="col-sm-3 col-form-label text-sm"
+                                >B-R</label
+                                >
+                                <div class="col-sm-9">{{ form.B_R }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="r_n" class="col-sm-3 col-form-label text-sm"
+                                >r-n</label
+                                >
+                                <div class="col-sm-9">{{ form.r_n }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="y_n" class="col-sm-3 col-form-label text-sm"
+                                >y-n</label
+                                >
+                                <div class="col-sm-9">{{ form.y_n }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="b_n" class="col-sm-3 col-form-label text-sm"
+                                >b-n</label
+                                >
+                                <div class="col-sm-9">{{ form.b_n }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="causeoffailure" class="col-sm-3 col-form-label text-sm"
+                                >Cause Of Failure</label
+                                >
+                                <div class="col-sm-9">{{ form.causeoffailure }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="recommendations" class="col-sm-3 col-form-label text-sm"
+                                >Recommendations</label
+                                >
+                                <div class="col-sm-9">{{ form.recommendations }}</div>
+                            </div>
+
+
+                            <hr/>
+
+
+                            <ul>
+                                {% for field in form %}
+                                    <!-- /.card-body -->
+                                    {% if field.errors %}
+                                        <!-- /.card-body -->
+                                        {% for error in field.errors %}
+                                            <li style="color: red">{{ error }}</li>
+                                        {% endfor %}
+                                        <!-- /.card-body -->
+                                    {% endif %}
+                                    <!-- /.card-body -->
+                                {% endfor %}
+                                <li style="color: red">{{ form.non_field_errors }}</li>
+                            </ul>
+                    </div>
+                    <div class="text-center mt-5 mb-3">
+                        <button
+                                type="submit"
+                                name="finalsubmission"
+                                class="btn btn-sm btn-success"
+                                value="finalsubmission"
+                        >
+                            Final Submit
+                        </button>
+                        <button
+                                type="submit"
+                                name="draft"
+                                value="draft"
+                                class="btn btn-sm btn-primary"
+                        >
+                            Save Draft
+                        </button>
+                    </div>
+                    </form>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/txfailure.js' %}"></script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

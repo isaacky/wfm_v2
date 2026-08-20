@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; font-size: 12px; }
+        h1, h2, h3 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #444; padding: 6px; }
+        .section-title { background: #eee; padding: 6px; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+<h2>AMCORDER REPORT</h2>
+<h3>{{ amcorder.meter.meterno }} — {{ amcorder.meter.customer_name }}</h3>
+
+<hr>
+
+<h4 class="section-title">Meter Information</h4>
+<table>
+    <tr><th>Meter Number</th><td>{{ amcorder.meter.meterno }}</td></tr>
+    <tr><th>Customer Name</th><td>{{ amcorder.meter.customer_name }}</td></tr>
+    <tr><th>Account Number</th><td>{{ amcorder.meter.accountno }}</td></tr>
+</table>
+
+<h4 class="section-title">Installation Details</h4>
+<table>
+    <tr><th>Status</th><td>{{ amcorder.status }}</td></tr>
+    <tr><th>Date Installed</th><td>{{ amcorder.date_installed }}</td></tr>
+    <tr><th>Logger Red</th><td>{{ amcorder.logger_red_serial }}</td></tr>
+    <tr><th>Logger Yellow</th><td>{{ amcorder.logger_yellow_serial }}</td></tr>
+    <tr><th>Logger Blue</th><td>{{ amcorder.logger_blue_serial }}</td></tr>
+</table>
+
+<h4 class="section-title">Retrieval</h4>
+<table>
+    <tr><th>Status</th><td>{{ amcorder.meter_retrieval.status }}</td></tr>
+    <tr><th>Date Retrieved</th><td>{{ amcorder.meter_retrieval.date_retrieved }}</td></tr>
+</table>
+
+<h4 class="section-title">Analysis</h4>
+<table>
+    <tr><th>Consistency</th><td>{{ amcorder.meter_analysis.consistence }}</td></tr>
+    <tr>
+        <th>Anomalies</th>
+        <td>
+            {% for a in amcorder.meter_analysis.anomalies.all %}
+                {{ a.label }}<br>
+            {% empty %}
+                No anomalies
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+
+<h4 class="section-title">Inspector</h4>
+<table>
+    <tr><th>Name</th><td>{{ amcorder.user_id }}</td></tr>
+    <tr><th>Region</th><td>{{ amcorder.user_id.region }}</td></tr>
+    <tr><th>County</th><td>{{ amcorder.user_id.county }}</td></tr>
+</table>
+
+</body>
+</html>

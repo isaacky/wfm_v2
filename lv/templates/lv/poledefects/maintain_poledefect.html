@@ -1,0 +1,162 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MAINTAIN POLE DEFECT</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                                {% if lv_form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ lv_form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        All The fields are required upon final submission of this Inspection
+                    </div>
+                    <div class="card-body">
+                        <form class="form-horizontal" action="{% url 'lv:poledefect-maintainance-update' maintainpole.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="button" id="find-me_p" class="btn btn-default">
+                                Show my location
+                            </button>
+                            <br/>
+                            <p id="status_p"></p>
+                            <a id="map-link_p" target="_blank"></a>
+                            <hr>
+
+                            {{ lv_form.x }} {{ lv_form.y }}
+
+                         <hr>
+
+                            <div class="form-group row">
+                                <label for="pole_type" class="col-sm-3 col-form-label text-sm"
+                                >Pole Type.</label
+                                >
+                                <div class="col-sm-9">{{ lv_form.pole_type }}</div>
+                            </div>
+
+                            <div class="form-group row" id="retention_req">
+                                <label for="defect_type" class="col-sm-3 col-form-label text-sm"
+                                >Defect Type</label
+                                >
+                                <div class="col-sm-9">{{ lv_form.defect_type }}</div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="location" class="col-sm-3 col-form-label text-sm"
+                                >Location</label
+                                >
+                                <div class="col-sm-9">{{ lv_form.location }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="maintain_notes" class="col-sm-3 col-form-label text-sm"
+                                >Maitenance Notes</label
+                                >
+                                <div class="col-sm-9">{{ lv_form.maintain_notes }}</div>
+                            </div>
+                            <hr/>
+
+
+                            <ul>
+                                {% for field in lv_form %}
+                                    <!-- /.card-body -->
+                                    {% if field.errors %}
+                                        <!-- /.card-body -->
+                                        {% for error in field.errors %}
+                                            <li style="color: red">{{ error }}</li>
+                                        {% endfor %}
+                                        <!-- /.card-body -->
+                                    {% endif %}
+                                    <!-- /.card-body -->
+                                {% endfor %}
+                                <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                            </ul>
+                    </div>
+                    <div class="text-center mt-5 mb-3">
+                        <button
+                                type="submit"
+                                name="finalsubmission"
+                                class="btn btn-sm btn-success"
+                                value="finalsubmission"
+                        >
+                            Final Submit
+                        </button>
+                        <button
+                                type="submit"
+                                name="draft"
+                                value="draft"
+                                class="btn btn-sm btn-primary"
+                        >
+                            Save Draft
+                        </button>
+                    </div>
+                    </form>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/poledefects.js' %}"></script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

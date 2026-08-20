@@ -1,0 +1,177 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | PUBLIC LIGHTING INSPECTED ACCOUNTS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">
+        List Of Public Lighting Inspections
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'postpaid:publiclighting-target' %}">Publiclighting Target List</a>
+            </li>
+            <li class="breadcrumb-item active">Inspections</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">All Inspections <strong style="color :red"> </strong>
+                        </h5><br>
+
+
+                        <p>
+                        <form action="{% url 'postpaid:search-by-meter-publiclighting_resolved' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Input Meter Number"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </p>
+                        <p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Meter Number</th>
+                                    <th>Account Number</th>
+                                    <th>County</th>
+                                    <th>Metering Status</th>
+                                    <th>Installation Status</th>
+                                    <th>Meter Install Type</th>
+                                    <th>Meter Type</th>
+                                    <th>Phase Type</th>
+                                    <th>Date Inspected</th>
+                                    <th>Meter Reading</th>
+                                    <th>System Reading</th>
+                                    <th>Variance</th>
+
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for meterr in meters %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                         <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                href="{% url 'postpaid:view-inspected' meterr.id %}">{{ meterr.meterno }}</a>
+                                        </td>
+                                        <td>{{ meterr.accountno }}</td>
+
+                                        <td>{{ meterr.county.name }}</td>
+                                        <td>{{ meterr.meteringstatus }}</td>
+                                        <td>{{ meterr.installationstatus }}</td>
+                                        <td>{{ meterr.meter_type }}</td>
+                                        <td>{{ meterr.metertype }}</td>
+                                        <td>{{ meterr.phase }}</td>
+                                        <td>{{ meterr.dtadd|date:"d M Y" }}</td>
+                                        <td>{{ meterr.reading }}</td>
+                                        <td>{{ meterr.system_reading }}</td>
+
+                                        {% if meterr.usage > 1 %}
+                                            <td style="color: green">{{ meterr.usage }}</td>
+
+                                        {% elif meterr.usage < 0 %}
+                                            <td style="color: red">{{ meterr.usage }}</td>
+                                        {% else %}
+                                            <td style="color: red">N/A</td>
+                                        {% endif %}
+
+
+
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        </p>
+
+                        <div class="pagination pagination-sm m-0 float-right">
+              <span class="step-links">
+                {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                {% endif %}
+
+                  <span class="current">
+                  Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                </span>
+
+                  {% if meters.has_next %}
+                      <a href="?page={{ meters.next_page_number }}">next</a>
+                      <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                      >
+                  {% endif %}
+              </span>
+                        </div>
+
+                        <p>
+                            <a href="{% url 'postpaid:export-uploads-publiclighting' %}" class="btn btn-primary btn-sm">Export
+                                Regional Inspections</a>
+                        </p>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

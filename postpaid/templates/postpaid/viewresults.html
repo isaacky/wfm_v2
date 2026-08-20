@@ -1,0 +1,195 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>BOA | Zero Bill Uploads</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">
+  All Zero Bill Uploads
+ 
+</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">All Zero Bill Uploads</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">There are <strong style="color :red"> {{meters_count}} </strong>  Uploads</h5><br><br>
+          <p> <form action="{% url 'postpaid:search-by-meter-resolved' %}">
+            <div class="input-group">
+              <input
+                type="text"
+                name="keyword"
+                required
+                class="form-control form-control-lg"
+                placeholder="Input Meter Number"
+              />
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form></p>
+
+          {% if meters %}
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Meter Number</th>
+                    <th>Account Number</th>
+                    <th>County</th>
+                    <th>Region</th>
+                    <th>Meter Readings</th>
+                 
+                    <th>Date Uploaded</th>
+                    <th>Uploaded By</th>
+                   
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meterr in meters %}
+                  <tr>
+                    {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+                     <td>{{meterr.id}}</td>
+
+                     {% if meterr.status == 'disconnected' %}
+                     <td><span class="badge bg-danger">DISCONNECTED</span></td>
+                     {% elif meterr.status == 'notonsite' %}
+                     <td><span class="badge bg-warning">NOT-ON-SITE</span></td>
+                     {% elif meterr.status == 'idle' %}
+                     <td><span class="badge bg-success">IDLE</span></td>
+                     {% elif meterr.status == 'meterokay' %}
+                     <td><span class="badge bg-success">METER OKAY</span></td>
+                     {% elif meterr.status == 'faulty' %}
+                     <td><span class="badge bg-success">FAULTY</span></td>
+                     {% elif meterr.status == 'bypasses' %}
+                     <td><span class="badge bg-success">BYPASSED</span></td>
+                     {% elif meterr.status == 'tampered' %}
+                     <td><span class="badge bg-success">TAMPERED</span></td>
+                     {% elif meterr.status == 'vacantpremises' %}
+                     <td><span class="badge bg-success">VACANT PREMISES</span></td>
+                     {% endif %}
+                     <td title="CLICK TO VIEW MORE DETAILS"><a href="{% url 'postpaid:view-uploaded' meterr.id %}">{{meterr.meterno}}</a> </td>
+
+                     <td>{{meterr.accountno}}</td>
+                     <td>{{meterr.county}}</td>
+                     
+                      
+                      <td>{{meterr.region}}</td>
+                      <td>{{meterr.raedings}}</td>
+                      <td>{{meterr.dtadd}}
+
+                      <td>KPL{{meterr.user}}({{meterr.user.name}})</td>
+                    
+                     
+                     
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <p>
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+    
+                    {% if meters.has_next %}
+                    <a href="?page={{ meters.next_page_number }}">next</a>
+                    <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+              </div>
+              </p>
+              <p>
+                <a href="{% url 'postpaid:export-uploads' %}" class="btn btn-primary btn-sm">Export to csv(Last 7 Days)</a>
+              </p>
+
+          </div>
+          {% else %}
+          <p>
+            NO RECORDS FOUND.
+          </p>
+          {% endif %}
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

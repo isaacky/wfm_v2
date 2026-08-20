@@ -1,0 +1,765 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>FOA | View Telcos</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">DETAILED INSPECTION REPORT</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">View Upload</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <section class="content">
+        <!-- Default box -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">I, {{ meter.inspector.user.name }}, staff
+                            Number {{ meter.inspector.user.stid }} & MOBILE {{ meter.inspector.user.mobile }}
+                            <br>declare that I have checked the installation and confirmed that the energy metering is
+                            correct
+                            <br><br>
+                            DATE OF INSPECTION : {{ meter.dtadd|date:"d M Y" }}
+                        </h3>
+                        <br>
+                        <hr>
+
+                    </div>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">CUSTOMER DATA</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">ITEM</th>
+                                <th>VALUE</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>SRN</td>
+                                <td>
+                                    {{ meter.target.srn }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>REGION</td>
+                                <td>
+                                    {{ meter.target.region }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>COUNTY</td>
+                                <td>
+                                    {{ meter.target.county }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>ACCOUNT</td>
+                                <td>
+                                    {{ meter.accountno }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>METER NUMBER</td>
+                                <td>
+                                    {{ meter.target.meterno }}
+                                </td>
+                            </tr>
+                             <tr>
+
+                                <td>METER NUMBER</td>
+                                <td>
+                                    {{ meter.meterno }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>CUSTOMER NAME</td>
+                                <td>
+                                    {{ meter.target.customer_name }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>INDUSTRY TYPE</td>
+                                <td class="text-uppercase">
+                                    {{ meter.type_of_industry }}
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">METER SEALS DATA</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">SEAL TYPE</th>
+                                <th>INITIAL</th>
+                                <th>FINAL</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Meterbox Enclosure Seal Number</td>
+                                <td>
+                                    {{ meter.meterbox_enclosure_seal_b4 }}
+                                </td>
+                                <td>
+                                    {{ meter.meterbox_enclosure_seal_after }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Meter Terminal Seal Number</td>
+                                <td>
+                                    {{ meter.meterbox_terminal_seal_b4 }}
+                                </td>
+                                <td>
+                                    {{ meter.meterbox_terminal_seal_after }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Test Block Seal Number</td>
+                                <td>
+                                    {{ meter.testblock_seal_b4 }}
+                                </td>
+                                <td>
+                                    {{ meter.testblock_seal_after }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Meter Body Seal Number</td>
+                                <td>
+                                    {{ meter.meterbody_seal_b4 }}
+                                </td>
+                                <td>
+                                    {{ meter.meterbody_seal_after }}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>CT Chamber for AMR Seal Number</td>
+                                <td>
+                                    {{ meter.ctchamber_seal_b4 }}
+                                </td>
+                                <td>
+                                    {{ meter.ctchamber_seal_after }}
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">CT & VT DATA</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">ITEM</th>
+                                <th>VALUE</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Meter Programmed Connection Config</td>
+                                <td>
+                                    {{ meter.mpcc }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Meter Voltage at Site</td>
+                                <td>
+                                    {{ meter.metervoltage }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>CT ratio in C&I</td>
+                                <td>
+                                    {{ meter.ctratio_ci }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>CT ratio Programmed In Meter</td>
+                                <td>
+                                    {{ meter.ctratio_programed }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>CT ratio Programmed In Meter Image</td>
+                                <td>
+                                    <a href="{{ meter.ctratio_img.url }}" target="_blank">
+                                        <img src="{{ meter.ctratio_img.url }}" alt={{ meter.meterno }} width="500"
+                                             height="222"">
+                                        <div class="caption">
+                                            <p>click on the image for a larger view</p>
+                                        </div>
+                                    </a>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>CT ratio CTs Installed at Site</td>
+                                <td>
+                                    {{ meter.ctratio_installedsite }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>CT ratio in C&I & Installed CT are Correctly Matched</td>
+                                <td>
+                                    {{ meter.ctratio_ci_match }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Reason for mismacth</td>
+                                <td class="text-uppercase">
+                                    {{ meter.ctratio_ci_match_rsn }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Programmed VT Ratio</td>
+                                <td>
+                                    {{ meter.vtratio }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>AMR Recovered</td>
+                                <td>
+                                    {{ meter.amrrecovered }}
+                                </td>
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">METER READINGS
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">DESCRIPTION</th>
+                                <th>READING</th>
+                                <th></th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+
+                                <td>Total Kwh (1.8.0)</td>
+                                <td>{{ meter.total_180 }}</td>
+                                <td>
+                                    <a href="{{ meter.total_180_img.url }}" target="_blank">
+                                        <img src="{{ meter.total_180_img.url }}" alt={{ meter.total_180 }} width="500"
+                                             height="222"">
+                                        <div class="caption">
+                                            <p>click on the image for a larger view</p>
+                                        </div>
+                                    </a>
+                                </td>
+
+
+                            </tr>
+                              <tr>
+
+                                <td>Reverse Energy (Where Applicable) (2.8.0)</td>
+                                <td>
+                                    {{ meter.r_energy }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Current Max KVA demand (9.6.0)</td>
+                                <td>
+                                    {{ meter.max_kva_960 }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Current Max kW demand (1.5.0)</td>
+                                <td>
+                                    {{ meter.max_kw_150 }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Current T1 total kWh (Hi) (1.8.1)</td>
+                                <td>
+                                    {{ meter.t1_181 }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Current T2 total kWh (Lo) (1.8.2)</td>
+                                <td>
+                                    {{ meter.t2_182 }}
+                                </td>
+
+                            </tr>
+                             <tr>
+
+                                <td>RED PHASE VOLTAGE</td>
+                                <td>
+                                    {{ meter.voltage_red }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>YELLOW PHASE VOLTAGE</td>
+                                <td>
+                                    {{ meter.voltage_yellow }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                             <tr>
+
+                                <td>BLUE PHASE VOLTAGE</td>
+                                <td>
+                                    {{ meter.voltage_blue }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>RED PHASE CURRENT</td>
+                                <td>
+                                    {{ meter.current_red }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>YELLOW PHASE CURRENT</td>
+                                <td>
+                                    {{ meter.current_yellow }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+
+                                <td>BLUE PHASE CURRENT</td>
+                                <td>
+                                    {{ meter.current_blue }}
+                                </td>
+                                <td></td>
+
+                            </tr>
+
+
+
+                            <tr>
+
+                                <td>Meter Having Reverse Consumption</td>
+                                <td class="text-uppercase">
+                                    {{ meter.reverse_consumption }}
+                                </td>
+                                <td>{{ meter.reverse_consumption_rsn }}</td>
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">MODULE INFORMATION
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">ITEM</th>
+                                <th>VALUE</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Module Installed</td>
+                                <td>
+                                    {{ meter.moduleinstalled }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Module Communicating to C&I</td>
+                                <td>
+                                    {{ meter.modulecomm_ci }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Reason for Non Communicating</td>
+                                <td class="text-uppercase">
+                                    {{ meter.modulecom_not_rsn }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Upload Vector Diagram</td>
+                                <td>
+                                    <a href="{{ meter.civector_img.url }}" target="_blank">
+                                        <img src="{{ meter.civector_img.url }}" alt={{ meter.meterno }} width="500"
+                                             height="222"">
+                                        <div class="caption">
+                                            <p>click on the image for a larger view</p>
+                                        </div>
+                                    </a>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>SIM Card Serial Number</td>
+                                <td>
+                                    {{ meter.sim_serial }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>SIM Service Provider</td>
+                                <td>
+                                    {{ meter.sim_provider }}
+                                </td>
+
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">VERIFICATION TESTS USING PORTABLE STANDARD
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">ITEM</th>
+                                <th>VALUE</th>
+                                <th>METER</th>
+                                <th>AMCODER/CLAMP METER</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Zera tests Done?</td>
+                                <td>
+                                    {{ meter.zera_test }}
+                                </td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Error/Register Test % Meter Error</td>
+                                <td>
+                                    {{ meter.error_register }}
+                                </td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Red Phase</td>
+                                <td>
+                                    {{ meter.redphase_zera }}
+                                </td>
+                                <td>
+                                    {{ meter.redphase_meter }}
+                                </td>
+                                <td>
+                                    {{ meter.redphase_clamp }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Yellow Phase</td>
+                                <td>
+                                    {{ meter.yellowphase_zera }}
+                                </td>
+                                <td>
+                                    {{ meter.yellowphase_meter }}
+                                </td>
+                                <td>
+                                    {{ meter.yellowphase_clamp }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Blue Phase</td>
+                                <td>
+                                    {{ meter.bluephase_zera }}
+                                </td>
+                                <td>
+                                    {{ meter.bluephase_meter }}
+                                </td>
+                                <td>
+                                    {{ meter.bluephase_clamp }}
+                                </td>
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Load Balancing</td>
+                                <td>
+                                    {{ meter.loadbalance }}
+                                </td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Power Factor Value</td>
+                                <td>
+                                    {{ meter.powerfactor_value }}
+                                </td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">ANOMALIES & FALLBACK
+                        </h3>
+                        <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                            <tr>
+
+                                <th style="width: 50%">ITEM</th>
+                                <th>VALUE</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                                <td>Is there any anomally detected during the Inspection?</td>
+                                <td>
+                                    {{ meter.arethereanomalies }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>List the Anomalies Detected separated by comma</td>
+                                <td>
+                                    {{ meter.anomalies_list }}
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>Is there any anommaly Rectified/Addressed during the Inspection?</td>
+                                <td>
+                                    {{ meter.anomalies_addressed_insp }}
+                                </td>
+
+
+
+                            </tr>
+                            <tr>
+
+                                <td>List anomalies Rectified/Addressed during the Inspection?</td>
+                                <td>
+                                    {{ meter.anomalies_addressed_insp_list }}
+                                </td>
+
+
+
+                            </tr>
+                            <tr>
+
+                                <td>Is there any anomally that requires fallback?</td>
+                                <td>
+                                    {{ meter.fallback_req }}
+                                </td>
+
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td>List anomalies that require fallback?</td>
+                                <td>
+                                    {{ meter.fallback_activities }}
+                                </td>
+
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+
+                    <hr>
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase text-bold">REMARKS
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-sm">
+
+                            <tbody>
+                            <tr>
+
+
+                                <td class="text-uppercase">
+                                    {{ meter.remarks }}
+                                </td>
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

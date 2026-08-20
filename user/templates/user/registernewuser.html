@@ -1,0 +1,148 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | Register New User</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">REGISTER NEW USER</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Register New User</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">User Registration Form</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form
+              class="form-horizontal"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group row">
+                  <label
+                    for="{{form.email.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{form.email.label}}</label
+                  >
+                  <div class="col-sm-10">{{form.email}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{form.name.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{form.name.label}}</label
+                  >
+                  <div class="col-sm-10">{{form.name}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{form.stid.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{form.stid.label}}</label
+                  >
+                  <div class="col-sm-10">{{form.stid}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{form.mobile.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{form.mobile.label}}</label
+                  >
+                  <div class="col-sm-10">{{form.mobile}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{profile.county.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{profile.county.label}}</label
+                  >
+                  <div class="col-sm-10">{{profile.county}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{profile.region.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{profile.region.label}}</label
+                  >
+                  <div class="col-sm-10">{{profile.region}}</div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="{{profile.campaign.label}}"
+                    class="col-sm-2 col-form-label"
+                    >{{profile.campaign.label}}</label
+                  >
+                  <div class="col-sm-10">{{profile.campaign}}</div>
+                </div>
+              </div>
+
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">SUBMIT</button>
+                <a href="#" class="btn btn-default float-right"> Cancel </a>
+              </div>
+              {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {{ form.non_field_errors }}
+              </div>
+              {% elif form.email.errors %}
+              <div class="alert alert-danger" role="alert">
+                {{ form.email.errors }}
+              </div>
+              {% endif %}
+
+              <!-- /.card-footer -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title m-0">Note</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            A New user profile will be created. The default password will be the
+            staff number without kpl. Upon initial login the user will be
+            required to change the password from the default password to a
+            password of his / her choice.
+          </p>
+          <a href="{% url 'main:my-dashboard' %}" class="btn btn-primary"
+            >Go Home</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

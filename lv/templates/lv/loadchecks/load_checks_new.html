@@ -1,0 +1,367 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SUBSTATION INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0">
+        Load Check on ssn {{ ssn }}
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+
+                    <div class="card-header">
+                        All The fields are required upon final submission of this Inspection
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            {% if sub_form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ sub_form.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <form
+                                class="form-horizontal"
+                                action="{% url 'lv:loadchecks-update' substation_id %}"
+                                method="post"
+                        >
+                            {% csrf_token %}
+
+
+                            <div class="form-group row">
+                                <label for="primary_voltage" class="col-sm-3 col-form-label text-sm"
+                                >Primary Voltage</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.primary_voltage }}</div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="tx_rating" class="col-sm-3 col-form-label text-sm"
+                                >TX Rating</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.tx_rating }}</div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="number_of_circuits" class="col-sm-3 col-form-label text-sm"
+                                >Number OF Circuits</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.number_of_circuits }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="voltage_ll_ry" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-L RY</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ll_ry }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltage_ll_yb" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-L YB</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ll_yb }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltage_ll_br" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-L BR</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ll_br }}</div>
+                            </div>
+
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="voltage_ln_rn" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-N R-N</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ln_rn }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltage_ln_yn" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-N Y-N</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ln_yn }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltage_ln_bn" class="col-sm-3 col-form-label text-sm"
+                                >Voltage L-N B-N</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage_ln_bn }}</div>
+                            </div>
+                            <hr>
+                            <table class="table table-sm table-bordered" id="circuit3">
+                                <thead>
+                                <tr>
+
+                                    <th>Circuit</th>
+                                    <th>R</th>
+                                    <th>Y</th>
+                                    <th>B</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+
+                                    <td>1</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_r }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_r.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_y }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_y.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_b }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_b.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>2</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_r_2 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_r_2.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_y_2 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_y_2.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_b_2 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_b_2.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>3</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_r_3 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_r_3.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_y_3 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_y_3.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_b_3 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_b_3.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>4</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_r_4 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_r_4.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_y_4 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_y_4.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_b_4 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_b_4.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>5</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_r_5 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_r_5.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_y_5 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_y_5.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ sub_form.phase_loads_b_5 }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ sub_form.phase_loads_b_5.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+
+
+
+                            <hr/>
+
+
+                            <div>
+                                <ul>
+                                    {% for field in lv_form %}
+                                        <!-- /.card-body -->
+                                        {% if field.errors %}
+                                            <!-- /.card-body -->
+                                            {% for error in field.errors %}
+                                                <li style="color: red">{{ error }}</li>
+                                            {% endfor %}
+                                            <!-- /.card-body -->
+                                        {% endif %}
+                                        <!-- /.card-body -->
+                                    {% endfor %}
+                                    <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-5 mb-3">
+                                <button
+                                        type="submit"
+                                        name="finalsubmission"
+                                        class="btn btn-sm btn-success"
+                                        value="finalsubmission"
+                                >
+                                    Final Submit
+                                </button>
+                                <button
+                                        type="submit"
+                                        name="draft"
+                                        value="draft"
+                                        class="btn btn-sm btn-primary"
+                                >
+                                    Save Draft
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'assets/js/substation_inspection.js' %}"></script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

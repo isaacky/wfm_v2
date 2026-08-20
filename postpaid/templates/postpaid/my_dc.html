@@ -1,0 +1,139 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY DC INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+     <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:my-dc' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">
+        My Domestic Customer Inspections
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'postpaid:domestic-customers' %}">DC Target List</a>
+            </li>
+            <li class="breadcrumb-item active">My-Inspections</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong> {{ meters_count }} Meters inspected today </strong>
+                          </h5><br>
+
+                        <p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Meter Number</th>
+                                    <th>Account Number</th>
+                                    <th>Customer Name</th>
+                                    <th>Metering Status</th>
+                                    <th>Meter Type</th>
+                                    <th>Phase Type</th>
+                                     <th>AVG Con</th>
+                                    <th>Meter Reading</th>
+                                   <th>System Reading</th>
+                                    <th>Date Uploaded</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for meterr in meters %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                href="{% url 'postpaid:view-dc-inspected' meterr.id %}">{{ meterr.dc_meterno }}</a>
+                                        </td>
+                                        <td>{{ meterr.dc_accountno }}</td>
+                                        <td>{{ meterr.dc.customer_name }}</td>
+                                        <td class="text-uppercase">{{ meterr.dc_meteringstatus }}</td>
+                                        <td class="text-uppercase">{{ meterr.dc_conf_type }}</td>
+                                        <td class="text-uppercase">{{ meterr.dc_metertype }}</td>
+                                         <td>{{ meterr.dc.avg_units }}</td>
+                                         <td>{{ meterr.dc_reading }}</td>
+                                         <td>{{ meterr.dc_reading }}</td>
+                                        <td>{{ meterr.dtadd|date:"d M Y" }}</td>
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        </p>
+                        <div class="pagination pagination-sm m-0 float-right">
+              <span class="step-links">
+                {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                {% endif %}
+
+                  <span class="current">
+                  Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                </span>
+
+                  {% if meters.has_next %}
+                      <a href="?page={{ meters.next_page_number }}">next</a>
+                      <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                      >
+                  {% endif %}
+              </span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

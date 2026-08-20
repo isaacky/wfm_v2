@@ -1,0 +1,147 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">3-Phase County Analytics</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Total Achievement</th>
+                    <th>Metering Status NOT-OKAY</th>
+                    <th>Installation Status NOT-OKAY</th>
+                    <th>Todays Achievement</th>
+                    <th>{{yesterday_1}}</th>
+                    <th>{{yesterday_2}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td title="DOWNLOAD 3-PHASE INSPECTIONS">
+                      <a
+                        href="{% url 'postpaid:export_threephase_connection' analytic.id %}"
+                      >
+                        <i class="fas fa-download"></i
+                      ></a>
+                    </td>
+
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic.name}}</td>
+
+                    <td>{{analytic.resolved}}</td>
+                    <td>{{analytic.meteringnotokay|intcomma}}</td>
+                    <td>{{analytic.installation_not_okay|intcomma}}</td>
+                    <td>{{analytic.resolved_t|intcomma}}</td>
+                    <td>{{analytic.resolved_y|intcomma}}</td>
+                    <td>{{analytic.resolved_y_2|intcomma}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <div class="card-title">Inspectors Performance</div>
+
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Staff Name</th>
+                    <th>Mobile</th>
+                    <th>County</th>
+                    <th>Overall Acheivement</th>
+                    <th>Today</th>
+                    <th>Yesturday</th>
+                    <th>{{yesterday_1}}</th>
+                    <th>{{yesterday_2}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in inspectors %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>
+                      {{analytic.user_id__stid}} - {{analytic.user_id__name}}
+                    </td>
+                    <td>{{analytic.user_id__mobile}}</td>
+                    <td>{{analytic.county__name}}</td>
+                    <td>
+                      <strong>{{analytic.the_count}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.today}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.yesturday}}</strong>
+                    </td>
+
+                    <td>
+                      <strong>{{analytic.yesturday_2}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.yesturday_3}}</strong>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

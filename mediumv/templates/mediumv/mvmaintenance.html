@@ -1,0 +1,492 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | MV MAITENANCE</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<button
+  title="GO BACK"
+  type="button"
+  class="btn btn-default btn-sm"
+  onclick="history.back()"
+>
+  <i class="fas fa-reply"></i>
+</button>
+<a href="#" class="btn btn-default btn-sm" title="REFRESH">
+  <i class="fas fa-sync-alt"></i>
+</a>
+<hr />
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card">
+        <div>
+          {% if sub_form.errors %}
+          <div class="alert alert-danger">{{ sub_form.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="card-body">
+          <h5>FEEDER : {{ lv.mvinspection.feeder }}</h5>
+          <h5 class="text-uppercase">
+            FEEDER SECTION : {{ lv.feeder_section }}
+          </h5>
+          <h5>DATE OF MAINTENANCE: {{ lv.dtupdate }}</h5>
+          <p>All Fields are required</p>
+          <form
+            class="form-horizontal"
+            method="Post"
+            action="{% url 'mediumv:mvmaintenance-update' lv.id %}"
+          >
+            {% csrf_token %}
+
+            <hr />
+            <h5>
+              Number of poleswithout stays - {{ mvinspection.no_poleswithoutstays }}
+            </h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_poleswithoutstays"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number Of Poles Mainteined</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_poleswithoutstays }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_poleswithoutstays.help_text }}</em></span
+              >
+            </div>
+            <hr />
+            <h5>Number of Rotten Structure - {{ mvinspection.no_rottentxstructure }}</h5>
+            <br />
+
+            <div class="form-group row">
+              <label
+                for="no_rottentxstructure"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number Mainteined</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_rottentxstructure }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_rottentxstructure.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>
+              Enter Number of Leaning Structure - {{ mvinspection.no_leaningtxstructure }}
+            </h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_leaningtxstructure"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number Maintained</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_leaningtxstructure }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_leaningtxstructure.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>
+              Number Of Sags That Require Retention- {{ mvinspection.no_sagstoretention }}
+            </h5>
+
+            <br />
+
+            <div class="form-group row">
+              <label
+                for="no_sagstoretention"
+                class="col-sm-3 col-form-label text-sm"
+                >Eneter Number Of sags Maintained</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_sagstoretention }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_sagstoretention.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>
+              No. Of Sections to Double Jumper -
+              {{mvinspection.no_sectionstodoublejumper}}
+            </h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_sectionstodoublejumper"
+                class="col-sm-3 col-form-label text-sm"
+                >Eneter Number Of Sections to Double Jumper?</label
+              >
+              <div class="col-sm-9">
+                {{ lv_form.no_sectionstodoublejumper }}
+              </div>
+              <span class="text-danger"
+                ><em
+                  >{{ lv_form.no_sectionstodoublejumper.help_text }}</em
+                ></span
+              >
+            </div>
+
+            <hr />
+            <h5>
+              Number Of Fuse Mounts to be replaced - {{mvinspection.no_replacefusemounts}}
+            </h5>
+
+            <br />
+
+            <div class="form-group row">
+              <label
+                for="no_replacefusemounts"
+                class="col-sm-3 col-form-label text-sm"
+                >Eneter Number of Fuse Mounts Replaced?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_replacefusemounts }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_replacefusemounts.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number Of HT Fuses Bypassed - {{mvinspection.no_bypassedhtfuses }}</h5>
+
+            <div class="form-group row">
+              <label
+                for="no_bypassedhtfuses"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of HT Fuses Maintained</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_bypassedhtfuses }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_bypassedhtfuses.help_text }}</em></span
+              >
+            </div>
+            <hr />
+            <h5>
+             Number of Spur Tuplins to Install- {{ mvinspection.no_spurtaplins }}
+            </h5>
+           
+            <br />
+
+            <div class="form-group row">
+              <label
+                for="no_spurtaplins"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Spur Tuplins Maintained/Installed</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_spurtaplins }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_spurtaplins.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of Faulty A/B Switches - {{ mvinspection.no_faultyabswitces }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_faultyabswitces"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Maintained A/B Switces?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_faultyabswitces }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_faultyabswitces.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of New A/B Switches to Install - {{ mvinspection.no_installabswitces }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_installabswitces"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Installed A/B Switces?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_installabswitces }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_installabswitces.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+
+            <h5>Number of Locations With Overhanging Trees - {{ mvinspection.no_overhangingtrees }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_overhangingtrees"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Locations Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_overhangingtrees }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_overhangingtrees.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+
+            <h5>Number of kms Require Trace Maintenance - {{ mvinspection.no_tracemaint }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_tracemaint"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of kms Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_tracemaint }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_tracemaint.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of kms That Require Uprating Conductors - {{ mvinspection.no_upratingconductors }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_upratingconductors"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of kms Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_upratingconductors }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_upratingconductors.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+             <h5>Number of Auto Closeres Required - {{ mvinspection.no_autoclosures }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_autoclosures"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Auto Closeres Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_autoclosures }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_autoclosures.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of Faulty Auto Closeres Required - {{ mvinspection.no_autoclosuresfaulty }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_autoclosuresfaulty"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Faulty Auto Closeres Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_autoclosuresfaulty }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_autoclosuresfaulty.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+             <h5>Number of Faulty Cables - {{ mvinspection.no_faultyhvcable }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_faultyhvcable"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Faulty Cabled Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_faultyhvcable }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_faultyhvcable.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of Structures Without TX - {{ mvinspection.no_structureswithouttx }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_structureswithouttx"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Structures Without TX Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_structureswithouttx }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_structureswithouttx.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of HV Jumppe Cables Without Lugs - {{ mvinspection.no_jumpercableswithoutlugs }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_jumpercableswithoutlugs"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of HV Jumppe Cables Without Lugs Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_jumpercableswithoutlugs }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_jumpercableswithoutlugs.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            <h5>Number of Disconnected Surge Diverters - {{ mvinspection.no_disconnsurged }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_disconnsurged"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Disconnected Surge Diverters Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_disconnsurged }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_disconnsurged.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+             <h5>Number of TX Missing Earthing - {{ mvinspection.no_txmissingearthing }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_txmissingearthing"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of TX Missing Earthing Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_txmissingearthing }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_txmissingearthing.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+             <h5>Number of Substations Without Numbers - {{ mvinspection.no_ssnnumberless }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_ssnnumberless"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Substations Without Numbers Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_ssnnumberless }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_ssnnumberless.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+             <h5>Number of Locations With Wayleave Infringment - {{ mvinspection.no_wayleaveinfrng }}</h5>
+
+            <br />
+            <div class="form-group row">
+              <label
+                for="no_wayleaveinfrng"
+                class="col-sm-3 col-form-label text-sm"
+                >Enter Number of Locations With Wayleave Infringment Maintained?</label
+              >
+              <div class="col-sm-9">{{ lv_form.no_wayleaveinfrng }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.no_wayleaveinfrng.help_text }}</em></span
+              >
+            </div>
+
+            <hr />
+            
+
+            <div class="form-group row">
+              <label for="comments" class="col-sm-3 col-form-label text-sm"
+                >Maintenance Notes</label
+              >
+              <div class="col-sm-9">{{ lv_form.comments }}</div>
+              <span class="text-danger"
+                ><em>{{ lv_form.comments.help_text }}</em></span
+              >
+            </div>
+            <hr />
+
+            <div>
+              <ul>
+                {% for field in sub_form %}
+                <!-- /.card-body -->
+                {% if field.errors %}
+                <!-- /.card-body -->
+                {% for error in field.errors %}
+                <li style="color: red">{{ error }}</li>
+                {% endfor %}
+                <!-- /.card-body -->
+                {% endif %}
+                <!-- /.card-body -->
+                {% endfor %}
+                <li style="color: red">{{ sub_form.non_field_errors }}</li>
+              </ul>
+            </div>
+
+
+            <div class="text-center mt-5 mb-3">
+              <button
+                type="submit"
+                name="finalsubmission"
+                class="btn btn-sm btn-success"
+                value="finalsubmission"
+              >
+                Final Submit
+              </button>
+              <button
+                type="submit"
+                name="draft"
+                value="draft"
+                class="btn btn-sm btn-primary"
+              >
+                Save Draft
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- /.card-body -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.row -->
+
+<!-- /.container-fluid -->
+
+{% endblock content %}

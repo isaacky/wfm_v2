@@ -1,0 +1,100 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Kagua Connection Campaign Analytics: Global</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            Overall  Achievement
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                      <th>County</th>
+                      <th>Feeder</th>
+                      <th>Total Inspections</th>
+                      <th>Metering Status-NOT-OKAY</th>
+                      <th>Installation Status-NOT-OKAY</th>
+                      <th>Today</th>
+                      <th>Yesturday</th>                  
+                      <th>{{yesterday_2}}</th>
+                      <th>{{yesterday_3}}</th>
+                      
+                     
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for meterr in feeders %}
+                   
+                    
+                    <tr>
+                      {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+                       <td>{{meterr.connection__feeder__county__name}}</td>
+                       <td>{{meterr.connection__feeder__name}}</td>
+                       <td>{{meterr.the_count|intcomma}}</td>
+                       <td>{{meterr.meteringnotokay|intcomma}}</td>
+                       <td>{{meterr.installation_not_okay|intcomma}}</td>
+                       <td>{{meterr.today|intcomma}}</td>
+                       <td>{{meterr.yesturday|intcomma}}</td>
+                       <td>{{meterr.yesturday_2_d|intcomma}}</td>
+                       <td>{{meterr.yesturday_3_d|intcomma}}</td>
+               
+                     
+
+                      </tr>
+                    {% endfor %}
+                    
+                 
+                  </tbody>
+
+                  </tbody>
+
+                  </tbody>
+              </table>
+
+          <br />
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

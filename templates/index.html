@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+{% load static %}
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="{% static 'assets/images/logo.png' %}"/>
+    {% block title %} {% endblock title %}
+
+    <!-- Google Font: Source Sans Pro -->
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+            rel="stylesheet"
+            href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}"/>
+    <link
+            rel="stylesheet"
+            href="{% static 'assets/plugins/toastr/toastr.min.css' %}"
+    />
+     <link rel="stylesheet" href="{% static 'assets/plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+     <link rel="stylesheet" href="{% static 'assets/plugins/leaflet/leaflet.css' %}" />
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="hold-transition sidebar-mini sidebar-collapse">
+<div class="wrapper">
+    <!-- Navbar -->
+    {% include 'header.html' %}
+
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    {% include 'nav.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        {% block pagetitle %} {% endblock pagetitle %}
+                    </div>
+                    <!-- /.col -->
+                    {% block breadcrumb %} {% endblock breadcrumb %}
+
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            {% block content %} {% endblock content %}
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    {% include 'footer.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- AdminLTE App -->
+<script src="{% static 'assets/js/boa.min.js' %}"></script>
+<script src="{% static 'assets/plugins/toastr/toastr.min.js' %}"></script>
+<script src="{% static 'assets/plugins/select2/js/select2.full.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+{#<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"#}
+{#        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="#}
+{#        crossorigin=""></script>#}
+<script src="{% static 'assets/plugins/leaflet/leaflet.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#id_meteringstatus").change(function () {
+
+            if ($(this).val() === "") {
+                $('#faultystatus').hide();
+                $('#tamperedstatus').hide();
+                $('#bypassstatus').hide();
+
+            } else if ($(this).val() === "okay") {
+                $('#metering-not-okay').hide();
+                $('#id_faultystatus').hide();
+                $('#id_tamperedstatus').hide();
+                $('#id_bypassstatus').hide();
+
+            } else if ($(this).val() === "faulty") {
+
+                $('#faultystatus').show();
+                $('#tamperedstatus').hide();
+                $('#bypassstatus').hide();
+
+
+            } else if ($(this).val() === "tampered") {
+               $('#faultystatus').hide();
+                $('#tamperedstatus').show();
+                $('#bypassstatus').hide();
+
+            } else if ($(this).val() === "bypassed") {
+                $('#faultystatus').hide();
+                $('#tamperedstatus').hide();
+                $('#bypassstatus').show();
+
+            } else if ($(this).val() === "nometer") {
+                $('#faultystatus').hide();
+                $('#tamperedstatus').hide();
+                $('#bypassstatus').hide();
+            } else {
+               $('#faultystatus').show();
+                $('#tamperedstatus').show();
+                $('#bypassstatus').show();
+            }
+        });
+        $("#id_meteringstatus").trigger("change")
+    })
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#id_installationstatus").change(function () {
+            if ($(this).val() === "") {
+                $('#notokaystatus').hide();
+            } else if ($(this).val() === "okay") {
+                $('#notokaystatus').hide();
+            } else {
+                $('#notokaystatus').show();
+            }
+        });
+        $("#id_installationstatus").trigger("change")
+    })
+</script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#id_recurring_event").change(function () {
+            if ($(this).val() === "No") {
+                $('#recurrence_pattern').hide();
+            } else {
+                $('#recurrence_pattern').show();
+            }
+        });
+        $("#id_recurring_event").trigger("change")
+    })
+</script>
+
+
+
+{% if messages %}
+    {% for message in messages %}
+        <script type=text/javascript>
+            toastr.options.progressBar = true;
+            toastr.{{ message.tags }}('{{ message }}')
+        </script>
+    {% endfor %}
+{% endif %}
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+
+
+    })
+
+    // DropzoneJS Demo Code End
+</script>
+
+<script>
+    function geoFindMe() {
+
+        const status = document.querySelector('#status');
+        const mapLink = document.querySelector('#map-link');
+
+        mapLink.href = '';
+        mapLink.textContent = '';
+
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            var lon = document.getElementById("id_x");
+            lon.value = longitude;
+
+            var lat = document.getElementById("id_y");
+            lat.value = latitude;
+
+            status.textContent = '';
+            mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        }
+
+        function error() {
+            status.textContent = 'Unable to retrieve your location';
+        }
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    }
+
+    document.querySelector('#find-me').addEventListener('click', geoFindMe);
+</script>
+
+<script>
+    function geoFindMe_lv() {
+
+        const status = document.querySelector('#status-lv');
+        const mapLink = document.querySelector('#map-link-lv');
+
+        mapLink.href = '';
+        mapLink.textContent = '';
+
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            var lon = document.getElementById("id_longitude");
+            lon.value = longitude;
+
+            var lat = document.getElementById("id_latitude");
+            lat.value = latitude;
+
+            status.textContent = '';
+            mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        }
+
+        function error() {
+            status.textContent = 'Unable to retrieve your location';
+        }
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    }
+
+    document.querySelector('#find-me-lv').addEventListener('click', geoFindMe_lv);
+</script>
+
+
+{#for LV inspection#}
+<script>
+    function geoFindMe() {
+
+        const status = document.querySelector('#status');
+        const mapLink = document.querySelector('#map-link');
+
+        mapLink.href = '';
+        mapLink.textContent = '';
+
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            var lon = document.getElementById("id_longitude");
+            lon.value = longitude;
+
+            var lat = document.getElementById("id_latitude");
+            lat.value = latitude;
+
+            status.textContent = '';
+            mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        }
+
+        function error() {
+            status.textContent = 'Unable to retrieve your location';
+        }
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    }
+
+    document.querySelector('#find-me').addEventListener('click', geoFindMe);
+</script>
+
+{#For Pole defects#}
+<script>
+    function geoFindMe_p() {
+
+        const status = document.querySelector('#status_p');
+        const mapLink = document.querySelector('#map-link_p');
+
+        mapLink.href = '';
+        mapLink.textContent = '';
+
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            var lon = document.getElementById("id_x");
+            lon.value = longitude;
+
+            var lat = document.getElementById("id_y");
+            lat.value = latitude;
+
+            status.textContent = '';
+            mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        }
+
+        function error() {
+            status.textContent = 'Unable to retrieve your location';
+        }
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    }
+
+    document.querySelector('#find-me_p').addEventListener('click', geoFindMe_p);
+</script>
+
+{#dc postpaid reading#}
+
+
+{#genstns#}
+
+
+
+{% block scripts %}
+
+<script src="{% static 'assets/js/telcos.js' %}"></script>
+    <script src="{% static 'assets/js/kyn.js' %}"></script>
+    <script src="{% static 'assets/js/lp.js' %}"></script>
+    <script src="{% static 'assets/js/gendten.js' %}"></script>
+    <script src="{% static 'assets/js/dc.js' %}"></script>
+    <script src="{% static 'assets/js/transdist.js' %}"></script>
+    <script src="{% static 'assets/js/substation_inspection.js' %}"></script>
+    <script src="{% static 'assets/js/txfailure.js' %}"></script>
+    <script src="{% static 'assets/js/commission.js' %}"></script>
+    <script src="{% static 'assets/js/visibility.js' %}"></script>
+    <script src="{% static 'assets/js/failure.js' %}"></script>
+    <script src="{% static 'assets/js/poledefects.js.js' %}"></script>
+    <script src="{% static 'assets/js/anomalous.js' %}"></script>
+
+
+{% endblock %}
+
+<script>
+        $("#id_hvearth_intact").change(function () {
+        if ($(this).val() === "") {
+            $('#hvearth_intact').hide();
+            $('#hvearth_values_missing').hide();
+        } else if ($(this).val() === "yes") {
+            $('#hvearth_intact').show();
+            $('#hvearth_values_missing').hide();
+
+        } else if ($(this).val() === "no") {
+            $('#hvearth_intact').hide();
+            $('#hvearth_values_missing').show();
+        }
+
+    });
+    $("#id_hvearth_intact").trigger("change")
+</script>
+
+<script>
+        $("#id_surgearrestors").change(function () {
+        if ($(this).val() === "") {
+            $('#surgearrestors').hide();
+            $('#surge_arrestors_missing').hide();
+        } else if ($(this).val() === "yes") {
+            $('#surgearrestors').show();
+            $('#surge_arrestors_missing').hide();
+
+        } else if ($(this).val() === "no") {
+            $('#surgearrestors').hide();
+            $('#surge_arrestors_missing').show();
+        }
+
+    });
+    $("#id_surgearrestors").trigger("change")
+</script>
+
+<script>
+     $("#id_solar_installed").change(function () {
+        if ($(this).val() === "NO") {
+            $('#solar-installation').hide();
+
+        } else if ($(this).val() === "YES") {
+            $('#solar-installation').show();
+
+        } else {
+            $('#solar-installation').hide();
+
+        }
+    });
+    $("#id_solar_installed").trigger("change")
+</script>
+
+
+<script>
+     $("#id_zeratest").change(function () {
+        if ($(this).val() === "NO") {
+            $('#zera-test').hide();
+
+        } else if ($(this).val() === "YES") {
+            $('#zera-test').show();
+
+        } else {
+            $('#zera-test').hide();
+
+        }
+    });
+    $("#id_zeratest").trigger("change")
+</script>
+
+<script>
+     $("#id_is_amr").change(function () {
+        if ($(this).val() === "YES") {
+            $('#amrm').show();
+         } else if ($(this).val() === "NO") {
+            $('#amrm').hide();
+
+        } else {
+            $('#amrm').hide();
+
+        }
+    });
+    $("#id_is_amr").trigger("change")
+</script>
+
+<script>
+     $("#id_meter_readable").change(function () {
+        if ($(this).val() === "yes") {
+            $('#reading').show();
+         } else if ($(this).val() === "no") {
+            $('#reading').hide();
+
+        } else {
+            $('#reading').hide();
+
+        }
+    });
+    $("#id_meter_readable").trigger("change")
+
+
+</script>
+
+</body>
+</html>

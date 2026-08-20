@@ -1,0 +1,260 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | 66KV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    {#    <a href="{% url 'postpaid:dc-viewinspected' %}" class="btn btn-default btn-sm" title="REFRESH">#}
+    {#        <i class="fas fa-sync-alt"></i>#}
+    {#    </a>#}
+    <h1 class="m-0">
+        List of 66KV Customers Pending Inspection
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">66KV Customers</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <br>
+                        <p>
+                        <form action="{% url 'transdist:sistysix-search-by-meter' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Meter Number"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+
+
+
+
+                        {% if meters %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>METER NUMBER</th>
+                                        <th>NAME</th>
+                                        <th>ACCOUNT NUMBER</th>
+                                        <th>COUNTY</th>
+                                        <th>PROGRESS</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in meters %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td class="project-actions text-right">
+                                                {% if meterr.type == 0 %}
+                                                    <a class="btn btn-primary btn-sm"
+                                                       href="{% url 'transdist:new-sixtysix-inspection' meterr.id %}">
+                                                        <i class="fas fa-plus">
+                                                        </i>
+
+                                                    </a>
+                                                {% elif meterr.type == 1 %}
+                                                    <a class="btn btn-info btn-sm"
+                                                       href="{% url 'transdist:sixtysix-update' meterr.id %}">
+                                                        <i class="fas fa-pencil-alt">
+                                                        </i>
+
+                                                    </a>
+                                                    <a class="btn btn-danger btn-sm" href="{% url 'transdist:sixtysix-delete' meterr.id %}">
+                                                        <i class="fas fa-trash">
+                                                        </i>
+
+                                                    </a>
+                                                {% elif meterr.type == 2 %}
+                                                    <a class="btn btn-success btn-sm" href="{% url 'transdist:sixtysix-print' meterr.id %}" target="_blank">
+                                                        <i class="fas fa-print">
+                                                        </i>
+
+                                                    </a>
+                                                {% endif %}
+
+
+                                            </td>
+
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="#">{{ meterr.meter_number }}</a>
+                                            </td>
+                                            <td class="text-uppercase">{{ meterr.name }}</td>
+                                            <td class="text-uppercase">{{ meterr.new_account_number }}</td>
+                                            <td class="text-uppercase">{{ meterr.county__name }}
+
+                                            </td>
+                                            <td class="project_progress">
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-green" role="progressbar"
+                                                         aria-valuenow="77" aria-valuemin="0" aria-valuemax="100"
+                                                         style="width: 77%">
+                                                    </div>
+                                                </div>
+                                                <small>
+                                                    77% Complete
+                                                </small>
+                                                <br>
+                                                <small>Last updated: 01.01.2019</small>
+                                            </td>
+
+
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <p>
+                                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                </div>
+                                </p>
+                                {#              <p>#}
+                                {#                <a href="{% url 'postpaid:threephase-target-export' %}" class="btn btn-primary btn-sm">Export Target List to csv</a>#}
+                                {#              </p>#}
+
+                            </div>
+                        {% else %}
+
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#f{{ meterr.id }}">
+                                Add New Customer
+                            </button>
+                            <div class="modal fade" id="f{{ meterr.id }}">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">NEW 66KV CUSTOMER</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                            <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                                  action="{% url 'transdist:sixty-six-not-in-target' %}"
+                                                  novalidate>
+                                                {% csrf_token %}
+
+                                                <div class="form-group row">
+                                                    <label for="meter_number" class="col-sm-4 col-form-label">Meter
+                                                        Number</label>
+                                                    <div class="col-sm-8">
+                                                        {{ form.meter_number }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form.meter_number.help_text }}</em></span>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="metering_vt_ratio" class="col-sm-4 col-form-label"> Old
+                                                        Account Number</label>
+                                                    <div class="col-sm-8">
+                                                        {{ form.account_number }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form.account_number.help_text }}</em></span>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="new_account_number" class="col-sm-4 col-form-label">New
+                                                        Account Number</label>
+                                                    <div class="col-sm-8">
+                                                        {{ form.new_account_number }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form.new_account_number.help_text }}</em></span>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="name" class="col-sm-4 col-form-label">Customer
+                                                        Name</label>
+                                                    <div class="col-sm-8">
+                                                        {{ form.name }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form.name.help_text }}</em></span>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="form-group row">
+                                                    <div class="offset-sm-2 col-sm-10">
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </p>
+
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                    onclick="history.back()">Close
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

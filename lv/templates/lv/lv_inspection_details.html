@@ -1,0 +1,690 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SEARCH SSN</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+      <div class="row">
+            <div class="col-md-7">
+
+                <div class="card">
+                    <div class="card-header">
+                        {{ lv }}
+                         <a href="{% url 'lv:poledefects-new' %}" class="btn btn-sm btn-primary btn-sm"> <i class="fas fa-edit"></i></a>
+
+                    </div>
+                    <div class="card-body">
+                        <form class="form-horizontal" action="{% url 'lv:lvinspection-update' lv %}" method="post">
+
+                             {% csrf_token %}
+                         <button type="button" id="find-me" class="btn btn-default">Show my
+                                                location
+                                            </button>
+                                            <br/>
+                                            <p id="status"></p>
+                                            <a id="map-link" target="_blank"></a>
+
+                            {{ lv_form.longitude }} {{ lv_form.latitude }}
+
+
+
+
+
+                            <hr>
+                            <div class="form-group row">
+                                <label for="poor_sags_cl_cond" class="col-sm-3 col-form-label text-sm">Are There Poor
+                                    Sags/Clashing Conductors?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.poor_sags_cl_cond }}
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row" id="retention_req">
+                                <label for="retention_req" class="col-sm-3 col-form-label text-sm">How Many Spans
+                                    require Retensioning?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.retention_req }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="lvline_veg" class="col-sm-3 col-form-label text-sm">Is there Vegetation On
+                                    The LV Line?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lvline_veg }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="traceclear_span">
+                                <label for="traceclear_span" class="col-sm-3 col-form-label text-sm">How Many Spans
+                                    require trace clearance?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.traceclear_span }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="conductors_uprate" class="col-sm-3 col-form-label text-sm">Uprating Of
+                                    Conductors?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.conductors_uprate }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="conductors_uprate_span">
+                                <label for="conductors_uprate_span" class="col-sm-3 col-form-label text-sm">Total Conductor Lenth(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.conductors_uprate_span }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="pme_installed" class="col-sm-3 col-form-label text-sm">Is PME
+                                    installed(Every 4LV Spans)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_installed }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="pme_missing_poles">
+                                <label for="pme_missing_poles" class="col-sm-3 col-form-label text-sm">Missing In How Many Poles?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_missing_poles }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="lv_overdistance" class="col-sm-3 col-form-label text-sm">Overdistance LV
+                                    Network?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lv_overdistance }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="lv_overdistance_l">
+                                <label for="lv_overdistance_l" class="col-sm-3 col-form-label text-sm">Distance From Tx To Furthest Customer?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lv_overdistance_l }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row" >
+                                <label for="illegal_connections" class="col-sm-3 col-form-label text-sm">Illegal
+                                    Connections to recover?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegal_connections }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="illegal_connections_l">
+                                <label for="illegal_connections_l" class="col-sm-3 col-form-label text-sm">Approximate
+                                    Length(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegal_connections_l }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="jumper_rehab_sect" class="col-sm-3 col-form-label text-sm">Number of
+                                    sections that require Jumper Rehabilitation?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.jumper_rehab_sect }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="reconducturing_pvc" class="col-sm-3 col-form-label text-sm">LV
+                                    Reconducturing with PVC/ABC?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconducturing_pvc }}
+                                </div>
+                            </div>
+
+                            <div class="form-group row" id="reconducturing_pvc_l">
+                                <label for="reconducturing_pvc_l" class="col-sm-3 col-form-label text-sm">Total Lenth of Conductor?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconducturing_pvc_l }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="circuits" class="col-sm-3 col-form-label text-sm">No of Circuits?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.circuits }}
+                                </div>
+                            </div>
+                            <table class="table table-sm" id="circuit1">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Phase</th>
+                                    <th>CCT1 :Customers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_r }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_b }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_y }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>Three Phase</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C1_threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm" id="circuit2">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Phase</th>
+                                    <th>CCT1:Customers</th>
+                                    <th>CCT2:Customers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1r }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2r }}
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1y }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2y }}
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1b }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2b }}
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                 <tr>
+                                    <td>4.</td>
+                                    <td>Three Phase</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C2_1threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C2_2threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm" id="circuit3">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Phase</th>
+                                    <th>CCT1:Customers</th>
+                                    <th>CCT2:Customers</th>
+                                    <th>CCT3:Customers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_1r }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_2r }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_3r }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_1y }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_2y }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_3y }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_1b }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_2b }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c3_3b }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>4.</td>
+                                    <td>Three Phase</td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C3_1threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C3_2threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                   <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C3_3threephase }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+
+                         <div class="form-group row">
+                                <label for="poshomills_onsingle_p" class="col-sm-3 col-form-label text-sm">Are There Poshomills On Single Phase?
+                                    </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.poshomills_onsingle_p }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="poshomills_onsingle_p_n">
+                                <label for="poshomills_onsingle_p_n" class="col-sm-3 col-form-label text-sm">How Many?
+                              </label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.poshomills_onsingle_p_n }}
+                                </div>
+                            </div>
+                            <hr>
+
+
+                             <div class="form-group row">
+                                <label for="inspect_notes" class="col-sm-3 col-form-label text-sm">Inspection Notes</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.inspect_notes }}
+                                </div>
+                            </div>
+                             <hr>
+
+                            <div class="form-group row">
+
+                          <div class="checkbox">
+                            <label>
+                             {{ lv_form.save_status }} Check this button if you are saving a draft first before a final submission.
+                            </label>
+
+                        </div>
+                      </div>
+
+                            <div>
+                                    <ul>
+                                        {% for field in lv_form %}
+                                            <!-- /.card-body -->
+                                            {% if field.errors %}
+                                                <!-- /.card-body -->
+                                                {% for error in field.errors %}
+                                                    <li style="color: red">{{ error }}</li>
+                                                {% endfor %}
+                                                <!-- /.card-body -->
+                                            {% endif %}
+                                            <!-- /.card-body -->
+                                        {% endfor %}
+                                        <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                                    </ul>
+                                </div>
+
+
+
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit Inspection</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        Pick Cordinates for Pole Defects
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                data-target="#m{{ data.ssn }}">
+                            New Pole Defect
+                        </button>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">List Of Pole Defects on the SSN</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Pole Type</th>
+                                        <th>Defect Type</th>
+                                        <th>Location</th>
+                                        <th>Cordinates</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for pd in poledefects %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}.</td>
+                                            <td>{{ pd.defect_type }}</td>
+                                              <td>{{ pd.pole_type }}</td>
+                                            <td>{{ pd.location }}</td>
+                                            <td>{{ pd.x }},{{ pd.y }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+
+                        <div class="modal fade" id="m{{ data.ssn }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Pole Defects for ssn - {{ data.ssn }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                        <form class="form-horizontal" method="Post"
+                                              action="{% url 'lv:poledefects-new' %}">
+                                            {% csrf_token %}
+                                            <button type="button" id="find-me_p" class="btn btn-default">Show my
+                                                location
+                                            </button>
+                                            <br/>
+                                            <p id="status_p"></p>
+                                            <a id="map-link_p" target="_blank"></a>
+
+
+                                            {{ pole_form.x }} {{ pole_form.y }}
+
+
+                                            <hr>
+                                           <div class="form-group row">
+                                                <label for="defect_type" class="col-sm-4 col-form-label">Pole
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.pole_type }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="defect_type" class="col-sm-4 col-form-label">Defect
+                                                    Type</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.defect_type }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="location" class="col-sm-4 col-form-label">Location</label>
+                                                <div class="col-sm-8">
+                                                    {{ pole_form.location }}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <ul>
+                                                    {% for field in pole_form %}
+                                                        <!-- /.card-body -->
+                                                        {% if field.errors %}
+                                                            <!-- /.card-body -->
+                                                            {% for error in field.errors %}
+                                                                <li style="color: red">{{ error }}</li>
+                                                            {% endfor %}
+                                                            <!-- /.card-body -->
+                                                        {% endif %}
+                                                        <!-- /.card-body -->
+                                                    {% endfor %}
+                                                    <li style="color: red">{{ pole_form.non_field_errors }}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="offset-sm-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </p>
+                                        <p>This will save the Pole and its cordinates</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                onclick="history.back()">Close
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

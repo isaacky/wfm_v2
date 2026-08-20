@@ -1,0 +1,188 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | RETROFITS DASHBOARD</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+     <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:retrofit-dashboard' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">Retrofits Dashboard</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Analytics</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart2"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-8 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart1"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <!-- /.col -->
+        </div>
+
+        <div class="row">
+
+
+
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Retrofits Analysis, Region</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>Region</th>
+                                        <th>Target</th>
+                                        <th>Retrofitted</th>
+
+                                        <th>Daily Target</th>
+                                        <th>Today</th>
+                                        <th>{{ yesterday }}</th>
+                                        <th>{{ yesterday_1 }}</th>
+                                        <th>{{ yesterday_2 }}</th>
+                                        <th>{{ yesterday_3 }}</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in regional_analytics %}
+                                        <tr>
+
+                                            <td>{{ meterr.name }}</td>
+                                            <td>{{ meterr.hc_target_acs|intcomma }}</td>
+                                            <td>{{ meterr.hc_inspected|intcomma }}</td>
+
+                                            <td>{{ meterr.dc_daily_target|intcomma }}</td>
+                                            <td>{{ meterr.hc_today|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_1|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_2|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_3|intcomma }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Retrofits Analysis, County</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                     <tr>
+
+                                        <th>County</th>
+                                        <th>Target</th>
+                                        <th>Retrofitted</th>
+
+                                        <th>Daily Target</th>
+                                        <th>Today</th>
+                                        <th>{{ yesterday }}</th>
+                                        <th>{{ yesterday_1 }}</th>
+                                        <th>{{ yesterday_2 }}</th>
+                                        <th>{{ yesterday_3 }}</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in county_analytics %}
+                                        <tr>
+
+                                            <td>{{ meterr.name }}</td>
+                                            <td>{{ meterr.hc_target_acs|intcomma }}</td>
+                                            <td>{{ meterr.hc_inspected|intcomma }}</td>
+
+                                            <td>{{ meterr.dc_daily_target|intcomma }}</td>
+                                            <td>{{ meterr.hc_today|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_1|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_2|intcomma }}</td>
+                                            <td>{{ meterr.hc_yesturday_3|intcomma }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{daily_trend_plot | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{target_achievement | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+        var grapg3 = {{metering_status | safe }}
+            Plotly.plot("chart3", grapg3, {})
+
+        var grapg4 = {{metering_status_notokay | safe }}
+            Plotly.plot("chart4", grapg4, {})
+    </script>
+{% endblock content %}
+</div>

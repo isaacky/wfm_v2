@@ -1,0 +1,217 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE |UPGRADE TID </title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>New Meter Upgrade</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">TID Meter Upgrade Inspection</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Record Form</h3>
+
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                      <button type="button" id="find-me" class="btn btn-primary">Get my
+                                location
+                            </button>
+                            <br/>
+                            <p id="status"></p>
+                            <a id="map-link" target="_blank"></a>
+
+                            {{ form.y }} {{ form.x }}
+
+
+                            <hr>
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="meterno" class="col-sm-3 col-form-label text-sm">Meter
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.meterno }}
+                                                <span class="text-danger"><em>{{ form.meterno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="accountno" class="col-sm-3 col-form-label text-sm">Account
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.accountno }}
+                                                <span class="text-danger"><em>{{ form.accountno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="meteringstatus" class="col-sm-3 col-form-label text-sm">Metering
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.meteringstatus }}
+                                                <span class="text-danger"><em>{{ form.meteringstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row" id="faultystatus">
+                                        <label for="faultystatus" class="col-sm-3 col-form-label text-sm">Faulty
+                                            Status</label>
+                                        <div class="col-sm-9">
+                                            {{ form.faultystatus }}
+                                            <span class="text-danger"><em>{{ form.faultystatus.help_text }}</em></span>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group row" id="tamperedstatus">
+                                        <label for="tamperedstatus" class="col-sm-3 col-form-label text-sm">Tampered
+                                            Status</label>
+                                        <div class="col-sm-9">
+                                            {{ form.tamperedstatus }}
+                                            <span class="text-danger"><em>{{ form.tamperedstatus.help_text }}</em></span>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group row" id="bypassstatus">
+                                        <label for="bypassstatus" class="col-sm-3 col-form-label text-sm">Bypass
+                                            Status</label>
+                                        <div class="col-sm-9">
+                                            {{ form.bypassstatus }}
+                                            <span class="text-danger"><em>{{ form.bypassstatus.help_text }}</em></span>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="sealno" class="col-sm-3 col-form-label text-sm">Seal
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.sealno }}
+                                                <span class="text-danger"><em>{{ form.sealno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="tidstatus" class="col-sm-3 col-form-label text-sm">Confirm Upgrade</label>
+                                            <div class="col-sm-9">
+                                                {{ form.tidstatus }}
+                                                <span class="text-danger"><em>{{ form.tidstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="comment" class="col-sm-3 col-form-label text-sm">Remarks</label>
+                                            <div class="col-sm-9">
+                                                {{ form.comment }}
+                                                <span class="text-danger"><em>{{ form.comment.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    </hr>
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

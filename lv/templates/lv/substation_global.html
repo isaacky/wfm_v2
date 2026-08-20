@@ -1,0 +1,435 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SUBSTATION GLOBAL</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        SUBSTATION REPORTS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-2">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">CATEGORY</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item active">
+                                    <a href="{% url 'lv:global-lv' %}" class="nav-link">
+                                        LV Inspections
+                                        <span class="badge bg-primary float-right">{{ lvglobal_count|intcomma }}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:global-lv' %}" class="nav-link">
+                                        LV Maintenance
+                                        <span class="badge bg-primary float-right">{{ lv_maintenance_global_count|intcomma }}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Substation Inspections
+                                        <span class="badge bg-primary float-right">{{ substation_global_count|intcomma }}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Substation Maintenance
+                                        <span class="badge bg-warning float-right">65</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Transformer Failure
+                                        <span class="badge bg-warning float-right">65</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Commission Inspections
+                                        <span class="badge bg-warning float-right">65</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Pole Defects
+                                        <span class="badge bg-warning float-right">65</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Substation Inspections & Maintenance Stats</h3>
+
+                        </div>
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Total Inspections</span>
+                                            <span class="info-box-number">{{ substation_global_count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Total Maintenance</span>
+                                            <span class="info-box-number">{{ substation_maintenance_global_count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Uploads</span>
+                                            <span class="info-box-number">13,648</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Likes</span>
+                                            <span class="info-box-number">93,139</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart7"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div></div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart1"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart2"></div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm">
+                                        <p>
+                                        <form action="{% url 'lv:global-lv' %}">
+                                            <div class="input-group">
+                                                <input
+                                                        type="text"
+                                                        name="keyword"
+                                                        required
+                                                        class="form-control form-control-lg"
+                                                        placeholder="Search By  SSN"
+                                                />
+
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-lg btn-default">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                        </p>
+                                    </div>
+                                    <br>
+                                    <div class="input-group input-group-sm">
+                                        <p>
+                                        <form action="{% url 'lv:global-lv' %}">
+                                            <div class="input-group">
+                                                <input
+                                                        type="date"
+                                                        name="datefrom"
+                                                        required
+                                                        class="form-control form-control-lg"
+                                                        placeholder="Search By  Name"
+                                                />
+                                                <input
+                                                        type="date"
+                                                        name="dateto"
+                                                        required
+                                                        class="form-control form-control-lg"
+                                                        placeholder="Search By  Name"
+                                                />
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-lg btn-default">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-header border-0">
+                                            <h3 class="card-title">LV Inspections</h3>
+                                            <div class="card-tools">
+                                                <a href="{% url 'lv:lvinspection-range-export' %}?datefrom={{ datefrom }}&dateto={{ dateto }}"
+                                                   class="btn btn-tool btn-sm">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-tool btn-sm">
+                                                    <i class="fas fa-bars"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>REPORT ID</th>
+                                                    <th>INSPECTION DATE</th>
+                                                    <th>APPROVED DATE</th>
+                                                    <th>SUBSTATION</th>
+                                                    <th>COUNTY</th>
+
+                                                    <th>ACTIONS</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for my in data %}
+                                                    <tr>
+                                                        <td>{{ my.id }}</td>
+                                                        <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                        <td>{{ my.aprv_dt|date:"d M Y" }}</td>
+                                                        <td class="text-uppercase">{{ my.substation__name }}</td>
+                                                        <td class="text-uppercase">{{ my.county__name }}</td>
+                                                        <td><a href="{% url 'lv:lvinspection-print' my.id %}"
+                                                               target="_blank" class="btn btn-sm btn-success btn-sm">
+                                                            <i class="fas fa-print"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-header border-0">
+                                            <h3 class="card-title">LV Maintenance</h3>
+                                            <div class="card-tools">
+                                                <a href="#" class="btn btn-tool btn-sm">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-tool btn-sm">
+                                                    <i class="fas fa-bars"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>REPORT ID</th>
+                                                    <th>MAINTENANCE DATE</th>
+                                                    <th>APPROVED DATE</th>
+                                                    <th>SUBSTATION</th>
+                                                    <th>COUNTY</th>
+
+                                                    <th>ACTIONS</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for my in data1 %}
+                                                    <tr>
+                                                        <td>{{ my.id }}</td>
+                                                        <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                        <td>{{ my.aprv_dt|date:"d M Y" }}</td>
+                                                        <td class="text-uppercase">{{ my.lvinspection__substation__name }}</td>
+                                                        <td class="text-uppercase">{{ my.lvinspection__county__name }}</td>
+                                                        <td><a href="#"
+                                                               target="_blank" class="btn btn-sm btn-success btn-sm">
+                                                            <i class="fas fa-print"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        {#                        <div class="card-footer p-0">#}
+                        {#                            <div class="mailbox-controls">#}
+                        {#                                <!-- Check all button -->#}
+                        {#                                <button type="button" class="btn btn-default btn-sm checkbox-toggle">#}
+                        {#                                    <i class="far fa-square"></i>#}
+                        {#                                </button>#}
+                        {#                                <div class="btn-group">#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="far fa-trash-alt"></i>#}
+                        {#                                    </button>#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="fas fa-reply"></i>#}
+                        {#                                    </button>#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="fas fa-share"></i>#}
+                        {#                                    </button>#}
+                        {#                                </div>#}
+                        {#                                <!-- /.btn-group -->#}
+                        {#                                <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                    <i class="fas fa-sync-alt"></i>#}
+                        {#                                </button>#}
+                        {#                                <div class="float-right">#}
+                        {#                                    1-50/200#}
+                        {#                                    <div class="btn-group">#}
+                        {#                                        <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                            <i class="fas fa-chevron-left"></i>#}
+                        {#                                        </button>#}
+                        {#                                        <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                            <i class="fas fa-chevron-right"></i>#}
+                        {#                                        </button>#}
+                        {#                                    </div>#}
+                        {#                                    <!-- /.btn-group -->#}
+                        {#                                </div>#}
+                        {#                                <!-- /.float-right -->#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{region_trend | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{daily_trend | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+        {#var grapg3 = {{lvfailure_daily_trend | safe }}#}
+        {#    Plotly.plot("chart3", grapg3, {})#}
+        {##}
+        {#var grapg4 = {{poledefects | safe }}#}
+        {#    Plotly.plot("chart4", grapg4, {})#}
+        {##}
+        {#var grapg5 = {{lvsubstation_daily_trend | safe }}#}
+        {#    Plotly.plot("chart5", grapg5, {})#}
+        {##}
+        {#var grapg6 = {{commission_daily_trend | safe }}#}
+        {#    Plotly.plot("chart6", grapg6, {})#}
+        {##}
+        {# var grapg7 = {{region_trend | safe }}#}
+        {#    Plotly.plot("chart7", grapg7, {})#}
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

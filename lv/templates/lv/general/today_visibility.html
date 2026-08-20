@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | COUNTY LV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        {{ county }} COUNTY LV INSPECTIONS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                   <li class="nav-item">
+                                    <a href="{% url 'lv:county-lvinspections' %}" class="nav-link">
+                                        LV Inspections(Approved)
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="{% url 'lv:lvinspections-pending-apprv' %}" class="nav-link">
+                                        LV Inspections Pending Approval
+
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                    Inspector Analystics
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                   <div id="map1" style="height: 700px; width: 100%"></div>
+                    <!-- /.card -->
+                    {{ lvinspections|json_script:"lvinspections_json1" }}
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/visibility.js' %}"></script>
+
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

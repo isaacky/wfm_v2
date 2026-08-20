@@ -1,0 +1,249 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>FOA |Inspect Account</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>New High End Customer Inspection</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">High End Customer Inspection</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Record Form</h3>
+
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+                                    <hr>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="meterno" class="col-sm-3 col-form-label text-sm">Meter
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.meterno }}
+                                                <span class="text-danger"><em>{{ form.meterno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="accountno" class="col-sm-3 col-form-label text-sm">Account
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.accountno }}
+                                                <span class="text-danger"><em>{{ form.accountno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="metertype" class="col-sm-3 col-form-label text-sm">Phase
+                                                Type</label>
+                                            <div class="col-sm-9">
+                                                {{ form.metertype }}
+                                                <span class="text-danger"><em>{{ form.metertype.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="reading" class="col-sm-3 col-form-label text-sm">Meter
+                                                Reading</label>
+                                            <div class="col-sm-9">
+                                                {{ form.reading }}
+                                                <span class="text-danger"><em>{{ form.reading.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="meteringstatus" class="col-sm-3 col-form-label text-sm">Metering
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.meteringstatus }}
+                                                <span class="text-danger"><em>{{ form.meteringstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                        <div class="form-group row" id="faultystatus">
+                                            <label for="faultystatus" class="col-sm-3 col-form-label text-sm">Faulty
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.faultystatus }}
+                                                <span class="text-danger"><em>{{ form.faultystatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="tamperedstatus">
+                                            <label for="tamperedstatus" class="col-sm-3 col-form-label text-sm">Tampered
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.tamperedstatus }}
+                                                <span class="text-danger"><em>{{ form.tamperedstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="bypassstatus">
+                                            <label for="bypassstatus" class="col-sm-3 col-form-label text-sm">Bypass
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.bypassstatus }}
+                                                <span class="text-danger"><em>{{ form.bypassstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="installationstatus" class="col-sm-3 col-form-label text-sm">Installation
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.installationstatus }}
+                                                <span class="text-danger"><em>{{ form.installationstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="notokaystatus">
+                                            <label for="notokaystatus" class="col-sm-3 col-form-label text-sm">Not Okay
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.notokaystatus }}
+                                                <span class="text-danger"><em>{{ form.notokaystatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="sealno" class="col-sm-3 col-form-label text-sm">Seal
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.sealno }}
+                                                <span class="text-danger"><em>{{ form.sealno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="meterimg" class="col-sm-3 col-form-label text-sm">Upload
+                                                Image</label>
+                                            <div class="col-sm-9">
+                                                {{ form.meterimg }}
+                                                <span class="text-danger"><em>{{ form.meterimg.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="comment" class="col-sm-3 col-form-label text-sm">Remarks</label>
+                                            <div class="col-sm-9">
+                                                {{ form.comment }}
+                                                <span class="text-danger"><em>{{ form.comment.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    </hr>
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

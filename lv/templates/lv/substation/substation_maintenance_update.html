@@ -1,0 +1,270 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SUBSTATION MAITENANCE</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-7">
+
+
+                <div class="card">
+                    <div>
+                        {% if sub_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ sub_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5>SSN : {{ lv.inspection }} Substation Maintenance</h5>
+
+                        <p>All Fields are required</p>
+                        <form class="form-horizontal" method="Post" action="{% url 'lv:substation-maintenance-update' lv.id %}">
+
+                            {% csrf_token %}
+                         <button type="button" id="find-me" class="btn btn-default">
+                                Show my location
+                            </button>
+                            <br/>
+                            <p id="status"></p>
+                            <a id="map-link" target="_blank"></a>
+
+                            {{ sub_form.longitude }} {{ sub_form.latitude }}
+                            
+                             <hr>
+                           <div class="form-group row">
+                                <label for="txposition" class="col-sm-3 col-form-label text-sm">Transformer Position</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txposition }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txposition.help_text }}</em></span>
+                            </div>
+
+                            <hr/>
+
+
+                            <div class="form-group row">
+
+                                <label for="fusesize" class="col-sm-3 col-form-label text-sm">Fuse Size</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.fusesize }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.fusesize.help_text }}</em></span>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="sizeoflvconductor" class="col-sm-3 col-form-label text-sm">Size Of LV Conductor</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.sizeoflvconductor }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.sizeoflvconductor.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="noofcircuits_added" class="col-sm-3 col-form-label text-sm">Enter Number Of Circuits Added</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.noofcircuits_added }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.noofcircuits_added.help_text }}</em></span>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="hvearth_intact" class="col-sm-3 col-form-label text-sm">HV Earth Intact</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.hvearth_intact }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.hvearth_intact.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="neutralearth_intact" class="col-sm-3 col-form-label text-sm">Neutral Earth Intatct</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.neutralearth_intact }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.neutralearth_intact.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="surgediverters_replaced" class="col-sm-3 col-form-label text-sm">Surge Diverters Replaced </label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.surgediverters_replaced }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.surgediverters_replaced.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="lvleads_size" class="col-sm-3 col-form-label text-sm">LV Lead Size</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.lvleads_size }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.lvleads_size.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="txloading" class="col-sm-3 col-form-label text-sm">TX Overloading</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txloading }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txloading.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="c_tx_structure" class="col-sm-3 col-form-label text-sm">TX Structure</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.c_tx_structure }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.c_tx_structure.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="c_fuse_carriers_replaced" class="col-sm-3 col-form-label text-sm">Fuse Carriers Replaced</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.c_fuse_carriers_replaced }}
+                                </div>
+                                 <span class="text-danger"><em>{{ sub_form.c_fuse_carriers_replaced.help_text }}</em></span>
+                            </div>
+                           <div class="form-group row">
+                                <label for="c_fuse_bar" class="col-sm-3 col-form-label text-sm">Fuse Bar</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.c_fuse_bar }}
+                                </div>
+                                 <span class="text-danger"><em>{{ sub_form.c_fuse_bar.help_text }}</em></span>
+                            </div>
+                         <div class="form-group row">
+                                <label for="txwiring" class="col-sm-3 col-form-label text-sm">TX Wiring</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txwiring }}
+                                </div>
+                                 <span class="text-danger"><em>{{ sub_form.txwiring.help_text }}</em></span>
+                            </div>
+                            <hr>
+                        <div class="form-group row">
+                                <label for="other_defects" class="col-sm-3 col-form-label text-sm">Are there other defaults that require maintenance?</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.other_defects }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.other_defects.help_text }}</em></span>
+                            </div>
+                            <hr>
+                         <div class="form-group row">
+                                <label for="maintenance_notes" class="col-sm-3 col-form-label text-sm">Maintenance Notes</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.maintenance_notes }}
+                                </div>
+                                 <span class="text-danger"><em>{{ sub_form.maintenance_notes.help_text }}</em></span>
+                            </div>
+                            <hr>
+
+
+
+                            <div>
+                                <ul>
+                                    {% for field in sub_form %}
+                                        <!-- /.card-body -->
+                                        {% if field.errors %}
+                                            <!-- /.card-body -->
+                                            {% for error in field.errors %}
+                                                <li style="color: red">{{ error }}</li>
+                                            {% endfor %}
+                                            <!-- /.card-body -->
+                                        {% endif %}
+                                        <!-- /.card-body -->
+                                    {% endfor %}
+                                    <li style="color: red">{{ sub_form.non_field_errors }}</li>
+                                </ul>
+                            </div>
+
+
+                            {#                            <div class="form-group row">#}
+                            {#                                <div class="col-sm-10">#}
+                            {#                                    <button type="submit" class="btn btn-primary">Submit Inspection</button>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            <div class="text-center mt-5 mb-3">
+                                <button
+                                        type="submit"
+                                        name="finalsubmission"
+                                        class="btn btn-sm btn-success"
+                                        value="finalsubmission"
+                                >
+                                    Final Submit
+                                </button>
+                                <button
+                                        type="submit"
+                                        name="draft"
+                                        value="draft"
+                                        class="btn btn-sm btn-primary"
+                                >
+                                    Save Draft
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

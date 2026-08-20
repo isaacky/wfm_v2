@@ -1,0 +1,430 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LOAD CHECKS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+       LOAD CHECKS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">FILTERS</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul>
+                                <li>
+                                    <p>Filter By Region</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-rg' %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <select name="region" class="form-control " data-select2-id="1"
+                                                    tabindex="-1" aria-hidden="true">
+                                                {% for region in regions %}
+                                                    <option value="{{ region.id }}">{{ region.name }}
+                                                {% endfor %}
+
+                                            </select>
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By County</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-cnty' %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <select name="county" class="form-control " data-select2-id="1"
+                                                    tabindex="-1" aria-hidden="true">
+                                                {% for county in counties %}
+                                                    <option value="{{ county.id }}">{{ county.name }}
+                                                {% endfor %}
+
+                                            </select>
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By SSN</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-ssn' %}">
+                                        <div class="input-group input-sm">
+                                            {% csrf_token %}
+                                            <input
+                                                    type="text"
+                                                    name="ssn"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  SSN"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Date Range</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-date' %}">
+                                        {% csrf_token %}
+                                        <select class="form-control" data-select2-id="1" tabindex="-1"
+                                                aria-hidden="true">
+                                            <option selected="selected" data-select2-id="3">Today</option>
+                                            <option data-select2-id="35">Past 7 Days</option>
+                                            <option data-select2-id="36">This Month</option>
+                                            <option data-select2-id="37">This Year</option>
+                                            <option data-select2-id="38">This Fin Year</option>
+                                            <option data-select2-id="39">This Quarter</option>
+                                            <option data-select2-id="40">Last Quarter</option>
+                                        </select>
+                                        <div class="input-group">
+                                            <input
+                                                    type="date"
+                                                    name="datefrom"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Name"
+                                            />
+                                            <input
+                                                    type="date"
+                                                    name="dateto"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Name"
+                                            />
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Inspector</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-staff' %}">
+                                        <div class="input-group">
+                                            <input
+                                                    type="text"
+                                                    name="staff"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By Inspector Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Approver</p>
+                                    <form action="{% url 'lv:global-loadchecks-search-approver' %}">
+                                        <div class="input-group">
+                                            <input
+                                                    type="text"
+                                                    name="approver"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Approver Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+
+                            </ul>
+
+
+                        </div>
+
+                        <div class="card-footer">
+                            <div>
+                                <a href="{% url 'lv:global-load-checks' %}"
+                                   class="btn btn-sm btn-primary">REMOVE FILTERS</a>
+                            </div>
+                        </div>
+
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">USER ANALYTICS</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                       <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                   <li class="nav-item">
+                                    <a href="{% url 'lv:county-lv-staff-analytics' %}" class="nav-link">
+                                       Inspectors
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="{% url 'lv:lvinspections-pending-apprv' %}" class="nav-link">
+                                       Approvers
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:global-lv-map-today' %}" class="nav-link">
+                                        Todays Progress-Map
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+
+
+                        <!-- /.card-body -->
+                    </div>
+
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+
+
+                                <!-- /.btn-group -->
+
+
+                                <!-- /.float-right -->
+                            </div>
+                            <div class="card-body p-0 table-responsive">
+                                <table id="example1" class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td></td>
+                                        <th>Report ID</th>
+                                        <th>Inspection Date</th>
+                                        <th>Substation</th>
+                                        <th>Region</th>
+                                        <th>County</th>
+                                        <th>InspectedBy</th>
+                                        <th>TX rating</th>
+                                        <th>No Circuits</th>
+                                        <th>Voltage L-L RY</th>
+                                        <th>Voltage L-L YB</th>
+                                        <th>Voltage L-L BR</th>
+                                        <th>Voltage L-N R-N</th>
+                                        <th>Voltage L-N Y-N</th>
+                                        <th>Voltage L-N B-N</th>
+                                        <th>C1 R</th>
+                                        <th>C1 Y</th>
+                                        <th>C1 B</th>
+                                        <th>C2 R</th>
+                                        <th>C2 Y</th>
+                                        <th>C2 B</th>
+                                        <th>C3 R</th>
+                                        <th>C3 Y</th>
+                                        <th>C3 B</th>
+                                        <th>C4 R</th>
+                                        <th>C4 Y</th>
+                                        <th>C4 B</th>
+                                        <th>Actions</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for my in data %}
+                                        <tr>
+                                            <td>
+                                            {% if my.aprv_status == False %}
+                                                <span class="badge bg-danger">{{ forloop.counter }}.</span>
+                                            {% elif my.save_status == True %}
+                                                <span class="badge bg-success">{{ forloop.counter }}.</span>
+                                            {% endif %}
+                                        </td>
+                                            <td>{{ my.id }}</td>
+                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                            <td>{{ my.substation__name }}</td>
+                                            <td>{{ my.region__name }}</td>
+                                            <td>{{ my.county__name }}</td>
+                                            <td>KPL{{ my.inspectedby__user_id__stid }}</td>
+                                            <td>{{ my.tx_rating }}</td>
+                                            <td>{{ my.number_of_circuits }}</td>
+                                            <td>{{ my.voltage_ll_ry }}</td>
+                                            <td>{{ my.voltage_ll_yb }}</td>
+                                            <td>{{ my.voltage_ll_br }}</td>
+                                            <td>{{ my.voltage_ln_rn }}</td>
+                                            <td>{{ my.voltage_ln_yn }}</td>
+                                            <td>{{ my.voltage_ln_bn }}</td>
+                                            <td>{{ my.phase_loads_r }}</td>
+                                            <td>{{ my.phase_loads_y }}</td>
+                                            <td>{{ my.phase_loads_b }}</td>
+                                            <td>{{ my.phase_loads_r_2 }}</td>
+                                            <td>{{ my.phase_loads_y_2 }}</td>
+                                            <td>{{ my.phase_loads_b_2 }}</td>
+                                            <td>{{ my.phase_loads_r_3 }}</td>
+                                            <td>{{ my.phase_loads_y_3 }}</td>
+                                            <td>{{ my.phase_loads_b_3 }}</td>
+                                            <td>{{ my.phase_loads_r_4 }}</td>
+                                            <td>{{ my.phase_loads_y_4 }}</td>
+                                            <td>{{ my.phase_loads_b_4 }}</td>
+
+
+
+                                           <td>
+                                                {% if my.aprv_status == False %}
+                                                    <a href="{% url 'lv:commission-approve' my.id %}"
+                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                            class="fas fa-edit"></i></a>
+
+                                                {% elif my.save_status == True %}
+                                                    <a href="{% url 'lv:commission-print' my.id %}" target="_blank"
+                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                            class="fas fa-print"></i></a>
+
+                                                {% endif %}
+
+
+                                            </td>
+
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+
+
+                                <!-- /.btn-group -->
+
+
+                                <!-- /.float-right -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df_lv_county | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

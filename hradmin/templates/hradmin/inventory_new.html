@@ -1,0 +1,274 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | INVENTORY GROUP</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Asset Management Inventory</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Inventory Listing</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Insert New Inventory</h3>
+
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+                                    <hr>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="tagid" class="col-sm-3 col-form-label text-sm">Tag ID
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.tagid }}
+                                                <span class="text-danger"><em>{{ form.tagid.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inv_name" class="col-sm-3 col-form-label text-sm">Inventory Name
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.inv_name }}
+                                                <span class="text-danger"><em>{{ form.inv_name.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inv_group" class="col-sm-3 col-form-label text-sm">Inventory
+                                                Group
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.inv_group }}
+                                                <span class="text-danger"><em>{{ form.inv_group.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="county" class="col-sm-3 col-form-label text-sm">County
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.county }}
+                                                <span class="text-danger"><em>{{ form.county.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="department" class="col-sm-3 col-form-label text-sm">Department
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.department }}
+                                                <span class="text-danger"><em>{{ form.department.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="office_station" class="col-sm-3 col-form-label text-sm">Office
+                                                Station
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.office_station }}
+                                                <span class="text-danger"><em>{{ form.office_station.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="condition" class="col-sm-3 col-form-label text-sm">Condition
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.condition }}
+                                                <span class="text-danger"><em>{{ form.condition.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="description" class="col-sm-3 col-form-label text-sm">Description
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.description }}
+                                                <span class="text-danger"><em>{{ form.description.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="dt_purchase" class="col-sm-3 col-form-label text-sm">Date Of Purchase
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.dt_purchase }}
+                                                <span class="text-danger"><em>{{ form.dt_purchase.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="purchase_price_vat_incl" class="col-sm-3 col-form-label text-sm">Purchase Amount VAT Inclusive
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.purchase_price_vat_incl }}
+                                                <span class="text-danger"><em>{{ form.purchase_price_vat_incl.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="purchase_price_vat_excl" class="col-sm-3 col-form-label text-sm">Purchase Amount VAT Exclusive
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.purchase_price_vat_excl }}
+                                                <span class="text-danger"><em>{{ form.purchase_price_vat_excl.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="reciepient_stid" class="col-sm-3 col-form-label text-sm">Receipient
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.reciepient_stid }}
+                                                <span class="text-danger"><em>{{ form.reciepient_stid.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="supplier" class="col-sm-3 col-form-label text-sm">Supplier
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.supplier }}
+                                                <span class="text-danger"><em>{{ form.supplier.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="quantity" class="col-sm-3 col-form-label text-sm">Quantity
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.quantity }}
+                                                <span class="text-danger"><em>{{ form.quantity.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="lpo_number" class="col-sm-3 col-form-label text-sm">LPO Number
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.lpo_number }}
+                                                <span class="text-danger"><em>{{ form.lpo_number.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="ac_number" class="col-sm-3 col-form-label text-sm">Account Number
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.ac_number }}
+                                                <span class="text-danger"><em>{{ form.ac_number.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="internal_order" class="col-sm-3 col-form-label text-sm">Internal Order
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.internal_order }}
+                                                <span class="text-danger"><em>{{ form.internal_order.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                         <div class="form-group row">
+                                            <label for="minute_no" class="col-sm-3 col-form-label text-sm">Minutes Number
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.minute_no }}
+                                                <span class="text-danger"><em>{{ form.minute_no.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,193 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">Kagua Telcos Campaign Analytics</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Analytics</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Telcos Inspection Performance Stats</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                        <th style="width: 10px">#</th>
+                        <th>KPI</th>
+                        <th>TARGET</th>
+                        <th>INSPECTED</th>
+                        <th>% ACHIEVEMENT</th>
+                        <th>ANOMALOUS</th>
+                        <th>PENDING</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>1.</td>
+                        <td>SAFARICOM</td>
+                        <td>{{safaricom_target|intcomma}}</td>
+                        <td>{{safaricom_achieved|intcomma}}</td>
+                        <td>{{safaricom_per|intcomma}} %</td>
+                        <td>{{safaricome_resolved_ntokay|intcomma}}</td>
+                        <td>{{safaricom_resolved_resolved|intcomma}}</td>
+                      
+                        </tr>
+                        <tr>
+                        <td>2.</td>
+                        <td>ATC</td>
+                        <td>{{atc_target|intcomma}}</td>
+                        <td>{{atc_achieved|intcomma}}</td>
+                        <td>{{atc_per|intcomma}} %</td>
+                        <td>{{atc_resolved_ntokay|intcomma}}</td>
+                        <td>{{atc_resolved_resolved|intcomma}}</td>
+                        </tr>
+                        <tr>
+                        <td>3.</td>
+                        <td>ATLAS</td>
+                        <td>{{atlas_target|intcomma}}</td>
+                        <td>{{atlas_achieved|intcomma}}</td>
+                        <td>{{atlas_per|intcomma}} %</td>
+                        <td>{{atlas_resolved_ntokay|intcomma}}</td>
+                        <td>{{atlas_resolved_resolved|intcomma}}</td>
+                        </tr>
+                        <tr>
+                        <td>4.</td>
+                        <td>CCTV</td>
+                       <td>{{cctv_target|intcomma}}</td>
+                        <td>{{cctv_achieved|intcomma}}</td>
+                        <td>{{cctv_per|intcomma}} %</td>
+                        <td>{{cctv_resolved_ntokay|intcomma}}</td>
+                        <td>{{cctv_resolved_resolved|intcomma}}</td>
+                        </tr>
+                        <tr>
+                        <td>5.</td>
+                        <td>AIRTEL</td>
+                        <td>
+                           0
+                        </td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        </tr>
+                        <tr>
+                        <td>6.</td>
+                        <td>TELCOM</td>
+                        <td>
+                            0
+                        </td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+
+                <hr>
+
+                <!-- /.card-body -->
+                </div>
+           </div>
+
+           <div class="col-lg-12">
+                <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Telcos Inspection Performance Stats Per Region</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-sm table-bordered">
+                   
+                     <thead>
+                        <tr>
+                        <th style="width: 10px">#</th>
+                        <th>REGION</th>
+                        <th style="width: 40px">SAFARICOM <br>TARGET|INSPECTED|ANOMALOUS|PENDING</th>
+                       
+                         <th style="width: 50px">ATC <br>TARGET|INSPECTED|ANOMALOUS|PENDING</th>
+                          <th style="width: 50px">CCTV <br>TARGET|INSPECTED|ANOMALOUS|PENDING</th>
+                           <th style="width: 50px">ATLAS <br>TARGET|INSPECTED|ANOMALOUS|PENDING</th>
+                       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meterr in analytics %}
+                        <tr>
+                        <td>1.</td>
+                        <td style="width: 10%">{{meterr.region__name}}</td>
+                        <td style="background-color: aqua;">{{meterr.safaricom}} | {{meterr.safaricom_resolved}} | {{meterr.safaricom_faulty}} | {{meterr.safaricom_faulty_resolved}}</td>
+                        <td style="background-color: burlywood">{{meterr.atc}} | {{meterr.atc_resolved}} | {{meterr.atc_faulty}} | {{meterr.atc_faulty_resolved}}</td>
+                        <td style="background-color: rgb(182, 232, 241)">{{meterr.cctv}} | {{meterr.cctv_resolved}} | {{meterr.cctv_faulty}} | {{meterr.cctv_faulty_resolved}}</td>
+                        <td style="background-color: rgb(230, 229, 212)">{{meterr.atlas}} | {{meterr.atlas_resolved}} | {{meterr.atlas_faulty}} | {{meterr.atlas_faulty_resolved}}</td>
+                       
+                      
+                        </tr>
+                         {% endfor %}
+
+                    </tbody>
+                    </table>
+                </div>
+             
+
+                <hr>
+
+                <!-- /.card-body -->
+                </div>
+           </div>
+
+           
+
+
+
+       
+
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{county | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+        var grapg3 = {{metering_status | safe }}
+            Plotly.plot("chart3", grapg3, {})
+
+        var grapg4 = {{installation_status | safe }}
+            Plotly.plot("chart4", grapg4, {})
+
+        var grapg5 = {{county_today | safe }}
+            Plotly.plot("chart5", grapg5, {})
+
+        var grapg6 = {{county_rebilling | safe }}
+            Plotly.plot("chart6", grapg6, {})
+    </script>
+{% endblock content %}
+</div>

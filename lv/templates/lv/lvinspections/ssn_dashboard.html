@@ -1,0 +1,676 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | COUNTY LV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        {{ data.name }}
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-2">
+
+                    <!-- Profile Image -->
+
+                    <!-- /.card -->
+
+                    <!-- About Me Box -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+
+                            <h3 class="card-title">Info</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <strong><i class="fas fa-book mr-1"></i> Feeder Origin</strong>
+
+                            <p class="text-muted">
+                                {{ data.originofelement }}
+                            </p>
+
+                            <hr>
+                            <strong><i class="fas fa-book mr-1"></i> Feeder </strong>
+
+                            <p class="text-muted">
+                                {{ data.feederofelement }}
+                            </p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> County</strong>
+
+                            <p class="text-muted">{{ data.county__name }}</p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                            <p class="text-muted">{{ data.physicallocation }}</p>
+
+                            <hr>
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Length</strong>
+
+                            <p class="text-muted"></p>
+
+                            <hr>
+                            <strong><i class="fas fa-users"></i> No. Of Customers</strong>
+
+                            <p class="text-muted"></p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-pencil-alt mr-1"></i> Links</strong>
+
+                            <p class="text-muted">
+                            <ul>
+                                <li><a href="{% url 'lv:lvinspection-new' data.id %}"><span class="tag tag-danger">LV Inspection</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:lvmaintenance-new' data.id %}"><span class="tag tag-danger">LV Maintenance</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:substation-new' data.id %}"><span class="tag tag-danger">Substation Inspection</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:substation-maintenance-new' data.id %}"><span class="tag tag-danger">Substation Maintenance</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:lvfailure-new' data.id %}"><span class="tag tag-danger">Failure Inspection</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:commission-new' data.id %}"><span class="tag tag-danger">Commission Inspection</span></a>
+                                </li>
+                                <li><a href="{% url 'lv:poledefects-list' data.id %}"><span class="tag tag-danger">Maintain Pole Defects</span></a>
+                                </li>
+                            </ul>
+
+                            </p>
+
+                            <hr>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-10">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Summarized {{ title }}</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>POORSAGS</th>
+                                        <th>LINE VEGETATION</th>
+                                        <th>UPRATE CONDUCT</th>
+                                        <th>PME</th>
+                                        <th>ILLEGAL CONN</th>
+                                        <th>JUMPER REHAB</th>
+                                        <th>OVERDISTANCE</th>
+                                        <th>LV RECONDUCTERING</th>
+                                        <th>POSHO MILLS</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for foo in lv_def %}
+                                        <td>{{ foo.poorsags }}</td>
+                                        <td>{{ foo.vegline }}</td>
+                                        <td>{{ foo.uprate_cond }}</td>
+                                        <td>{{ foo.pme }}</td>
+                                        <td>{{ foo.con_illegal }}</td>
+                                        <td>{{ foo.jumper_rehab }}</td>
+                                        <td>{{ foo.overdistance }}</td>
+                                        <td>{{ foo.lvreconductor }}</td>
+                                        <td>{{ foo.poshomill }}</td>
+
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Summarized Subsation Defaults On the SSN</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>HVEARTH</th>
+                                        <th>NEUTRAL EARTH</th>
+                                        <th>SURGE ARRESTERS</th>
+                                        <th>ARCING HORNS</th>
+                                        <th>TX LOADING</th>
+                                        <th>TX STRUCTURE</th>
+                                        <th>FUSE CARRIERS</th>
+                                        <th>FUSE BAR</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for d_sub in data_sub %}
+                                         <td>{{ d_sub.hvearthintact }}</td>
+                                        <td>{{ d_sub.neutralearthintact }}</td>
+                                        <td>{{ d_sub.surgearresters }}</td>
+                                        <td>{{ d_sub.arcinghones }}</td>
+                                        <td>{{ d_sub.txloading }}</td>
+                                        <td>{{ d_sub.txstructure }}</td>
+                                        <td>{{ d_sub.fusecarriers }}</td>
+                                        <td>{{ d_sub.fusebar }}</td>
+
+
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Summarized Pole Defects In the Substation</h3>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>DEFECT TYPE</th>
+                                        <th>POLE TYPE</th>
+
+                                        <th>COUNT</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for p in pole_defects %}
+                                        <tr>
+                                            <td>{{ p.defect_type }}</td>
+                                            <td>{{ p.pole_type }}</td>
+
+                                            <td>{{ p.id }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title text-uppercase">Lv Inspections</h3>
+                                        <a href="{% url 'lv:ssn-lvinspections' data.ssn %}">View Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- /.d-flex -->
+
+                                    <div id="chart2"></div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                                        {#                  <span class="mr-2">#}
+                                        {#                    <i class="fas fa-plus text-primary"></i> <a href="{% url 'lv:lvinspection-my' data.id %}">New Inspection</a>#}
+                                        {#                  </span>#}
+                                        {##}
+                                        {#                            <span>#}
+                                        {#                    <i class="fas fa-square text-gray"></i> Last year#}
+                                        {#                  </span>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        {#            LV mAINTENANCE#}
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title">Lv Maintenance</h3>
+                                        <a href="{% url 'lv:ssn-lvmakintenance' data.ssn %}">View Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- /.d-flex -->
+
+                                    <div id="chart3"></div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        {#            TX FAILURE#}
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title text-uppercase">Tx Failure</h3>
+                                        <a href="{% url 'lv:ssn-txfailure' data.ssn %}">View Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- /.d-flex -->
+
+                                    <div id="chart4"></div>
+
+                                </div>
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+                        {#POLE DEFECTS#}
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title text-uppercase">Pole Defects</h3>
+                                        <a href="{% url 'lv:poledefects-list' data.ssn %}">View Report</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- /.d-flex -->
+
+                                    <div id="chart1"></div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#lvinspections" data-toggle="tab">LV
+                                    Inspections</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#lvmaintenance" data-toggle="tab">Lv
+                                    Maintenance</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#substationinspections" data-toggle="tab">Substation
+                                    Inspections</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Substation
+                                    Maintenance</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Failure
+                                    Reports</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#settings"
+                                                        data-toggle="tab">Commissions</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#poledefects" data-toggle="tab">Pole
+                                    Defects</a>
+                                </li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="lvinspections">
+                                    <!-- Post -->
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">List Of Lvinspections on the substation</h3>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <div class="card-body p-0">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>INSPECTION ID</th>
+                                                        <th>DATE INSPECTED</th>
+                                                        <th>SAVE STATUS</th>
+                                                        <th>APPROVED STATUS</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for my in lv_inspections %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}.</td>
+                                                            <td>{{ my.id }}</td>
+                                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                            <td>
+                                                                {% if my.save_status == True %}
+                                                                    <span class="badge bg-success">SUBMITTED</span>
+                                                                {% elif my.save_status == False %}
+                                                                    <span class="badge bg-warning">DRAFT</span>
+                                                                {% endif %}
+
+                                                            </td>
+                                                            <td>
+                                                                {% if my.aprv_status == True %}
+                                                                    <span class="badge bg-success">APPROVED</span>
+                                                                {% elif my.aprv_status == False %}
+                                                                    <span class="badge bg-warning">PENDING</span>
+                                                                {% endif %}
+
+                                                            </td>
+
+                                                            <td>
+                                                                {% if my.save_status == False %}
+                                                                    <a href="{% url 'lv:lvinspection-update' my.id %}"
+                                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                                            class="fas fa-edit"></i></a>
+                                                                {% elif my.save_status == True %}
+
+                                                                    <a href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                       target="_blank"
+                                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                                            class="fas fa-print"></i></a>
+
+                                                                {% endif %}
+                                                            </td>
+
+
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.post -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="lvmaintenance">
+                                    <!-- The timeline -->
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">List Of Lv Maintenance on the substation</h3>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <div class="card-body p-0">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>INSPECTION ID</th>
+                                                        <th>DATE INSPECTED</th>
+                                                        <th>SAVE STATUS</th>
+                                                        <th>APPROVED STATUS</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for my in lv_maintenance %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}.</td>
+                                                            <td>{{ my.id }}</td>
+                                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                            <td>
+                                                                {% if my.save_status == True %}
+                                                                    <span class="badge bg-success">SUBMITTED</span>
+                                                                {% elif my.save_status == False %}
+                                                                    <span class="badge bg-warning">DRAFT</span>
+                                                                {% endif %}
+
+                                                            </td>
+                                                            <td>
+                                                                {% if my.aprv_status == True %}
+                                                                    <span class="badge bg-success">APPROVED</span>
+                                                                {% elif my.aprv_status == False %}
+                                                                    <span class="badge bg-warning">PENDING</span>
+                                                                {% endif %}
+
+                                                            </td>
+
+                                                            <td>
+                                                                {% if my.save_status == False %}
+                                                                    <a href="{% url 'lv:lvinspection-update' my.id %}"
+                                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                                            class="fas fa-edit"></i></a>
+                                                                {% elif my.save_status == True %}
+
+                                                                    <a href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                       target="_blank"
+                                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                                            class="fas fa-print"></i></a>
+
+                                                                {% endif %}
+                                                            </td>
+
+
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
+                            <div class="tab-pane" id="substationinspections">
+                                    <!-- The timeline -->
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">List Of Lv Substation Inspections on the substation</h3>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <div class="card-body p-0">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>INSPECTION ID</th>
+                                                        <th>DATE INSPECTED</th>
+                                                        <th>SAVE STATUS</th>
+                                                        <th>APPROVED STATUS</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for my in substation_inspections %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}.</td>
+                                                            <td>{{ my.id }}</td>
+                                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                            <td>
+                                                                {% if my.save_status == True %}
+                                                                    <span class="badge bg-success">SUBMITTED</span>
+                                                                {% elif my.save_status == False %}
+                                                                    <span class="badge bg-warning">DRAFT</span>
+                                                                {% endif %}
+
+                                                            </td>
+                                                            <td>
+                                                                {% if my.aprv_status == True %}
+                                                                    <span class="badge bg-success">APPROVED</span>
+                                                                {% elif my.aprv_status == False %}
+                                                                    <span class="badge bg-warning">PENDING</span>
+                                                                {% endif %}
+
+                                                            </td>
+
+                                                            <td>
+                                                                {% if my.save_status == False %}
+                                                                    <a href="{% url 'lv:lvinspection-update' my.id %}"
+                                                                       class="btn btn-sm btn-primary btn-sm"> <i
+                                                                            class="fas fa-edit"></i></a>
+                                                                {% elif my.save_status == True %}
+
+                                                                    <a href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                       target="_blank"
+                                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                                            class="fas fa-print"></i></a>
+
+                                                                {% endif %}
+                                                            </td>
+
+
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="poledefects">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">List Of Pole Defects on the substation</h3>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <div class="card-body p-0">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <td></td>
+                                                        <th>Report ID</th>
+                                                        <th>Inspection Date</th>
+                                                        <th>Substation</th>
+                                                        <th>Location</th>
+                                                        <th>Pole Type</th>
+                                                        <th>Defect Type</th>
+                                                        <th>Cordinates</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for my in poledefects %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}.</td>
+                                                            <td>{{ my.id }}</td>
+                                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                            <td>{{ my.substation.name }}</td>
+                                                            <td>{{ my.location }}</td>
+                                                            <td>{{ my.pole_type }}</td>
+                                                            <td>{{ my.defect_type }}</td>
+                                                            <td>{{ my.y }},{{ my.x }}</td>
+
+
+
+
+                                                        </tr>
+                                                    {% endfor %}
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{df_lv | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+        var grapg3 = {{df_m_plot | safe }}
+            Plotly.plot("chart3", grapg3, {})
+
+        var grapg4 = {{df_f_plot | safe }}
+            Plotly.plot("chart4", grapg4, {})
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

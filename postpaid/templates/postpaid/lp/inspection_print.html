@@ -1,0 +1,606 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LP | {{ customer }} INSPECTION PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> Large Power Customer Inspection
+                    <small class="float-right">Print Date: {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ inspection.id }}</b><br>
+                <br>
+                <b>CUSTOMER NAME:</b> {{ customer.customer_name }}<br>
+                <b>METER:</b> {{ customer.meterno}}<br>
+                <b>SRN:</b> {{ customer.srn}}<br>
+                <b>COUNTY:</b> {{ customer.county.name }}<br>
+                <b>REGION:</b> {{ customer.region.name }}
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+
+                <br>
+
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>INSPECTION DATE:</b> {{ inspection.dtupdate|date:"d M Y" }}<br>
+                <b>INSPECTED BY:</b>KPL {{ inspection.inspectedby}}<br>
+                <b>SIGN</b>____________________________ <br><br>
+{#                <b>APPROVED DATE:</b> {{ lvinspection.aprv_dt|date:"d M Y" }}<br>#}
+{#                <b>APPROVED BY:</b>KPL {{ lvinspection.aprv_by }}<br>#}
+{#                 <b>SIGN</b>____________________________ <br>#}
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                 <table class="table table-striped table-bordered table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ITEM</th>
+                                <th>FINDINGS</th>
+                                <th>FINDINGS</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>TYPE OF INDUSTRY</td>
+                                <td>{{ inspection.lp_customerdata.type_of_industry }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>SMART METERING INSTALLATION</td>
+                                <td>{{ inspection.lp_customerdata.smart_meter_i }}</td>
+                                <td></td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>SEALING DATA</strong></p>
+                                </td>
+                                <td><p><strong>INITIAL</strong></p></td>
+                                <td><p><strong>FINAL</strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>16.</td>
+                                <td>PROGRAMMING SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.prg_seal_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.prg_seal_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>17.</td>
+                                <td>METER TERMINAL SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.term_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.term_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>TEST BLOCK SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.testb_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.testb_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>19.</td>
+                                <td>METER BODY SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.body_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.body_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>20.</td>
+                                <td class="text-uppercase">SMART METER ENCLOSURE SEALS</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.smart_meter_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.smart_meter_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>21.</td>
+                                <td class="text-uppercase">CT Chamber for AMR Seal Number</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.amr_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.amr_sl_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>22.</td>
+                                <td class="text-uppercase">ANY OTHER SEALS</td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.other_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.lp_sealing.other_sl_fin }}
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong> CT VT DATA</strong></p>
+                                </td>
+                                <td><p><strong>INITIAL</strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>23.</td>
+                                <td class="text-uppercase">Meter Connection Config</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.meter_config }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>24.</td>
+                                <td class="text-uppercase">Meter Voltage at Site</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.meter_voltage }}
+
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>25.</td>
+                                <td class="text-uppercase">CT ratio Programmed In Meter</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.ct_ratio_prmed }}
+
+
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>26.</td>
+                                <td class="text-uppercase">CT ratio CTs Installed on Site</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.ct_ratio_inst }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>27.</td>
+                                <td class="text-uppercase">Programmed VT Ratio</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.vt_ratio_prmed }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>28.</td>
+                                <td class="text-uppercase">AMR Recovered</td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.amr_recovered }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>29.</td>
+                                <td class="text-uppercase">CT/VT PROGRAMMED MATCHED WITH INSTALLED CT/VT </td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.ctvt_match }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>30.</td>
+                                <td class="text-uppercase">MISMATCH DESCRIPTION </td>
+                                <td class="text-uppercase">{{ inspection.lp_ctvt.ctvt_mismatch_text }}
+                                </td>
+                                <td class="text-uppercase">
+                                </td>
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>ZERA METER TEST RESULTS</strong></p>
+                                </td>
+                                <td><p><strong>ERROR TEST</strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                             <tr>
+                                <td>31.</td>
+                                <td class="text-uppercase">Zera tests Done?</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.zeratest }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>32.</td>
+                                <td class="text-uppercase">ERROR/PULSE TEST  % Error</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.error_trial }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                             <tr>
+                                <td>33.</td>
+                                <td class="text-uppercase">REMARKS ON ERROR TEST</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.error_test_rem }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>34.</td>
+                                <td class="text-uppercase">REGISTER TEST RESULTS % Error</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.register_error }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                             <tr>
+                                <td>35.</td>
+                                <td class="text-uppercase">REMARKS ON REGISTER TEST RESULT</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.register_error_rem }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>36.</td>
+                                <td class="text-uppercase">METER PASSED ZERA TEST</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_zeratest.meter_passed }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>CURRENT VERIFICATION  (AMCORDER UPTO 66KV)</strong></p>
+                                </td>
+                                <td><p><strong></strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>PHASE</strong></p>
+                                </td>
+                                <td><p><strong>AMCORDER/CLAMP</strong></p></td>
+                                <td><p><strong>METER</strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>37.</td>
+                                <td class="text-uppercase">Red Phase</td>
+
+                                <td class="text-uppercase">{{ inspection.lp_current.rphase_amcoder }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_current.rphase_meter }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>38.</td>
+                                <td class="text-uppercase">Yellow Phase</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_current.yphase_amcoder }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_current.yphase_meter }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>39.</td>
+                                <td class="text-uppercase">Blue Phase</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_current.bphase_amcoder }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_current.bphase_meter }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>40.</td>
+                                <td class="text-uppercase">COMMENT ON LOAD BALANCING</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_current.load_balancing }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>41.</td>
+                                <td class="text-uppercase">METER CURRENTS AND CLAMPS CURRENT ARE MATCHING AND WITTHIN ACCEPTABLE RANGE</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_current.currents_range }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>METER READINGS</strong></p>
+                                </td>
+                                <td><p><strong></strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>ITEM</strong></p>
+                                </td>
+                                <td><p><strong>ACTUAL </strong></p></td>
+                                <td><p><strong>METER</strong></p></td>
+
+                            </tr>
+                             <tr>
+                                <td>41.</td>
+                                <td class="text-uppercase">METER TIME/ ACTUAL TIME </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.meter_time_actual }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.meter_time_meter }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>42.</td>
+                                <td class="text-uppercase">METER DATE / ACTUAL </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.meter_date_actual }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.meter_date_meter }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>ITEM</strong></p>
+                                </td>
+                                <td><p><strong>CURRENT READINGS </strong></p></td>
+                                <td><p><strong>MEMORY READINGS</strong></p></td>
+
+                            </tr>
+                             <tr>
+                                <td>43.</td>
+                                <td class="text-uppercase">1.8.0 (KWH) </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_180_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_180_mem }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>44.</td>
+                                <td class="text-uppercase">2.8.0 (KWH) </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_280_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_280_mem }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>45.</td>
+                                <td class="text-uppercase">9.6.0 (KVA) </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kva_960_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kva_960_mem }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>46.</td>
+                                <td class="text-uppercase">1.8.1 (KW) </td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_181_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_181_mem }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>47.</td>
+                                <td class="text-uppercase">1.8.2 (KWH)</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_182_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_182_mem }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>48.</td>
+                                <td class="text-uppercase">1.5.0 (KWH)</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_150_cur }}
+                                </td>
+                                 <td class="text-uppercase">{{ inspection.lp_mreadings.kwh_150_mem }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>49.</td>
+                                <td class="text-uppercase">RED PHASE VOLTAGE</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.r_phase_v }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>50.</td>
+                                <td class="text-uppercase">YELLOW PHASE VOLTAGE</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.y_phase_v }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>51.</td>
+                                <td class="text-uppercase">BLUE PHASE VOLTAGE</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.b_phase_v }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>52.</td>
+                                <td class="text-uppercase">RED PHASE CURRENT</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.r_phase_c }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>53.</td>
+                                <td class="text-uppercase">YELLOW PHASE CURRENT</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.y_phase_c }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>54.</td>
+                                <td class="text-uppercase">BLUE PHASE CURRENT</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.b_phase_c }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>55.</td>
+                                <td class="text-uppercase">POWER FACTOR</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.pw_f }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>55.</td>
+                                <td class="text-uppercase">Overall Meter Remarks</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_mreadings.m_remarks }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>SOLAR INSTALLATION</strong></p>
+                                </td>
+                                <td><p><strong> </strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>55.</td>
+                                <td class="text-uppercase"> Has the customer installed a solar system to complement their demand?</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_solar.solar_installed }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>56.</td>
+                                <td class="text-uppercase"> Include fields for the size of the solar system in KW.</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_solar.solar_size }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>57.</td>
+                                <td class="text-uppercase"> Include a field for the approximate date of installation.</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_solar.dt_installation }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>58.</td>
+                                <td class="text-uppercase"> Overall Remarks/Reportable Incidence</td>
+
+                               <td class="text-uppercase">{{ inspection.lp_solar.overal_rem }}
+                                </td>
+                                 <td class="text-uppercase">
+                                </td>
+                            </tr>
+
+
+
+
+
+                            </tbody>
+                        </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+                        </td>
+                        <td></td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

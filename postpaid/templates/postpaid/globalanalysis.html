@@ -1,0 +1,180 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Zero Bills Campaign Analytics: Global</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            Overall Global Achievement
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Task</th>
+
+                <th>Target</th>
+                <th>Overall Achievement</th>
+                <th>Todays Progress</th>
+                <th>Yesterdays Achievement</th>
+                <th>{{yesterday_2}}</th>
+                <th>{{yesterday_3}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>Cummulative</td>
+                <td>{{target|intcomma}}</td>
+                <td>{{meters_count|intcomma}}</td>
+                <td>{{overall_t|intcomma}}</td>
+                <td>{{overall_y|intcomma}}</td>
+                <td>{{overall_y2|intcomma}}</td>
+                <td>{{overall_y3|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:recovered-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+
+                <td>Faulty Meters</td>
+                <td></td>
+                <td>{{meters_f|intcomma}}</td>
+                <td>{{meters_d_f|intcomma}}</td>
+                <td>{{meters_y_f|intcomma}}</td>
+                <td>{{meters_y2_f|intcomma}}</td>
+                <td>{{meters_y3_f|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:vended-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Found Disconnected</td>
+                <td></td>
+                <td>{{meters_fdc|intcomma}}</td>
+                <td>{{meters_d_fdc|intcomma}}</td>
+                <td>{{meters_y_fdc|intcomma}}</td>
+                <td>{{meters_y2_fdc|intcomma}}</td>
+                <td>{{meters_y3_fdc|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:faulty-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Not On Site</td>
+                <td></td>
+                <td>{{meters_nos|intcomma}}</td>
+                <td>{{meters_d_nos|intcomma}}</td>
+                <td>{{meters_y_nos|intcomma}}</td>
+                <td>{{meters_y2_nos|intcomma}}</td>
+                <td>{{meters_y3_nos|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:notonsite-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Vacant Premises</td>
+                <td></td>
+                <td>{{meters_vp|intcomma}}</td>
+                <td>{{meters_d_vp|intcomma}}</td>
+                <td>{{meters_y_vp|intcomma}}</td>
+                <td>{{meters_y2_vp|intcomma}}</td>
+                <td>{{meters_y3_vp|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:rerec-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Meters Fount Okay</td>
+                <td></td>
+                <td>{{meters_ok|intcomma}}</td>
+                <td>{{meters_d_ok|intcomma}}</td>
+                <td>{{meters_y_ok|intcomma}}</td>
+                <td>{{meters_y2_ok|intcomma}}</td>
+                <td>{{meters_y3_ok|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:rerec-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Meters Bypassed & Tampered</td>
+                <td></td>
+                <td>{{meters_is|intcomma}}</td>
+                <td>{{meters_d_is|intcomma}}</td>
+                <td>{{meters_y_is|intcomma}}</td>
+                <td>{{meters_y2_is|intcomma}}</td>
+                <td>{{meters_y3_is|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:rerec-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Idle Meters</td>
+                <td></td>
+                <td>{{meters_id|intcomma}}</td>
+                <td>{{meters_d_id|intcomma}}</td>
+                <td>{{meters_y_id|intcomma}}</td>
+                <td>{{meters_y2_id|intcomma}}</td>
+                <td>{{meters_y3_id|intcomma}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br />
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

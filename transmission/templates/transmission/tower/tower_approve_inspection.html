@@ -1,0 +1,218 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        APPROVE TOWER INSPECTION
+        <br/>
+    </h1>
+
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            hjhjahja
+                            <!-- /.mail-box-messages -->
+                            <section class="invoice">
+                                <div class="row invoice-info">
+                                    <div class="col-sm-4 invoice-col">
+                                        <b>Report #{{ lvinspection.id }}</b><br>
+                                        <br>
+                                        <b>SSN NUMBER:</b> {{ lvinspection.substation }}<br>
+                                        <b>NAME:</b> {{ lvinspection.substation.name }}<br>
+                                        <b>INTERNALCODE:</b> {{ lvinspection.substation.internalcode }}<br>
+                                        <b>ORIGINALELEMENT:</b> {{ lvinspection.substation.originofelement }}<br>
+                                        <b>FEEDERELEMENT:</b> {{ lvinspection.substation.feederofelement }}<br>
+                                        <b>PHYSICAL LOCATION:</b> {{ lvinspection.substation.physicallocation }}<br>
+                                        <b>COUNTY:</b> {{ lvinspection.substation.county.name }}
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="card-body p-0 table-responsive">
+                                <br>
+                                <h3>Insulator Inspection</h3>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <th>Broken Disks</th>
+                                        <td>{{ lvinspection.grnd_lin_insul.insul_bkn_dsk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Flashed/Polluted</th>
+                                        <td>{{ lvinspection.grnd_lin_insul.flashed_insul }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rusted Pins</th>
+                                        <td>{{ lvinspection.grnd_lin_insul.rusted_pins }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <td>{{ lvinspection.grnd_lin_insul.comments }}</td>
+                                    </tr>
+                                </table>
+                                <br>
+
+                                <h3>Conductor Inspection</h3>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <th>Broken/Loose Strands</th>
+                                        <td>{{ lvinspection.grnd_line_cond.cond_bkn }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Missing Dampers</th>
+                                        <td>{{ lvinspection.grnd_line_cond.dampers_missn }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sag Increase</th>
+                                        <td>{{ lvinspection.grnd_line_cond.sag_increase }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Loose Clamps</th>
+                                        <td>{{ lvinspection.grnd_line_cond.loose_clamp }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Conductor Joints</th>
+                                        <td>{{ lvinspection.grnd_line_cond.cond_joins }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <td>{{ lvinspection.grnd_line_cond.comments }}</td>
+                                    </tr>
+                                </table>
+
+                                <h3>Earth / OPGW Inspection</h3>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <th>Bonding OK</th>
+                                        <td>{{ lvinspection.grnd_line_opgw.bonding }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Splice Box OK</th>
+                                        <td>{{ lvinspection.grnd_line_opgw.spicebox }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sag Increase</th>
+                                        <td>{{ lvinspection.grnd_line_opgw.sag_increase }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vibration Dumper</th>
+                                        <td>{{ lvinspection.grnd_line_opgw.dumper_vibtation }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <td>{{ lvinspection.grnd_line_opgw.comments }}</td>
+                                    </tr>
+                                </table>
+
+                                <h3>Tower Foundations</h3>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <th>Cracks/Damages</th>
+                                        <td>{{ lvinspection.grnd_line_found.cracks_damages }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Erosion</th>
+                                        <td>{{ lvinspection.grnd_line_found.errosion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Wildlife</th>
+                                        <td>{{ lvinspection.grnd_line_found.wildlife }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Poles</th>
+                                        <td>{{ lvinspection.grnd_line_found.poles }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Verticality</th>
+                                        <td>{{ lvinspection.grnd_line_found.verticality }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ROW</th>
+                                        <td>{{ lvinspection.grnd_line_found.ro_way }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Trees ROW</th>
+                                        <td>{{ lvinspection.grnd_line_found.trees_row }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Encroachment</th>
+                                        <td>{{ lvinspection.grnd_line_found.encrouch }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Clamps Corrosion</th>
+                                        <td>{{ lvinspection.grnd_line_found.clamps_corrosion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vandalism</th>
+                                        <td>{{ lvinspection.grnd_line_found.vandalism }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Arcing Horns</th>
+                                        <td>{{ lvinspection.grnd_line_found.arcing_horns }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Number Plate</th>
+                                        <td>{{ lvinspection.grnd_line_found.number_plate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <td>{{ lvinspection.grnd_line_found.comments }}</td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0"></div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+
+{% endblock content %}

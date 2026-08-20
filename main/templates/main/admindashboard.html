@@ -1,0 +1,287 @@
+{% extends "index.html" %} {% load humanize %} {% block breadcrumb %}
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1 class="m-0">ADMIN DASHBOARD</h1>
+  </div>
+  <!-- /.col -->
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right"></ol>
+  </div>
+</div>
+{% endblock breadcrumb %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- Widget: user widget style 2 -->
+      <div class="card card-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-primary">
+          <!-- /.widget-user-image -->
+          <h4 class="">FAULTY METERS</h4>
+        </div>
+        <div class="card-footer p-0">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="{% url 'main:faulty-meter-list' %}" class="nav-link">
+                Total Uploads
+                <span class="float-right badge bg-primary"
+                  >{{faultymeters}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'main:faulty-meter-pending' %}" class="nav-link">
+                Pending Resolution
+                <span class="float-right badge bg-danger"
+                  >{{faultymeters_pending}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'main:faulty-meter-resolved' %}" class="nav-link">
+                Resolved Uploads
+                <span class="float-right badge bg-success"
+                  >{{faultymeters_resolved}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Returned <span class="float-right badge bg-danger">842</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.widget-user -->
+    </div>
+
+    <div class="col-md-3">
+      <!-- Widget: user widget style 2 -->
+      <div class="card card-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-primary">
+          <!-- /.widget-user-image -->
+          <h4 class="">METERS NOT In INCMS</h4>
+        </div>
+        <div class="card-footer p-0">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="{% url 'main:meters-notincms-list' %}" class="nav-link">
+                Total Uploads
+                <span class="float-right badge bg-primary"
+                  >{{metersnotincms}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{% url 'main:meters-notincms-pending' %}"
+                class="nav-link"
+              >
+                Pending Resolution
+                <span class="float-right badge bg-info"
+                  >{{metersnotincms_pending}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{% url 'main:meters-notincms-resolved' %}"
+                class="nav-link"
+              >
+                Resolved
+                <span class="float-right badge bg-success"
+                  >{{metersnotincms_resolved}}</span
+                >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Followers <span class="float-right badge bg-danger">842</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.widget-user -->
+    </div>
+
+    <div class="col-md-3">
+      <!-- Widget: user widget style 2 -->
+      <div class="card card-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-primary">
+          <!-- /.widget-user-image -->
+          <h4 class="">BILLING ISSUES</h4>
+        </div>
+        <div class="card-footer p-0">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Projects <span class="float-right badge bg-primary">31</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Tasks <span class="float-right badge bg-info">5</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Completed Projects
+                <span class="float-right badge bg-success">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Followers <span class="float-right badge bg-danger">842</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.widget-user -->
+    </div>
+
+    <div class="col-md-3">
+      <!-- Widget: user widget style 2 -->
+      <div class="card card-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-danger">
+          <!-- /.widget-user-image -->
+          <h4 class="">DIRECt CONNECTIONS</h4>
+        </div>
+        <div class="card-footer p-0">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Projects <span class="float-right badge bg-primary">31</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Tasks <span class="float-right badge bg-info">5</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Completed Projects
+                <span class="float-right badge bg-success">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Followers <span class="float-right badge bg-danger">842</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.widget-user -->
+    </div>
+
+    <div class="col-md-3">
+      <!-- Widget: user widget style 2 -->
+      <div class="card card-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-warning">
+          <!-- /.widget-user-image -->
+          <h4 class="">ILLEGAL RETROFITS</h4>
+        </div>
+        <div class="card-footer p-0">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Projects <span class="float-right badge bg-primary">31</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Tasks <span class="float-right badge bg-info">5</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Completed Projects
+                <span class="float-right badge bg-success">12</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                Followers <span class="float-right badge bg-danger">842</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.widget-user -->
+    </div>
+    <!-- /.col -->
+
+    <!-- /.col -->
+  </div>
+  <div class="row">
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Task</th>
+            <th>Progress</th>
+            <th style="width: 40px">Label</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1.</td>
+            <td>Update software</td>
+            <td>
+              <div class="progress progress-xs">
+                <div
+                  class="progress-bar progress-bar-danger"
+                  style="width: 55%"
+                ></div>
+              </div>
+            </td>
+            <td><span class="badge bg-danger">55%</span></td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>Clean database</td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar bg-warning" style="width: 70%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-warning">70%</span></td>
+          </tr>
+          <tr>
+            <td>3.</td>
+            <td>Cron job running</td>
+            <td>
+              <div class="progress progress-xs progress-striped active">
+                <div class="progress-bar bg-primary" style="width: 30%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-primary">30%</span></td>
+          </tr>
+          <tr>
+            <td>4.</td>
+            <td>Fix and squish bugs</td>
+            <td>
+              <div class="progress progress-xs progress-striped active">
+                <div class="progress-bar bg-success" style="width: 90%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-success">90%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

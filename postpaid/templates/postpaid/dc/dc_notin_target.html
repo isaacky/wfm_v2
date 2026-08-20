@@ -1,0 +1,272 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE |DOMESTIC CUSTOMERS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Domestic Customer Inspection</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">DC Inspection</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Record Form</h3>
+
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+                                     <div>
+                                <h5 class="text-uppercase text-bold">Get Cordinates</h5>
+                                <div class="form-group row">
+                                    <button class="btn btn-secondary btn-sm" type="button" id="find-me">Click Here to
+                                        Get
+                                        Cordinates
+                                    </button>
+                                    <br/>
+                                    <p id="status"></p>
+                                    <a id="map-link" target="_blank"></a>
+                                    <div class="col-sm-10">
+                                        {{ form.x }} {{ form.y }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                                    <hr>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="dc_meterno" class="col-sm-3 col-form-label text-sm">Meter
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_meterno }}
+                                                <span class="text-danger"><em>{{ form.dc_meterno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="dc_conf_type" class="col-sm-3 col-form-label text-sm">Meter
+                                                Type</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_conf_type }}
+                                                <span class="text-danger"><em>{{ form.dc_conf_type.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                      <div>
+                                        <div class="form-group row" id="dc_reading">
+                                            <label for="dc_reading" class="col-sm-3 col-form-label text-sm">Meter
+                                                Reading</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_reading }}
+                                                <span class="text-danger"><em>{{ form.dc_reading.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="metertype" class="col-sm-3 col-form-label text-sm">Phase
+                                                Type</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_metertype }}
+                                                <span class="text-danger"><em>{{ form.metertype.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="dc_meteringstatus" class="col-sm-3 col-form-label text-sm">Metering
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_meteringstatus }}
+                                                <span class="text-danger"><em>{{ form.dc_meteringstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                        <div class="form-group row" id="faultystatus">
+                                            <label for="dc_faultystatus" class="col-sm-3 col-form-label text-sm">Faulty
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_faultystatus }}
+                                                <span class="text-danger"><em>{{ form.dc_faultystatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="tamperedstatus">
+                                            <label for="dc_tamperedstatus" class="col-sm-3 col-form-label text-sm">Tampered
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_tamperedstatus }}
+                                                <span class="text-danger"><em>{{ form.dc_tamperedstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="bypassstatus">
+                                            <label for="dc_bypassstatus" class="col-sm-3 col-form-label text-sm">Bypass
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_bypassstatus }}
+                                                <span class="text-danger"><em>{{ form.dc_bypassstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="dc_installationstatus" class="col-sm-3 col-form-label text-sm">Installation
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_installationstatus }}
+                                                <span class="text-danger"><em>{{ form.dc_installationstatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group row" id="notokaystatus">
+                                            <label for="dc_notokaystatus" class="col-sm-3 col-form-label text-sm">Not Okay
+                                                Status</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_notokaystatus }}
+                                                <span class="text-danger"><em>{{ form.dc_notokaystatus.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="dc_sealno" class="col-sm-3 col-form-label text-sm">Seal
+                                                Number</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_sealno }}
+                                                <span class="text-danger"><em>{{ form.dc_sealno.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row" id="dc_meterimg">
+                                            <label for="dc_meterimg" class="col-sm-3 col-form-label text-sm">Upload
+                                                Image</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_meterimg }}
+                                                <span class="text-danger"><em>{{ form.dc_meterimg.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="dc_comment" class="col-sm-3 col-form-label text-sm">Remarks</label>
+                                            <div class="col-sm-9">
+                                                {{ form.dc_comment }}
+                                                <span class="text-danger"><em>{{ form.dc_comment.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    </hr>
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

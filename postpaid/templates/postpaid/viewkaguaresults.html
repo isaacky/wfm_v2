@@ -1,0 +1,247 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>BOA | Kagua Results</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">
+  Kagua Inspection Results
+ 
+</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">All Inspections</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">There are <strong style="color :red"> {{meters_count}} </strong>  Uploads</h5><br><br>
+
+          <p> 
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <form
+          class="form-horizontal"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          {% csrf_token %}
+          <select class="form-control select2" style="width: 100%;">
+            {% for county in counties %}
+            <option> <a class="dropdown-item" href="#">{{county.name}}</a></option>
+            <option>{{county.name}}</option>
+            {% endfor %}
+         
+          </select>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-info">SUBMIT</button>
+            
+        
+          </div>
+          <!-- /.card-footer -->
+        </form>
+
+
+                  <div class="form-group">
+                    <label>Minimal</label>
+                    <select class="form-control select2" style="width: 100%;">
+                      {% for county in counties %}
+                      <option> <a class="dropdown-item" href="#">{{county.name}}</a></option>
+                      <option>{{county.name}}</option>
+                      {% endfor %}
+                   
+                    </select>
+                  </div>
+                  <!-- /.form-group -->
+                  
+                  <!-- /.form-group -->
+                </div>
+              </div>
+            </div>
+          </p>
+
+          {% if meters %}
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                  <tr>
+                    <th>Feeder</th>
+                    <th>County</th>
+                    <th>Meter Number</th>
+                    <th>Account Number</th>                  
+                    <th>Type</th>
+                    <th>Metering Status</th>
+                    <th>Inspection Status</th>
+                 
+                    <th>Date Uploaded</th>
+                    <th>Inspector</th>
+                   
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meterr in meters %}
+                  <tr>
+                    {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+                     <td>{{meterr.connection.feeder}}</td>
+                     <td>{{meterr.connection.feeder.county.name}}</td>
+                     <td title="CLICK TO VIEW MORE DETAILS"><a href="#">{{meterr.meterno}}</a> </td>
+                     <td>{{meterr.accountno}}</td>
+                     <td>{{meterr.connection.type}}</td>
+                     <td>{{meterr.meteringstatus}}</td>
+                     <td>{{meterr.installationstatus}}</td>
+                     <td>{{meterr.dtadd}}</td>
+                     <td>KPL{{meterr.inspector}}({{meterr.inspector.user.name}})</td>
+
+                    
+                    
+
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+              <p>
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+    
+                    {% if meters.has_next %}
+                    <a href="?page={{ meters.next_page_number }}">next</a>
+                    <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+              </div>
+              </p>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Minimal</label>
+                  <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>Disabled</label>
+                  <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <p>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary btn-sm">Export To CSV</button>
+                  <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-sm" data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu" role="menu">
+                    {% for county in counties %}
+                    <a class="dropdown-item" href="#">{{county.name}}</a>
+                    {% endfor %}
+                    
+                  </div>
+                </div>
+
+              </p>
+             
+
+          </div>
+          {% else %}
+          <p>
+            NO RECORDS FOUND. 
+          </p>
+          {% endif %}
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

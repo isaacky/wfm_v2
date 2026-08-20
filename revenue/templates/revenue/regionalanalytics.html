@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Revenue Campaign Analytics; Regional</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Region Analysis</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Region</th>
+                    <th>Target Accounts</th>
+                    <th>Total Actioned</th>
+                    <th>Actioned Today</th>
+                    <th>Actioned Yesterday</th>
+                    <th>{{yesterday_2}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for a_r in analytics %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td title="CLICK TO VIEW MORE DETAILS">
+                      <a href="{% url 'revenue:view-county' a_r.id %}"
+                        >{{a_r.name}}</a
+                      >
+                    </td>
+
+                    <td>
+                      {{a_r.target|intcomma}}
+                    </td>
+                    <td>
+                      {{a_r.actioned|intcomma}}
+                    </td>
+                    <td>
+                      {{a_r.actioned_t|intcomma}}
+                    </td>
+                    <td>
+                      {{a_r.actioned_y|intcomma}}
+                    </td>
+                    <td>
+                      {{a_r.actioned_y_2|intcomma}}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

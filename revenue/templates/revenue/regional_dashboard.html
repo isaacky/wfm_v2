@@ -1,0 +1,344 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | REGIONAL DASHBOARD {{ target }}</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:anomalous-dashboard' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">REGIONAL COLLECTIONS DASHBOARD - {{ target }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Analytics</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+    <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart8-collection"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart9-collection"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id=""></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart2"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart6-collection"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart7-collection"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart1"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Collection Analysis, Region <small style="color: blue">Place the cursor at the column header for column notes</small></h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>Region</th>
+                                        <th class="text-right">Target Amount</th>
+                                        <th class="text-right">Achieved</th>
+                                        <th class="text-right">Collected Amount</th>
+                                        <th class="text-right">Accounts Visited</th>
+                                        <th class="text-right">Accounts Collected</th>
+                                        <th title="Total Accounts Visited Today / Total Accounts Visited & Paid / Total Amount of The Paid Accounts" class="text-right">Today</th>
+
+                                        <th class="text-right">{{ yesterday }}</th>
+                                        <th class="text-right">{{ yesterday_1 }}</th>
+                                        <th class="text-right">{{ yesterday_2 }}</th>
+                                        <th class="text-right">{{ yesterday_3 }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in region_analytics %}
+                                        <tr>
+
+
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="{% url 'revenue:collections-dashboard-region' meterr.region %}">{{ meterr.region__name }}</a>
+                                            </td>
+                                            <td class="text-right">{{ meterr.region__collection_target|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.region__collection_amount_paid|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.collected|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.collected_visted|intcomma }}</td>
+
+                                            <td class="text-right">{{ meterr.collected_collected|intcomma }}
+                                               </td>
+
+                                            <td class="text-right">{{ meterr.collected_today_accounts|intcomma }}
+                                                / {{ meterr.collected_today_paid|intcomma }} ({{ meterr.collected_today_amount|intcomma }})</td>
+
+                                             <td class="text-right">{{ meterr.collected_yesturday_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_paid|intcomma }} ({{ meterr.collected_yesturday_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_1_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_1_paid|intcomma }} ({{ meterr.collected_yesturday_1_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_2_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_2_paid|intcomma }} ({{ meterr.collected_yesturday_2_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_3_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_3_paid|intcomma }} ({{ meterr.collected_yesturday_3_amount|intcomma }})</td>
+
+
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Collection Analysis, County</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>County</th>
+                                        <th class="text-right">Target Amount</th>
+                                         <th class="text-right">Achieved</th>
+                                        <th class="text-right">Collected Amount</th>
+                                        <th class="text-right">Accounts Visited</th>
+                                        <th class="text-right">Accounts Collected</th>
+                                        <th class="text-right">Today</th>
+
+                                        <th class="text-right">{{ yesterday }}</th>
+                                        <th class="text-right">{{ yesterday_1 }}</th>
+                                        <th class="text-right">{{ yesterday_2 }}</th>
+                                        <th class="text-right">{{ yesterday_3 }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in county_analytics %}
+                                        <tr>
+
+
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="#">{{ meterr.county__name }}</a>
+                                            </td>
+                                            <td class="text-right">{{ meterr.county__collection_target|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.county__collection_amount_paid|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.collected|intcomma }}</td>
+                                            <td class="text-right">{{ meterr.collected_visted|intcomma }}</td>
+
+                                            <td class="text-right">{{ meterr.collected_collected|intcomma }}
+                                               </td>
+                                            <td class="text-right">{{ meterr.collected_today_accounts|intcomma }}
+                                                / {{ meterr.collected_today_paid|intcomma }} ({{ meterr.collected_today_amount|intcomma }})</td>
+
+                                             <td class="text-right">{{ meterr.collected_yesturday_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_paid|intcomma }} ({{ meterr.collected_yesturday_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_1_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_1_paid|intcomma }} ({{ meterr.collected_yesturday_1_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_2_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_2_paid|intcomma }} ({{ meterr.collected_yesturday_2_amount|intcomma }})</td>
+                                             <td class="text-right">{{ meterr.collected_yesturday_3_accounts|intcomma }}
+                                                / {{ meterr.collected_yesturday_3_paid|intcomma }} ({{ meterr.collected_yesturday_3_amount|intcomma }})</td>
+
+
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Collection Analysis, Collectors</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                               <table id="example11" class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Staff Name</th>
+                                        <th>Mobile</th>
+                                         <th>County</th>
+                                        <th class="text-right">Total</th>
+                                        <th class="text-right">Today</th>
+                                        <th class="text-right">Yesturday</th>
+                                        <th class="text-right">{{ yesterday_1 }}</th>
+                                        <th class="text-right">{{ yesterday_2 }}</th>
+                                        <th class="text-right">{{ yesterday_3 }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for analytic in inspectors %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                <a href="#">{{ analytic.collector__user_id__stid }} - {{ analytic.collector__user_id__name|upper }}</a>
+
+                                            </td>
+                                            <td>{{ analytic.collector__user_id__mobile }}</td>
+                                            <td>{{ analytic.collector__county__name }}</td>
+
+                                            <td class="text-right">
+                                                <strong>{{ analytic.the_count }} / {{ analytic.total_sum|intcomma }}</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>{{ analytic.today }} / {{ analytic.today_sum|intcomma }}</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>{{ analytic.yesturday }} / {{ analytic.yesturday_sum|intcomma }}</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>{{ analytic.yesturday_1 }} / {{ analytic.yesturday_1_sum|intcomma }}</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>{{ analytic.yesturday_2 }} / {{ analytic.yesturday_2_sum|intcomma }}</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>{{ analytic.yesturday_3 }} / {{ analytic.yesturday_3_sum|intcomma }}</strong>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{daily_trend_plot | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{target_achievement | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+
+        var grapg6 = {{collection_status | safe }}
+            Plotly.plot("chart6-collection", grapg6, {})
+
+        var grapg7 = {{target_achievement_count | safe }}
+            Plotly.plot("chart7-collection", grapg7, {})
+
+        var grapg8 = {{target_achievement_collected_amount | safe }}
+            Plotly.plot("chart8-collection", grapg8, {})
+
+        var grapg9 = {{target_achievement_paid_count | safe }}
+            Plotly.plot("chart9-collection", grapg9, {})
+
+
+    </script>
+{% endblock content %}
+</div>

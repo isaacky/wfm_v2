@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | INVENTORY GROUP</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>Asset Management Inventory</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Inventory Groups</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Insert New Inventory Group</h3>
+
+
+                            </div>
+                            <div>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <br>
+                                    <hr>
+                                    <div>
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-3 col-form-label text-sm">Group Name
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.name }}
+                                                <span class="text-danger"><em>{{ form.name.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="description" class="col-sm-3 col-form-label text-sm">Description
+                                            </label>
+                                            <div class="col-sm-9">
+                                                {{ form.description }}
+                                                <span class="text-danger"><em>{{ form.description.help_text }}</em></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,196 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV COMMISSION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="card">
+                    <div>
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5>New Substation Inclusion Form.</h5>
+                        <p>All Fields are required</p>
+                        <form class="form-horizontal"
+                              method="post">
+
+                            {% csrf_token %}
+
+
+                            <div class="form-group row">
+                                <label for="physicallocation" class="col-sm-3 col-form-label text-sm">Physical Location</label>
+                                <div class="col-sm-9">
+                                    {{ form.physicallocation }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.physicallocation.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="ssn" class="col-sm-3 col-form-label text-sm">SSN Number</label>
+                                <div class="col-sm-9">
+                                    {{ form.ssn }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.ssn.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 col-form-label text-sm">Substation Name</label>
+                                <div class="col-sm-9">
+                                    {{ form.name }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.name.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="gnumber" class="col-sm-3 col-form-label text-sm">G Number</label>
+                                <div class="col-sm-9">
+                                    {{ form.gnumber }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.gnumber.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="internalcode" class="col-sm-3 col-form-label text-sm">Internal Code</label>
+                                <div class="col-sm-9">
+                                    {{ form.internalcode }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.internalcode.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="originofelement" class="col-sm-3 col-form-label text-sm">Origin Of Element</label>
+                                <div class="col-sm-9">
+                                    {{ form.originofelement }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.originofelement.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="feederofelement" class="col-sm-3 col-form-label text-sm">Feeder Of Elelment</label>
+                                <div class="col-sm-9">
+                                    {{ form.feederofelement }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.feederofelement.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="da" class="col-sm-3 col-form-label text-sm">DA</label>
+                                <div class="col-sm-9">
+                                    {{ form.da }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.da.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lenghth" class="col-sm-3 col-form-label text-sm">Length</label>
+                                <div class="col-sm-9">
+                                    {{ form.lenghth }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.lenghth.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="rating" class="col-sm-3 col-form-label text-sm">Rating</label>
+                                <div class="col-sm-9">
+                                    {{ form.rating }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.rating.help_text }}</em></span>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="voltage" class="col-sm-3 col-form-label text-sm">Voltage</label>
+                                <div class="col-sm-9">
+                                    {{ form.voltage }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.voltage.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="yom" class="col-sm-3 col-form-label text-sm">YOM</label>
+                                <div class="col-sm-9">
+                                    {{ form.yom }}
+                                </div>
+                                <span class="text-danger"><em>{{ form.yom.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="make" class="col-sm-3 col-form-label text-sm">MAKE</label>
+                                <div class="col-sm-9">
+                                    {{ form.make }}
+                                </div>
+                                <span class="text-danger"><em>{{form.make.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+
+
+                             <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

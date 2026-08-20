@@ -1,0 +1,903 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-7">
+
+
+                <div class="card">
+                    <div>
+                        {% if lv_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ lv_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5>LV Inspection Form.</h5>
+                        <p>All Fields are required</p>
+                        <form class="form-horizontal" action="{% url 'lv:lvinspection-update' lv %}" method="post">
+
+                            {% csrf_token %}
+                            <button type="button" id="find-me-lv" class="btn btn-primary">Get my
+                                location
+                            </button>
+                            <br/>
+                            <p id="status-lv"></p>
+                            <a id="map-link-lv" target="_blank"></a>
+
+                            {{ lv_form.longitude }} {{ lv_form.latitude }}
+
+
+                            <hr>
+                            <div class="form-group row">
+                                <label for="poor_sags_cl_cond" class="col-sm-3 col-form-label text-sm">Are There Poor
+                                    Sags/Clashing Conductors?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.poor_sags_cl_cond }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.poor_sags_cl_cond.help_text }}</em></span>
+                            </div>
+
+
+                            <div class="form-group row" id="retention_req">
+                                <label for="retention_req" class="col-sm-3 col-form-label text-sm">How Many Spans
+                                    require Retensioning?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.retention_req }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.retention_req.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="retention-req-maintenance">
+                                <label for="retention_req_status" class="col-sm-3 col-form-label text-sm">Was there
+                                    maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.retention_req_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.retention_req_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="retention-req-maintenance-done">
+                                <label for="retention_maintanance" class="col-sm-3 col-form-label text-sm">How Many
+                                    Spans
+                                    Mainteained?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.retention_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.retention_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="lvline_veg" class="col-sm-3 col-form-label text-sm">Is there Vegetation On
+                                    The LV Line?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lvline_veg }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.lvline_veg.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="traceclear_span">
+                                <label for="traceclear_span" class="col-sm-3 col-form-label text-sm">How Many Spans
+                                    require trace clearance?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.traceclear_span }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.traceclear_span.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="traceclear-span-maintenance">
+                                <label for="traceclear_span_status" class="col-sm-3 col-form-label text-sm">Was
+                                    maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.traceclear_span_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.traceclear_span_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="traceclear-span-maintenance-done">
+                                <label for="trace_maintanance" class="col-sm-3 col-form-label text-sm">How Many Spans
+                                    Maintained?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.trace_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.trace_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="conductors_uprate" class="col-sm-3 col-form-label text-sm">Uprating Of
+                                    Conductors?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.conductors_uprate }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.conductors_uprate.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="conductors_uprate_span">
+                                <label for="conductors_uprate_span" class="col-sm-3 col-form-label text-sm">Total
+                                    Conductor Lenth(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.conductors_uprate_span }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.conductors_uprate_span.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="conductors-uprate-span-maintained">
+                                <label for="conductors_uprate_status" class="col-sm-3 col-form-label text-sm">Was
+                                    Maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.conductors_uprate_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.conductors_uprate_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="conductors-uprate-span-maintained-done">
+                                <label for="upratingconduct_maintanance" class="col-sm-3 col-form-label text-sm">Total
+                                    Mainteined Conductor Lenth(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.upratingconduct_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.upratingconduct_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="pme_installed" class="col-sm-3 col-form-label text-sm">Is PME
+                                    installed(Every 4LV Spans)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_installed }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.pme_installed.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="pme_missing_poles">
+                                <label for="pme_missing_poles" class="col-sm-3 col-form-label text-sm">Missing In How
+                                    Many Poles?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_missing_poles }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.pme_missing_poles.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="pme-missing-poles-mainteained">
+                                <label for="pme_missing_poles_status" class="col-sm-3 col-form-label text-sm">Was
+                                    Maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_missing_poles_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.pme_missing_poles_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="pme-missing-poles-mainteained-done">
+                                <label for="pme_maintanance" class="col-sm-3 col-form-label text-sm">Maintained In How
+                                    Many Poles?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.pme_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.pme_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="lv_overdistance" class="col-sm-3 col-form-label text-sm">Overdistance LV
+                                    Network?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lv_overdistance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.lv_overdistance.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="lv_overdistance_l">
+                                <label for="lv_overdistance_l" class="col-sm-3 col-form-label text-sm">Distance From Tx
+                                    To Furthest Customer?(meters)</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lv_overdistance_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.lv_overdistance_l.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="lv-overdistance-l-maintained">
+                                <label for="lv_overdistance_l_status" class="col-sm-3 col-form-label text-sm">Was
+                                    Maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lv_overdistance_l_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.lv_overdistance_l_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="lv-overdistance-l-maintained-done">
+                                <label for="lvoverdistance_maintanance" class="col-sm-3 col-form-label text-sm">Aprx
+                                    Distance Maintained?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.lvoverdistance_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.lvoverdistance_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="illegal_connections" class="col-sm-3 col-form-label text-sm">Illegal
+                                    Connections to recover?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegal_connections }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.illegal_connections.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="illegal_connections_l">
+                                <label for="illegal_connections_l" class="col-sm-3 col-form-label text-sm">Approximate
+                                    Length(m)?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegal_connections_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.illegal_connections_l.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="illegal-connections-l-maintained">
+                                <label for="illegal_connections_l_status" class="col-sm-3 col-form-label text-sm">Was
+                                    Maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegal_connections_l_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.illegal_connections_l_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="illegal-connections-l-maintained-done">
+                                <label for="illegalconn_maintanance" class="col-sm-3 col-form-label text-sm">Aprx Length
+                                    of Recovery?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.illegalconn_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.illegalconn_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="jumper_rehab_sect" class="col-sm-3 col-form-label text-sm">Number of
+                                    sections that require Jumper Rehabilitation?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.jumper_rehab_sect }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.jumper_rehab_sect.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="jumperrehab_maintanance" class="col-sm-3 col-form-label text-sm">Minatenance
+                                    Jumper Rehabilitation?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.jumperrehab_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.jumperrehab_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="reconducturing_pvc" class="col-sm-3 col-form-label text-sm">LV
+                                    Reconducturing with PVC/ABC?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconducturing_pvc }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.reconducturing_pvc.help_text }}</em></span>
+                            </div>
+
+                            <div class="form-group row" id="reconducturing_pvc_l">
+                                <label for="reconducturing_pvc_l" class="col-sm-3 col-form-label text-sm">Total Lenth of
+                                    Conductor?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconducturing_pvc_l }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.reconducturing_pvc_l.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="reconducturing-pvc-l-maintenance">
+                                <label for="reconducturing_pvc_l_status" class="col-sm-3 col-form-label text-sm">Was
+                                    Maintenance Done?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconducturing_pvc_l_status }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.reconducturing_pvc_l_status.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="reconducturing-pvc-l-maintenance-done">
+                                <label for="reconductering_maintanance" class="col-sm-3 col-form-label text-sm">Total
+                                    Lenth of Conductor Maintained?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.reconductering_maintanance }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.reconductering_maintanance.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="circuits" class="col-sm-3 col-form-label text-sm">No of Circuits?</label>
+                                <div class="col-sm-9">
+                                    {{ lv_form.circuits }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.circuits.help_text }}</em></span>
+                            </div>
+                            <table class="table table-sm" id="circuit1">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Phase</th>
+                                    <th>CCT1 :Customers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_r }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c1_r.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_b }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c1_b.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c1_y }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c1_y.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>Three Phase</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.C1_threephase }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.C1_threephase.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm" id="circuit2">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Phase</th>
+                                    <th>CCT1:Customers</th>
+                                    <th>CCT2:Customers</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1r }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_1r.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2r }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_2r.help_text }}</em></span>
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1y }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_1y.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2y }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_2y.help_text }}</em></span>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_1b }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_1b.help_text }}</em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-9">
+                                                {{ lv_form.c2_2b }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ lv_form.c2_2b.help_text }}</em></span>
+                                        </div>
+                    </div>
+                    </td>
+
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Three Phase</td>
+                        <td>
+                            <div class="form-group row">
+
+                                <div class="col-sm-9">
+                                    {{ lv_form.C2_1threephase }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.C2_1threephase.help_text }}</em></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group row">
+
+                                <div class="col-sm-9">
+                                    {{ lv_form.C2_2threephase }}
+                                </div>
+                                <span class="text-danger"><em>{{ lv_form.C2_2threephase.help_text }}</em></span>
+                            </div>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                    </table>
+                    <table class="table table-sm" id="circuit3">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Phase</th>
+                            <th>CCT1:Customers</th>
+                            <th>CCT2:Customers</th>
+                            <th>CCT3:Customers</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>R</td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_1r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ lv_form.c3_1r.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_2r }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.c3_2r.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_3r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ lv_form.c3_3r.help_text }}</em></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Y</td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_1y }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.c3_1y.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_2y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ lv_form.c3_2y.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_3y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ lv_form.c3_3y.help_text }}</em></span>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3.</td>
+                            <td>B</td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_1b }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.c3_1b.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_2b }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.c3_2b.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.c3_3b }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ lv_form.c3_3b.help_text }}</em></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4.</td>
+                            <td>Three Phase</td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.C3_1threephase }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.C3_1threephase.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.C3_2threephase }}
+                                    </div>
+                                      <span class="text-danger"><em>{{ lv_form.C3_2threephase.help_text }}</em></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group row">
+
+                                    <div class="col-sm-9">
+                                        {{ lv_form.C3_3threephase }}
+                                    </div>
+                                     <span class="text-danger"><em>{{ lv_form.C3_3threephase.help_text }}</em></span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+
+                    <div class="form-group row">
+                        <label for="poshomills_onsingle_p" class="col-sm-3 col-form-label text-sm">Are There Poshomills
+                            On Single Phase?
+                        </label>
+                        <div class="col-sm-9">
+                            {{ lv_form.poshomills_onsingle_p }}
+                        </div>
+                        <span class="text-danger"><em>{{ lv_form.poshomills_onsingle_p.help_text }}</em></span>
+                    </div>
+                    <div class="form-group row" id="poshomills_onsingle_p_n">
+                        <label for="poshomills_onsingle_p_n" class="col-sm-3 col-form-label text-sm">How Many?
+                        </label>
+                        <div class="col-sm-9">
+                            {{ lv_form.poshomills_onsingle_p_n }}
+                        </div>
+                        <span class="text-danger"><em>{{ lv_form.poshomills_onsingle_p_n.help_text }}</em></span>
+                    </div>
+                    <div class="form-group row" id="poshomills-onsingle-p-n-maintained">
+                        <label for="poshomills_onsingle_p_n_status" class="col-sm-3 col-form-label text-sm">Was
+                            Maintanance Done?
+                        </label>
+                        <div class="col-sm-9">
+                            {{ lv_form.poshomills_onsingle_p_n_status }}
+                        </div>
+                        <span class="text-danger"><em>{{ lv_form.poshomills_onsingle_p_n_status.help_text }}</em></span>
+                    </div>
+                    <div class="form-group row" id="poshomills-onsingle-p-n-maintained-done">
+                        <label for="poshomill_maintenance" class="col-sm-3 col-form-label text-sm">How Many Maintained?
+                        </label>
+                        <div class="col-sm-9">
+                            {{ lv_form.poshomill_maintenance }}
+                        </div>
+                        <span class="text-danger"><em>{{ lv_form.poshomill_maintenance.help_text }}</em></span>
+                    </div>
+                    <hr>
+
+
+                    <div class="form-group row">
+                        <label for="inspect_notes" class="col-sm-3 col-form-label text-sm">Inspection Notes</label>
+                        <div class="col-sm-9">
+                            {{ lv_form.inspect_notes }}
+                        </div>
+                    </div>
+                    <hr>
+
+{#                    <div class="form-group row">#}
+{##}
+{#                        <div class="form-check">#}
+{#                            <label>#}
+{#                                {{ lv_form.save_status }} Check this button if you are saving this inspection as a final#}
+{#                                submission.#}
+{#                            </label>#}
+{##}
+{#                        </div>#}
+{#                    </div>#}
+
+                    <div>
+                        <ul>
+                            {% for field in lv_form %}
+                                <!-- /.card-body -->
+                                {% if field.errors %}
+                                    <!-- /.card-body -->
+                                    {% for error in field.errors %}
+                                        <li style="color: red">{{ error }}</li>
+                                    {% endfor %}
+                                    <!-- /.card-body -->
+                                {% endif %}
+                                <!-- /.card-body -->
+                            {% endfor %}
+                            <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                        </ul>
+                    </div>
+
+
+                     <div class="text-center mt-5 mb-3">
+                        <button
+                                type="submit"
+                                name="finalsubmission"
+                                class="btn btn-sm btn-success"
+                                value="finalsubmission"
+                        >
+                            Final Submit
+                        </button>
+                        <button
+                                type="submit"
+                                name="draft"
+                                value="draft"
+                                class="btn btn-sm btn-primary"
+                        >
+                            Save Draft
+                        </button>
+                    </div>
+                    </form>
+
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    Pick Cordinates for Pole Requirements. Save the inspections  as draft before picking the pole data
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#m{{ data.ssn }}">
+                        Pick New Pole Info
+                    </button>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">List Of Pole Defects/Midspan on the SSN</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width: 10px">#</th>
+                                    <th>Pole Type</th>
+                                    <th>Defect Type</th>
+                                    <th>Location</th>
+                                    <th>Cordinates</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pd in poledefects %}
+                                    <tr>
+                                        <td><a href="{% url 'lv:lv-delete-pole' pd.id %}"
+                                               class="btn btn-sm btn-danger btn-sm"> <i
+                                                    class="fas fa-trash"></i></a></td>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td class='text-uppercase'>{{ pd.defect_type }}</td>
+                                        <td>{{ pd.pole_type }}</td>
+                                        <td>{{ pd.location }}</td>
+                                        <td>{{ pd.y }},{{ pd.x }}</td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                    <div class="modal fade" id="m{{ data.ssn }}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Pole Requirements for ssn - {{ data.ssn }}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                    <form class="form-horizontal" method="Post"
+                                          action="{% url 'lv:poledefects-new' %}">
+                                        {% csrf_token %}
+                                        <button type="button" id="find-me_p" class="btn btn-primary">Get my
+                                            location
+                                        </button>
+                                        <br/>
+                                        <p id="status_p"></p>
+                                        <a id="map-link_p" target="_blank"></a>
+
+
+                                        {{ pole_form.x }} {{ pole_form.y }}
+
+
+                                        <hr>
+                                        <div class="form-group row">
+                                            <label for="defect_type" class="col-sm-4 col-form-label">Pole
+                                                Type</label>
+                                            <div class="col-sm-8">
+                                                {{ pole_form.pole_type }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="defect_type" class="col-sm-4 col-form-label">Defect
+                                                Type</label>
+                                            <div class="col-sm-8">
+                                                {{ pole_form.defect_type }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-4 col-form-label">Location</label>
+                                            <div class="col-sm-8">
+                                                {{ pole_form.location }}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <ul>
+                                                {% for field in pole_form %}
+                                                    <!-- /.card-body -->
+                                                    {% if field.errors %}
+                                                        <!-- /.card-body -->
+                                                        {% for error in field.errors %}
+                                                            <li style="color: red">{{ error }}</li>
+                                                        {% endfor %}
+                                                        <!-- /.card-body -->
+                                                    {% endif %}
+                                                    <!-- /.card-body -->
+                                                {% endfor %}
+                                                <li style="color: red">{{ pole_form.non_field_errors }}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                    <p>This will save the Pole and its cordinates</p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            onclick="history.back()">Close
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+
+
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+
+    </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

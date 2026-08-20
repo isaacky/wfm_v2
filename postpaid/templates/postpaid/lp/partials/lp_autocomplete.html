@@ -1,0 +1,30 @@
+{#{% if data %}#}
+{#<ul class="list-group">#}
+{#    {% for d in data %}#}
+{#        <li class="list-group-item list-group-item-action">#}
+{#            <a href="{% url 'postpaid:amcorder-inspect' d.id %}">#}
+{#                <strong>{{ d.meterno }}</strong> — {{ d.customer_name }}#}
+{#                <br>#}
+{#                <small class="text-muted">Account: {{ d.accountno }}</small>#}
+{#            </a>#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+{#{% else %}#}
+{#<p class="text-muted px-2">No matches found</p>#}
+{#{% endif %}#}
+{##}
+{% for d in data %}
+<tr>
+    <td>{{ forloop.counter }}.</td>
+    <td><a href="{% url 'postpaid:amcorder-inspect' d.id %}">{{ d.meterno }}</a></td>
+    <td>{{ d.accountno }}</td>
+    <td class="text-uppercase">{{ d.customer_name }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4" class="text-center">
+        NO RESULTS FOUND. KINDLY SHARE WITH LP TEAM FOR ADDITION
+    </td>
+</tr>
+{% endfor %}

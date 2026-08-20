@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | COUNTY LV INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+       LV INSPECTIONS
+        <br>
+
+
+    </h1>
+    <h5>A visual of todays global inspections</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+
+                <!-- /.col -->
+                <div class="col-md-12">
+                   <div id="map" style="height: 700px; width: 100%"></div>
+                    <!-- /.card -->
+                    {{ lvinspections|json_script:"lvinspections_json" }}
+                    <!-- /.card -->
+
+
+                </div>
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+{% block scripts %}
+<script src="{% static 'assets/js/visibility.js' %}"></script>
+
+{% endblock scripts %}
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

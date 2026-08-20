@@ -1,0 +1,200 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | COLLECTORS COLLECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">
+ COLLECTORS COLLECTIONS
+ 
+</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">All Revenue Collections</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Lis Of Collected Accounts</h5><br><br>
+          <p> <form action="{% url 'revenue:search-collected-meter' %}">
+            <div class="input-group">
+              <input
+                type="text"
+                name="keyword"
+                required
+                class="form-control form-control-lg"
+                placeholder="Input Meter Number"
+              />
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form></p>
+
+          {% if meters %}
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Meter Number</th>
+                    <th>Account Number</th>
+                    <th>County</th>
+
+                      <th>Target Amount</th>
+                    <th>Collected Amount</th>
+                    <th>Meter Readings</th>
+                 
+                    <th>Date Uploaded</th>
+                    <th>Collected By</th>
+                   
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meterr in meters %}
+                  <tr>
+                    {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+                     <td>{{meterr.id}}</td>
+
+                     {% if meterr.collection_status == 'disconnected' %}
+                     <td><span class="badge bg-danger">DISCONNECTED</span></td>
+                     {% elif meterr.collection_status == 'notonsite' %}
+                     <td><span class="badge bg-warning">NOT-ON-SITE</span></td>
+                     {% elif meterr.collection_status == 'paid' %}
+                     <td><span class="badge bg-success">PAID</span></td>
+                     {% elif meterr.collection_status == 'fdc' %}
+                     <td><span class="badge bg-danger">FOUND DISCONNECTED</span></td>
+                     {% elif meterr.collection_status == 'poledisconnection' %}
+                     <td><span class="badge bg-danger">POLE DISCONNECTION</span></td>
+                     {% elif meterr.collection_status == 'cablerecovery' %}
+                     <td><span class="badge bg-danger">CABLE RECOVERY</span></td>
+                     {% elif meterr.collection_status == 'faulty' %}
+                     <td><span class="badge bg-danger">FAULTY METER</span></td>
+                     {% elif meterr.collection_status == 'wrongreading' %}
+                     <td><span class="badge bg-danger">WRONG READING</span></td>
+                     {% endif %}
+                     <td title="CLICK TO VIEW MORE DETAILS"><a href="#">{{meterr.meterno}}</a> </td>
+
+                     <td>{{meterr.accountno}}</td>
+                     <td>{{meterr.county}}</td>
+
+                   <td class="text-right">{{meterr.target.totalbalance|intcomma}}</td>
+                      <td class="text-right">{{meterr.amountpaid|intcomma}}</td>
+                      <td>{{meterr.readings}}</td>
+                      <td>{{meterr.dtadd}}
+
+                      <td>KPL{{meterr.collector}}({{meterr.collector.user.mobile}})</td>
+                    
+                     
+                     
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <p>
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+    
+                    {% if meters.has_next %}
+                    <a href="?page={{ meters.next_page_number }}">next</a>
+                    <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+              </div>
+              </p>
+              <p>
+                <a href="{% url 'revenue:export-uploads-seven' %}" class="btn btn-primary btn-sm">Export My County Collections</a>
+              </p>
+             <p>
+                <a href="{% url 'revenue:export-uploads-all' %}" class="btn btn-primary btn-sm">Export All Collections</a>
+              </p>
+
+          </div>
+          {% else %}
+          <p>
+            NO RECORDS FOUND.
+          </p>
+          {% endif %}
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

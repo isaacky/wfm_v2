@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | VIEW ELSEWEDY REPLACED</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+
+    <h1 class="m-0">METER NUMBER : {{ meter.newmeter }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">View Upload</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <section class="content">
+        <!-- Default box -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="text-bold">REPLACED METER IMAGE</h5>
+                            <img
+                                    src="{{ meter.removal_img.url }}"
+                                    class="product-image"
+                                    alt="Meter Image"
+                            />
+                        </div>
+                        <hr>
+
+
+
+                        <div class="ribbon-wrapper ribbon-xl">
+                            {% if meter.meteringstatus == 'okay' %}
+                                <div class="ribbon bg-success text-lg">OKAY</div>
+                            {% elif meter.meteringstatus == 'faulty' %}
+                                <div class="ribbon bg-danger text-lg">FAULTY</div>
+                            {% elif meter.meteringstatus == 'tampered' %}
+                                <div class="ribbon bg-danger text-lg">TAMPERED</div>
+                            {% elif meter.meteringstatus == 'bypassed' %}
+                                <div class="ribbon bg-success text-lg">BYPASSED</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            {% if meter.anomalytype == 'faultymeter' %}
+                                <h3 class="text-primary">CASE - FAULTY METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'meternotinincms' %}
+                                <h3 class="text-primary">CASE - METER NOT IN INCMS</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'retrofit' %}
+                                <h3 class="text-primary">CASE - ILLEGAL RETROFIT</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'directconnecction' %}
+                                <h3 class="text-primary">CASE - DIRECT CONNECTION</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'idle' %}
+                                <h3 class="text-primary">CASE - IDLE METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% endif %}
+
+                            <div class="text-muted">
+                                <p class="text-sm">
+                                    Location
+                                    <b class="d-block">{{ meter.y }},{{ meter.x }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    County
+                                    <b class="d-block">{{ meter.county.name }}</b>
+                                </p>
+                               <p class="text-sm">
+                                    Removal Meter Number
+                                    <b class="d-block">{{ meter.oldmeter }}</b>
+                                </p>
+                             <p class="text-sm">
+                                    Removal Readings
+                                    <b class="d-block">{{ meter.removal_reading }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Removed Meter Metering Status
+                                    <b class="d-block">{{ meter.meteringstatus }}</b>
+                                    {% if meter.meteringstatus != 'okay' %}
+                                        <b class="d-block">{{ meter.faultystatus }}</b>
+                                        <b class="d-block">{{ meter.tamperedstatus }}</b>
+                                        <b class="d-block">{{ meter.bypassstatus }}</b>
+
+                                    {% endif %}
+                                </p>
+
+                                <p class="text-sm">
+                                    Installed Meter Number
+                                    <b class="d-block">{{ meter.newmeter }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Account Number
+                                    <b class="d-block">{{ meter.accountno }}</b>
+                                </p>
+
+                            <p class="text-sm">
+                                   Seals
+                                    <b class="d-block">{{ meter.seal_cover }}</b>
+                                </p>
+
+
+
+                                <p class="text-sm">
+                                    Date Replaced
+                                    <b class="d-block">{{ meter.dtadd }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Replaced By:
+                                    <b class="d-block">KPL{{ meter.inspector }}-({{ meter.inspector.user.name }})</b>
+                                    <b class="d-block">{{ meter.inspector.user.mobile }}</b>
+                                </p>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

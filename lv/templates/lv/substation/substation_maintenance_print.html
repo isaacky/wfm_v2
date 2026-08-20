@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KYN | SUBSTATION MAINTENACE PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> KYN-SUBSTATION MAINTENANCE
+                    <small class="float-right">Date Of Inspection: {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ lvinspection.id }}</b><br>
+                <br>
+                <b>SSN NUMBER:</b> {{ lvinspection.inspection.substation }}<br>
+                <b>NAME:</b> {{ lvinspection.inspection.substation.name }}<br>
+                <b>INTERNALCODE:</b> {{ lvinspection.inspection.substation.internalcode }}<br>
+                <b>ORIGINALELEMENT:</b> {{ lvinspection.inspection.substation.originofelement }}<br>
+                <b>FEEDERELEMENT:</b> {{ lvinspection.inspection.substation.feederofelement }}<br>
+                <b>PHYSICAL LOCATION:</b> {{ lvinspection.inspection.substation.physicallocation }}<br>
+                <b>COUNTY:</b> {{ lvinspection.inspection.substation.county.name }}
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+
+                <br>
+                <b>MAKE:</b> {{ lvinspection.substation.make.name }}<br>
+                <b>VOLTAGE:</b> {{ lvinspection.substation.voltage }}<br>
+                <b>RATING:</b> {{ lvinspection.substation.rating }}
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>INSPECTION DATE:</b> {{ lvinspection.dtupdate|date:"d M Y" }}<br>
+                <b>INSPECTED BY:</b>KPL {{ lvinspection.inspectedby }}<br>
+                <b>SIGN</b>____________________________ <br><br>
+                <b>APPROVED DATE:</b> {{ lvinspection.aprv_dt|date:"d M Y" }}<br>
+                <b>APPROVED BY:</b>KPL {{ lvinspection.aprv_by }}<br>
+                <b>SIGN</b>____________________________ <br>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>INSPECTION ITEM</th>
+                        <th>FINDINGS</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                   <tr>
+                                <td>1</td>
+                                <td>SSN</td>
+                                <td>{{ lvinspection.inspection.substation.ssn }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>SSN NAME</td>
+                                <td>{{ lvinspection.inspection.substation.name }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>ORIGIN OF ELEMENT</td>
+                                <td> {{ lvinspection.inspection.substation.originofelement }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>FEEDER ELEMENT</td>
+                                <td>{{ lvinspection.inspection.substation.feederofelement }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>LOCATION</td>
+                                <td>{{ lvinspection.inspection.substation.physicallocation }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>DATE OF MAINTENANCE</td>
+                                <td>{{ lvinspection.dtupdate }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>INSPECTOR</td>
+                                <td class="text-uppercase">KPL{{ lvinspection.inspectedby }}
+                                    - {{ lvinspection.inspectedby.user.name }}
+                                    <br>
+                                    <span>MOBILE : {{ lvinspection.inspectedby.user.mobile }}</span></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>MAINTENANCE NOTES</td>
+                                <td class="text-uppercase">{{ lvinspection.maintenance_notes }}</td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>MAINTENANCE DETAILS</strong></p>
+                                </td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>FUSE SIZE</td>
+                                <td class="text-uppercase">{{ lvinspection.fusesize }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>10.</td>
+                                <td>SIZE OF LV CONDUCTOR</td>
+                                <td class="text-uppercase">{{ lvinspection.sizeoflvconductor }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>11.</td>
+                                <td>NUMBER OF CIRCUITS ADDED</td>
+                                <td class="text-uppercase">{{ lvinspection.noofcircuits_added }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>12.</td>
+                                <td>HV EARTH INTACT</td>
+                                <td class="text-uppercase">{{ lvinspection.hvearth_intact }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>13.</td>
+                                <td>NEUTRAL EARTH INTACT</td>
+                                <td class="text-uppercase">{{ lvinspection.neutralearth_intact }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>14.</td>
+                                <td>SURGE DIVERTERS REPLACED</td>
+                                <td class="text-uppercase">{{ lvinspection.surgediverters_replaced }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>15.</td>
+                                <td>LV LEAD SIZE</td>
+                                <td class="text-uppercase">{{ lvinspection.lvleads_size }} <br>
+
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>16.</td>
+                                <td>TX LOADING</td>
+                                <td class="text-uppercase">{{ lvinspection.txloading }}
+
+                                </td>
+
+
+                            </tr>
+                             <tr>
+                                <td>17.</td>
+                                <td>TX STRUCTURE</td>
+                                <td class="text-uppercase">{{ lvinspection.c_tx_structure }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>FUSE CARRIERS REPLACED</td>
+                                <td class="text-uppercase">{{ lvinspection.c_fuse_carriers_replaced }}
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>19.</td>
+                                <td>FUSE BAR</td>
+                                <td class="text-uppercase">{{ lvinspection.c_fuse_bar }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>20.</td>
+                                <td>TX WIRING</td>
+                                <td class="text-uppercase">{{ lvinspection.txwiring }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>21.</td>
+                                <td>TX POSITION</td>
+                                <td class="text-uppercase">{{ lvinspection.txposition }} <br>
+                                </td>
+                            </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        </td>
+        <td></td>
+
+        </tr>
+
+
+        </tbody>
+        </table>
+</div>
+<!-- /.col -->
+</div>
+<!-- /.row -->
+
+
+<!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

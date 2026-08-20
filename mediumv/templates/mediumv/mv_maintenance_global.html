@@ -1,0 +1,433 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MV MAINTENANCE</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        MV MAINTENANCE
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">FILTERS</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul>
+                                <li>
+                                    <p>Filter By Region</p>
+                                    <form action="{% url 'mediumv:global_mv-maintenance-search-rg' %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <select name="region" class="form-control " data-select2-id="1"
+                                                    tabindex="-1" aria-hidden="true">
+                                                {% for region in regions %}
+                                                    <option value="{{ region.id }}">{{ region.name }}
+                                                {% endfor %}
+
+                                            </select>
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By County</p>
+                                    <form action="{% url 'mediumv:global_mv-maintenance-search-county' %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <select name="county" class="form-control " data-select2-id="1"
+                                                    tabindex="-1" aria-hidden="true">
+                                                {% for county in counties %}
+                                                    <option value="{{ county.id }}">{{ county.name }}
+                                                {% endfor %}
+
+                                            </select>
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By FEEDER</p>
+                                    <form action="{% url 'mediumv:global_mv-maintenance-search-feeder' %}">
+                                        <div class="input-group input-sm">
+                                            {% csrf_token %}
+                                            <input
+                                                    type="text"
+                                                    name="feeder"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  FEEDER"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Date Range</p>
+                                    <form action="{% url 'mediumv:global_mv-maintenance-search-date' %}">
+                                        {% csrf_token %}
+                                        <select class="form-control" data-select2-id="1" tabindex="-1"
+                                                aria-hidden="true">
+                                            <option selected="selected" data-select2-id="3">Today</option>
+                                            <option data-select2-id="35">Past 7 Days</option>
+                                            <option data-select2-id="36">This Month</option>
+                                            <option data-select2-id="37">This Year</option>
+                                            <option data-select2-id="38">This Fin Year</option>
+                                            <option data-select2-id="39">This Quarter</option>
+                                            <option data-select2-id="40">Last Quarter</option>
+                                        </select>
+                                        <div class="input-group">
+                                            <input
+                                                    type="date"
+                                                    name="datefrom"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Name"
+                                            />
+                                            <input
+                                                    type="date"
+                                                    name="dateto"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Name"
+                                            />
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Inspector</p>
+                                    <form action="{% url 'lv:global-substation-maintenance-search-staff' %}">
+                                        <div class="input-group">
+                                            <input
+                                                    type="text"
+                                                    name="staff"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By Inspector Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Approver</p>
+                                    <form action="{% url 'lv:global-substation-maintenance-search-approver' %}">
+                                        <div class="input-group">
+                                            <input
+                                                    type="text"
+                                                    name="approver"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  Approver Staff Number"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                                <li>
+                                    <p>Filter By Approve Status</p>
+                                    <form action="{% url 'lv:global-lv' %}">
+                                        <div class="input-group">
+                                            <input
+                                                    type="text"
+                                                    name="keyword"
+                                                    required
+                                                    class="form-control form-control-lg"
+                                                    placeholder="Search By  SSN"
+                                            />
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+                            </ul>
+
+
+                        </div>
+
+                        <div class="card-footer">
+                            <div>
+                                <a href="{% url 'mediumv:global-mv' %}"
+                                   class="btn btn-sm btn-primary">REMOVE FILTERS</a>
+                            </div>
+                        </div>
+
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">USER ANALYTICS</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                       <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                   <li class="nav-item">
+                                    <a href="{% url 'lv:global-lv-useranalytics' %}" class="nav-link">
+                                       Inspectors
+                                    </a>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <a href="{% url 'lv:lvinspections-pending-apprv' %}" class="nav-link">
+                                       Approvers
+
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+
+
+                        <!-- /.card-body -->
+                    </div>
+
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+
+
+                                <!-- /.btn-group -->
+
+
+                                <!-- /.float-right -->
+                            </div>
+                            <div class="card-body p-0 table-responsive">
+                                <table id="example1" class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Report ID</th>
+                                        <th>Inspection Date</th>
+                                        <th>Feeder</th>
+                                        <th>Region</th>
+                                        <th>County</th>
+                                        <th>InspectedBy</th>
+                                        <th>Poles without Stays</th>
+
+                                        <th>Rotten TX Struct</th>
+                                        <th>Leaning TX Struct</th>
+                                        <th>Sags To Retention</th>
+                                        <th>Double Jumper Sctns</th>
+                                        <th>Replace Fuse Mts</th>
+                                        <th>Bypassed Fuse Mts</th>
+                                        <th>Faulty AB</th>
+                                        <th>Installed AB</th>
+                                        <th>Overhang Trees</th>
+                                        <th>Trace Maint</th>
+                                        <th>Uprating Cond</th>
+                                        <th>Autoclosers</th>
+                                        <th>Faulty Autoclosers</th>
+                                        <th>Faulty HVCable</th>
+                                        <th>Strx Without TX</th>
+                                        <th>Cable Withot Lugs</th>
+                                        <th>Disconn SurgeD</th>
+                                        <th>Missing Earth</th>
+                                        <th>Numberless SSN</th>
+                                        <th>Wayleave Infrng</th>
+                                        <th>Comments</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for my in data %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}.</td>
+                                            <td>{{ my.id }}</td>
+                                            <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                            <td>{{ my.feeder__name }}</td>
+                                            <td>{{ my.feeder__region__name }}</td>
+                                            <td>{{ my.county__name }}</td>
+                                            <td>KPL{{ my.inspectedby__user_id__stid }}</td>
+                                            <td>{{ my.no_poleswithoutstays }}</td>
+                                            <td>{{ my.no_rottentxstructure }}</td>
+                                            <td>{{ my.no_leaningtxstructure }}</td>
+                                            <td>{{ my.no_sagstoretention }}</td>
+                                            <td>{{ my.no_sectionstodoublejumper }}</td>
+                                            <td>{{ my.no_replacefusemounts }}</td>
+                                            <td>{{ my.no_bypassedhtfuses }}</td>
+
+                                            <td>{{ my.no_faultyabswitces }}</td>
+                                            <td>{{ my.no_installabswitces }}</td>
+                                            <td>{{ my.no_overhangingtrees }}</td>
+                                            <td>{{ my.no_tracemaint }}</td>
+                                             <td>{{ my.no_spurtaplins }}</td>
+                                            <td>{{ my.no_upratingconductors }}</td>
+                                            <td>{{ my.no_autoclosures }}</td>
+                                            <td>{{ my.no_faultyhvcable }}</td>
+                                            <td>{{ my.no_structureswithouttx }}</td>
+                                            <td>{{ my.no_jumpercableswithoutlugs }}</td>
+                                            <td>{{ my.no_disconnsurged }}</td>
+                                            <td>{{ my.no_txmissingearthing }}</td>
+                                            <td>{{ my.no_ssnnumberless }}</td>
+                                            <td>{{ my.no_wayleaveinfrng }}</td>
+                                            <td>{{ my.comments }}</td>
+
+                                            <td>
+                                                <a href="{% url 'mediumv:mvinspection-print' my.id %}" target="_blank"
+                                                       class="btn btn-sm btn-success btn-sm"> <i
+                                                            class="fas fa-print"></i></a>
+
+                                            </td>
+
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+
+
+                                <!-- /.btn-group -->
+
+
+                                <!-- /.float-right -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df_lv_county | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

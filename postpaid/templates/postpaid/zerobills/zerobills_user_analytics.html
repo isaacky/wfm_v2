@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>WORKFORCE | ZEROBILL ANALYTICS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Zerobill Confirmation Staff Performance Analytics:{{ county }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home Page</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="#"
+        >Zerobill Analytics Page</a
+      >
+    </li>
+    <li class="breadcrumb-item active">Staff Performance Page</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Staff Name</th>
+                    <th>Mobile</th>
+                    <th>County</th>
+                    <th>Overall Acheivement</th>
+                    <th>Today</th>
+                    <th>Yesturday</th>
+                    <th>{{yesterday_1}}</th>
+                    <th>{{yesterday_2}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>
+                      {{analytic.user_id__stid}} - {{analytic.user_id__name}}
+                    </td>
+                    <td>{{analytic.user_id__mobile}}</td>
+                    <td>{{analytic.county__name}}</td>
+                    <td>
+                      <strong>{{analytic.the_count}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.today}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.yesturday}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.yesturday_1}}</strong>
+                    </td>
+                    <td>
+                      <strong>{{analytic.yesturday_2}}</strong>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

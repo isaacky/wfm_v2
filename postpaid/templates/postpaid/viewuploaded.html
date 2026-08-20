@@ -1,0 +1,130 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Zero Bill</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">METER NUMBER : {{ meter.meterno}}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">View Upload</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<section class="content">
+  <!-- Default box -->
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <img
+            src="{{ meter.meterimg.url }}"
+            class="product-image"
+            alt="Meter Image"
+          />
+          <div class="ribbon-wrapper ribbon-xl">
+            {% if meter.status == 'disconnected' %}
+            <div class="ribbon bg-danger text-lg">DISCONNECTED</div>
+            {% elif meter.status == 'notonsite' %}
+            <div class="ribbon bg-danger text-lg">NOT-ON-SITE</div>
+            {% elif meter.status == 'idle' %}
+            <div class="ribbon bg-danger text-lg">IDLE</div>
+            {% elif meter.status == 'meterokay' %}
+            <div class="ribbon bg-success text-lg">METER OKAY</div>
+            {% elif meter.status == 'faulty' %}
+            <div class="ribbon bg-danger text-lg">FAULTY</div>
+            {% elif meter.status == 'bypasses' %}
+            <div class="ribbon bg-danger text-lg">BYPASSED</div>
+            {% elif meter.status == 'tampered' %}
+            <div class="ribbon bg-danger text-lg">TAMPERED</div>
+            {% elif meter.status == 'vacantpremises' %}
+            <div class="ribbon bg-danger text-lg">VACANT PREMISE</div>
+            {% endif %}
+          </div>        </div>
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="">
+            {% if meter.anomalytype == 'faultymeter' %}
+            <h3 class="text-primary">CASE - FAULTY METER</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+
+            {% elif meter.anomalytype == 'meternotinincms' %}
+            <h3 class="text-primary">CASE - METER NOT IN INCMS</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+
+            {% elif meter.anomalytype == 'retrofit' %}
+            <h3 class="text-primary">CASE - ILLEGAL RETROFIT</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% elif meter.anomalytype == 'directconnecction' %}
+            <h3 class="text-primary">CASE - DIRECT CONNECTION</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% elif meter.anomalytype == 'idle' %}
+            <h3 class="text-primary">CASE - IDLE METER</h3>
+            <p>{{ meter.sector}} SECTOR-{{ meter.county}} COUNTY</p>
+            {% endif %}
+
+            <div class="text-muted">
+              <p class="text-sm">
+                Date Uploaded
+                <b class="d-block">{{ meter.dtadd}}</b>
+              </p>
+              <p class="text-sm">
+                Upoaded By:
+                <b class="d-block">KPL{{ meter.user}}-({{ meter.user.name}})</b>
+                <b class="d-block">{{ meter.user.mobile}}</b>
+              </p>
+            </div>
+            {% if user.is_staff or user.is_admin %}
+            <form
+              class="form-horizontal"
+              method="POST"
+              enctype="multipart/form-data"
+              novalidate
+            >
+              {% csrf_token %} {% include 'form_snippet.html' %}
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-info">SUBMIT</button>
+              </div>
+              <!-- /.card-footer -->
+            </form>
+            {% endif %}
+
+            <div class="text-center mt-5 mb-3">
+              <a
+                href="{% url 'postpaid:results-list' %}"
+                class="btn btn-sm btn-primary"
+                >Back</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.container-fluid -->
+
+{% endblock content %}

@@ -1,0 +1,187 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>BOA | Illegal Retrofits-Pending</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">
+  UPLOADED ILLEGAL RETROFITS-PENDING TICKETS
+ 
+</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:analytics-dashboard' %}">Analytics</a>
+    </li>
+    <li class="breadcrumb-item active">Ilegal Retrofits-Pending</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">There are <strong style="color :red"> {{meters_count}} </strong>  Illegal Retrofits Pending Tickets</h5><br>
+
+          {% if meters %}
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+              <thead>
+                  <tr>
+                    <th>TicketID</th>
+                    <th>County</th>
+                    <th>Sector</th>
+                    <th>Category</th>
+                    <th>Meter Number</th>
+                    <th>Meter Readings</th>
+                    <th>Customer Name</th>
+                    <th>Customer Contact</th>
+                    <th>Age</th>
+                    <th>Responsible</th>
+                    <th>Asigned To</th>
+                    <th>Uploaded By</th>
+                    <th>RCCS Number</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for meterr in meters %}
+                  <tr>
+                    <td>{{meterr.id}}</td>
+                   <td>{{meterr.county}}</td>
+                   <td>{{meterr.sector}}</td>
+                   {% if meterr.anomalytype == 'faultymeter' %}
+                    <td>FAULTY METER</td>
+                    {% endif %}
+                    <td title="CLICK TO VIEW MORE DETAILS"><a href="{% url 'main:view-uploaded' meterr.id %}">{{meterr.meternumber}}</a> </td>
+                    <td>{{meterr.readings}}</td>
+                    <td>{{meterr.customername}}</td>
+                    <td>{{meterr.customercontact}}</td>
+                    <td>{{meterr.dtadd|timesince}}</td>
+                    <td>KPL{{meterr.resposnsible.user}}</td>
+                    <td>KPL{{meterr.asigned.user}}</td>
+                    <td>KPL{{meterr.user}}({{meterr.user.name}})</td>
+                    <td>{{meterr.rccsNumber}}</td>
+                    {% if meterr.status == 'pending' %}
+                    <td><span class="badge bg-warning">Pending</span></td>
+                    {% else %}
+                    <td><span class="badge bg-success">Resolved</span></td>
+                    {% endif %}
+                  
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <p>
+                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+    
+                    {% if meters.has_next %}
+                    <a href="?page={{ meters.next_page_number }}">next</a>
+                    <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                    >
+                    {% endif %}
+                  </span>
+              </div>
+              </p>
+
+              <p>
+                <a href="{% url 'main:export-uploads-illegalretrofits-pending' %}" class="btn btn-primary btn-sm">Export to csv</a>
+              </p>
+
+          </div>
+          {% else %}
+          <p>
+            NO RECORDS FOUND.
+          </p>
+          {% endif %}
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,333 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV GLOBAL</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0 text-bold">
+        GLOBAL REPORTS
+        <br>
+
+
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">LV Inspection & Maintenance Stats</h3>
+
+                        </div>
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-lv-inspections' %}">LV INSPECTIONS</a></span>
+                                            <span class="info-box-number">{{ lvglobal_count.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-lvmaintenance' %}">LV MAINTENANCE</a></span>
+                                            <span class="info-box-number">{{ lv_maintenance_global_count.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-substation' %}">SUBSTATION INSPECTIONS</a></span>
+                                            <span class="info-box-number">{{ overall_substation.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-substation-maintenance' %}">SUBSTATION MAINTENANCE</a></span>
+                                            <span class="info-box-number">{{ overall_substation_main.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                             <div class="row">
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-txfailure' %}">TX FAILURE</a></span>
+                                            <span class="info-box-number">{{ ovearll_txfailure.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-commissions' %}">COMMISSIONS</a></span>
+                                            <span class="info-box-number">{{ overall_commission.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-pole-defects' %}">POLES WITH DEFECTS</a></span>
+                                            <span class="info-box-number">{{ poledefects.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-danger"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="">POLES MAINTENANCE</a></span>
+                                            <span class="info-box-number">{{ overall_pole_maint.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                             <div class="row">
+                                 <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global_ssn' %}">SSN's</a></span>
+                                            <span class="info-box-number">{{ ssn.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-success"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'mediumv:global-mv' %}">MV INSPECTION</a></span>
+                                            <span class="info-box-number">{{ overall_mv.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                 <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'mediumv:global-mv-maintenance' %}">MV MAINTENANCE</a></span>
+                                            <span class="info-box-number">{{ overall_mv_maintenance.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                 <div class="col-md-3 col-sm-6 col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-warning"></span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text"><a href="{% url 'lv:global-load-checks' %}">LOAD CHECKS</a></span>
+                                            <span class="info-box-number">{{ load_checks.count|intcomma }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart1"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart2"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div id="chart3"></div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div id="chart4"></div>
+                                </div>
+                                 <div class="col-md-4 col-sm-6 col-12">
+                                    <div id="chart5"></div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div id="chart5"></div>
+                                </div>
+
+                            </div>
+                            <hr>
+
+
+
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        {#                        <div class="card-footer p-0">#}
+                        {#                            <div class="mailbox-controls">#}
+                        {#                                <!-- Check all button -->#}
+                        {#                                <button type="button" class="btn btn-default btn-sm checkbox-toggle">#}
+                        {#                                    <i class="far fa-square"></i>#}
+                        {#                                </button>#}
+                        {#                                <div class="btn-group">#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="far fa-trash-alt"></i>#}
+                        {#                                    </button>#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="fas fa-reply"></i>#}
+                        {#                                    </button>#}
+                        {#                                    <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                        <i class="fas fa-share"></i>#}
+                        {#                                    </button>#}
+                        {#                                </div>#}
+                        {#                                <!-- /.btn-group -->#}
+                        {#                                <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                    <i class="fas fa-sync-alt"></i>#}
+                        {#                                </button>#}
+                        {#                                <div class="float-right">#}
+                        {#                                    1-50/200#}
+                        {#                                    <div class="btn-group">#}
+                        {#                                        <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                            <i class="fas fa-chevron-left"></i>#}
+                        {#                                        </button>#}
+                        {#                                        <button type="button" class="btn btn-default btn-sm">#}
+                        {#                                            <i class="fas fa-chevron-right"></i>#}
+                        {#                                        </button>#}
+                        {#                                    </div>#}
+                        {#                                    <!-- /.btn-group -->#}
+                        {#                                </div>#}
+                        {#                                <!-- /.float-right -->#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{region_trend | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{lvdaily | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+        var grapg3 = {{daily_trend_maintenace | safe }}
+            Plotly.plot("chart3", grapg3, {})
+
+        var grapg4 = {{poledefects_region_trend | safe }}
+            Plotly.plot("chart4", grapg4, {})
+
+        var grapg5 = {{PoleDefects_analysis | safe }}
+            Plotly.plot("chart5", grapg5, {})
+
+        var grapg6 = {{commission_daily_trend | safe }}
+            Plotly.plot("chart6", grapg6, {})
+
+
+    </script>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

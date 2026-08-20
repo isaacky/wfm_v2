@@ -1,0 +1,311 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Revenue Campaign Analytics</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-text-width"></i>
+            Overall Achievement
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Task</th>
+
+                <th>Target</th>
+                <th>Overall Achievement</th>
+                <th>Todays Progress</th>
+                <th>Yesterdays Achievement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>Cummulative</td>
+                <td>{{target|intcomma}}</td>
+                <td>{{meters_count|intcomma}}</td>
+                <td>{{overall_t|intcomma}}</td>
+                <td>{{overall_y|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:recovered-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+
+                <td>Recovered</td>
+                <td></td>
+                <td>{{meters_r|intcomma}}</td>
+                <td>{{meters_d_r|intcomma}}</td>
+                <td>{{meters_y_r|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:vended-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Vended</td>
+                <td></td>
+                <td>{{meters_v|intcomma}}</td>
+                <td>{{meters_d_v|intcomma}}</td>
+                <td>{{meters_y_v|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:faulty-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Faulty</td>
+                <td></td>
+                <td>{{meters_f|intcomma}}</td>
+                <td>{{meters_d_f|intcomma}}</td>
+                <td>{{meters_y_f|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:notonsite-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Not On Site</td>
+                <td></td>
+                <td>{{meters_nos|intcomma}}</td>
+                <td>{{meters_d_nos|intcomma}}</td>
+                <td>{{meters_y_nos|intcomma}}</td>
+              </tr>
+              <tr>
+                <td title="CLICK TO VIEW MORE DETAILS">
+                  <a href="{% url 'prepaid:rerec-meters'%}">
+                    <i class="fas fa-download"></i
+                  ></a>
+                </td>
+                <td>Pending Rerec Comm</td>
+                <td></td>
+                <td>{{meters_rec|intcomma}}</td>
+                <td>{{meters_d_rec|intcomma}}</td>
+                <td>{{meters_y_rec|intcomma}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 class="card-footer">
+            <strong
+              ><a href="{% url 'revenue:staff-report' %}" class="card-link"
+                >View Staff Performance</a
+              ></strong
+            >
+          </h5>
+          <br />
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+
+    <!-- /.col-md-6 -->
+  </div>
+
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Region Target</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Region</th>
+                    <th>Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for a_r in analytics_r %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{a_r.name}}</td>
+                    <td>
+                      <strong style="color: red"
+                        >{{a_r.pending|intcomma}}</strong
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Overall Region Resolution Achievement Report</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Region</th>
+                    <th>Resolution-Overall</th>
+                    <th>Resolution-Today</th>
+                    <th>Resolution-Yesterday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic1r in analytics1_r %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic1r.name}}</td>
+
+                    <td>{{analytic1r.over_r|intcomma}}</td>
+                    <td>{{analytic1r.over_r_t|intcomma }}</td>
+                    <td>{{analytic1r.over_r_y|intcomma }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+
+    <!-- /.col-md-6 -->
+  </div>
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Overall County Target</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic.name}}</td>
+                    <td>
+                      <strong style="color: red"
+                        >{{analytic.pending|intcomma}}</strong
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Overall County Resolution Progress Report</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Resolution-Overall</th>
+                    <th>Resolution-Today</th>
+                    <th>Resolution-Yesterday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic1 in analytics1 %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic1.name}}</td>
+
+                    <td>{{analytic1.over_r|intcomma}}</td>
+                    <td>{{analytic1.over_r_t }}</td>
+                    <td>{{analytic1.over_r_y }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

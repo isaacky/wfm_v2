@@ -1,0 +1,157 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | VIEW CONFIRMED METER</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+
+    <h1 class="m-0">METER NUMBER : {{ meter.meterno }}</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">View Upload</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <section class="content">
+        <!-- Default box -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="text-bold">METER IMAGE</h5>
+                            <img
+                                    src="{{ meter.meterimg.url }}"
+                                    class="product-image"
+                                    alt="Meter Image"
+                            />
+                        </div>
+                        <hr>
+
+
+
+                        <div class="ribbon-wrapper ribbon-xl">
+                            {% if meter.meteringstatus == 'okay' %}
+                                <div class="ribbon bg-success text-lg">OKAY</div>
+                            {% elif meter.meteringstatus == 'faulty' %}
+                                <div class="ribbon bg-danger text-lg">FAULTY</div>
+                            {% elif meter.meteringstatus == 'tampered' %}
+                                <div class="ribbon bg-danger text-lg">TAMPERED</div>
+                            {% elif meter.meteringstatus == 'bypassed' %}
+                                <div class="ribbon bg-success text-lg">BYPASSED</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            {% if meter.anomalytype == 'faultymeter' %}
+                                <h3 class="text-primary">CASE - FAULTY METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'meternotinincms' %}
+                                <h3 class="text-primary">CASE - METER NOT IN INCMS</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+
+                            {% elif meter.anomalytype == 'retrofit' %}
+                                <h3 class="text-primary">CASE - ILLEGAL RETROFIT</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'directconnecction' %}
+                                <h3 class="text-primary">CASE - DIRECT CONNECTION</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% elif meter.anomalytype == 'idle' %}
+                                <h3 class="text-primary">CASE - IDLE METER</h3>
+                                <p>{{ meter.sector }} SECTOR-{{ meter.county }} COUNTY</p>
+                            {% endif %}
+
+                         <h3 class="text-primary">METER STATUS : {{ meter.status4 }}</h3>
+
+
+                            <div class="text-muted">
+
+
+                                <p class="text-sm">
+                                    Location
+                                    <b class="d-block">{{ meter.latitude }},{{ meter.longitude }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    County
+                                    <b class="d-block">{{ meter.county.name }}</b>
+                                </p>
+                             <p class="text-sm">
+                                    Sector
+                                    <b class="d-block">{{ meter.zerobill.sector }}</b>
+                                </p>
+                             <p class="text-sm">
+                                    Zone
+                                    <b class="d-block">{{ meter.zerobill.zone }}</b>
+                                </p>
+
+                                <p class="text-sm">
+                                    Account Number
+                                    <b class="d-block">{{ meter.accountno }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    System Reading
+                                    <b class="d-block">{{ meter.zerobill.reading }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Meter Reading
+                                    <b class="d-block">{{ meter.readings }}</b>
+                                </p>
+                                 <p class="text-sm">
+                                    Confirmation Notes
+                                    <b class="d-block">{{ meter.comment|upper }}</b>
+                                </p>
+
+
+
+                                <p class="text-sm">
+                                    Date Confirmed
+                                    <b class="d-block">{{ meter.dtadd }}</b>
+                                </p>
+                                <p class="text-sm">
+                                    Confirmed By:
+                                    <b class="d-block">KPL{{ meter.user }}-({{ meter.user.user.name }})</b>
+                                    <b class="d-block">{{ meter.user.user.mobile }}</b>
+                                </p>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

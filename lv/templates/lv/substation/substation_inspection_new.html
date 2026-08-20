@@ -1,0 +1,724 @@
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SUBSTATION INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    <h1 class="m-0">
+        Substation Inspection
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+
+                    <div class="card-header">
+                        All The fields are required upon final submission of this Inspection
+                    </div>
+                    <div class="card-body">
+                    <div>
+                        {% if sub_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ sub_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                        <form
+                                class="form-horizontal"
+                                action="{% url 'lv:substation-update' substation_id %}"
+                                method="post"
+                        >
+                            {% csrf_token %}
+                            <button type="button" id="find-me" class="btn btn-default">
+                                Show my location
+                            </button>
+                            <br/>
+                            <p id="status"></p>
+                            <a id="map-link" target="_blank"></a>
+
+                            {{ sub_form.longitude }} {{ sub_form.latitude }}
+
+                            <hr/>
+
+                            <div class="form-group row">
+                                <label for="serialno" class="col-sm-3 col-form-label text-sm"
+                                >Serial No.</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.serialno }}</div>
+                            </div>
+
+                            <div class="form-group row" id="retention_req">
+                                <label for="voltage" class="col-sm-3 col-form-label text-sm"
+                                >Voltage</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.voltage }}</div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="kvarating" class="col-sm-3 col-form-label text-sm"
+                                >KVA Rating</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.kvarating }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="gnumber" class="col-sm-3 col-form-label text-sm"
+                                >G Number</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.gnumber }}</div>
+                            </div>
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="make" class="col-sm-3 col-form-label text-sm"
+                                >Transformer Make</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.make }}</div>
+                            </div>
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="yom" class="col-sm-3 col-form-label text-sm"
+                                >YOM</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.yom }}</div>
+                            </div>
+                         <div class="form-group row">
+                                <label for="yom" class="col-sm-3 col-form-label text-sm"
+                                >YOM</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.yom }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="location" class="col-sm-3 col-form-label text-sm"
+                                >Location</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.location }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="fusesize" class="col-sm-3 col-form-label text-sm"
+                                >Fuse Size</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.fusesize }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label
+                                        for="Sizeoflvconductor"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Size Of LV Conductor</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.sizeoflvconductor }}</div>
+                            </div>
+                            <hr/>
+
+                            <div class="form-group row">
+                                <label for="noofcircuits" class="col-sm-3 col-form-label text-sm"
+                                >No. Of Circuits</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.noofcircuits }}</div>
+                            </div>
+                            <table class="table table-sm" id="circuit1_substation">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Load Tests</th>
+                                    <th>CCT1(amps)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_R }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_Y }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_B }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>r-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_rn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5.</td>
+                                    <td>y-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_yn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6.</td>
+                                    <td>b-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c_1_bn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm" id="circuit2_substation">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Load Tests</th>
+                                    <th>CCT1(amps)</th>
+                                    <th>CCT2(amps)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_R }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_R }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_Y }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_Y }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_B }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_B }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>r-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_rn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_rn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5.</td>
+                                    <td>y-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_yn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_yn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6.</td>
+                                    <td>b-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_1_bn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c2_2_bn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm" id="circuit3_substation">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Load Tests</th>
+                                    <th>CCT1(amps)</th>
+                                    <th>CCT2(amps)</th>
+                                    <th>CCT3(amps)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>R</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_R }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_R }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_R }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Y</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_Y }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_Y }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_Y }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>B</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_B }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_B }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_B }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>r-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_rn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_rn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_rn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5.</td>
+                                    <td>y-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_yn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_yn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_yn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6.</td>
+                                    <td>b-n</td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_1_bn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_2_bn }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group row">
+                                            <div class="col-sm-9">{{ sub_form.c3_3_bn }}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr/>
+                            <div class="form-group row">
+                                <label
+                                        for="hvearth_intact"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >HV Earth Intact</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.hvearth_intact }}</div>
+                            </div>
+                            <div class="form-group row" id="hvearth_intact">
+                                <label
+                                        for="hvearth_values"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >HV Earth Values</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.hvearth_values }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label
+                                        for="neutralearth_intact"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Neutral Earth Intact</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.neutralearth_intact }}</div>
+                            </div>
+                            <div class="form-group row" id="neutralearth_intact">
+                                <label
+                                        for="neutralvearth_values"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Neutral Earth Values</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.neutralvearth_values }}</div>
+                            </div>
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label
+                                        for="surgearrestors"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Surge Arrestors</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.surgearrestors }}</div>
+                            </div>
+                            <div class="form-group row" id="surgearrestors">
+                                <label
+                                        for="surgearrestors_values"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Surge Arrestors Values</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.surgearrestors_values }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="arcinghorns" class="col-sm-3 col-form-label text-sm"
+                                >Arcing Horns</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.arcinghorns }}</div>
+                            </div>
+                            <div class="form-group row" id="arcinghorns">
+                                <label for="gapset_values" class="col-sm-3 col-form-label text-sm"
+                                >Gapset Values(mm)</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.gapset_values }}</div>
+                            </div>
+                            <hr/>
+                            <h5>
+                                Winding Continuity (Ohms)
+                            </h5>
+                             <div>
+                                <h6>
+                                    HV
+
+                                </h6>
+                                <div class="form-group row">
+                                    <label for="hv_b_r" class="col-sm-3 col-form-label text-sm">B-R</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_b_r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_b_r.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="hv_r_y" class="col-sm-3 col-form-label text-sm">R-Y</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_r_y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_r_y.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="hv_y_b" class="col-sm-3 col-form-label text-sm">Y-B</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_y_b }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_y_b.help_text }}</em></span>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                        <div>
+                                <h6>LV</h6>
+                                <div class="form-group row">
+                                    <label for="lv_b_n" class="col-sm-3 col-form-label text-sm">b-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_b_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_b_n.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lv_r_n" class="col-sm-3 col-form-label text-sm">r-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_r_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_r_n.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lv_y_n" class="col-sm-3 col-form-label text-sm">y-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_y_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_y_n.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                         <div>
+                                <h5>Insulation(m-Ohms) -HV-LV</h5>
+                                <div class="form-group row">
+                                    <label for="insul_lve" class="col-sm-3 col-form-label text-sm">LV-E</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_lve }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_lve.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="insul_hv_lv" class="col-sm-3 col-form-label text-sm">HV-LV</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_hv_lv }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_hv_lv.help_text }}</em></span>
+                                </div>
+                                 <div class="form-group row">
+                                    <label for="insul_hv_e" class="col-sm-3 col-form-label text-sm">HV-E</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_hv_e }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_hv_e.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="lvleads_size" class="col-sm-3 col-form-label text-sm"
+                                >LV Leads Size</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.lvleads_size }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="txloading" class="col-sm-3 col-form-label text-sm"
+                                >TX Loading Adequate</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.txloading }}</div>
+                            </div>
+                            <div class="form-group row" id="txloading_yes">
+                                <label for="txloading_yes" class="col-sm-3 col-form-label text-sm"
+                                >TX Loading Yes</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.txloading_yes }}</div>
+                            </div>
+                            <div class="form-group row" id="load_distributionby">
+                                <label
+                                        for="load_distributionby"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Load Distribution By</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.load_distributionby }}</div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label
+                                        for="c_tx_structure"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Condition Of Tx Structure</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.c_tx_structure }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label
+                                        for="c_fuse_carriers"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Condition Of Fuse Carriers</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.c_fuse_carriers }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label
+                                        for="c_fuse_carriers"
+                                        class="col-sm-3 col-form-label text-sm"
+                                >Type Of Fuse Bar</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.t_fuse_bar }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="c_fuse_bar" class="col-sm-3 col-form-label text-sm"
+                                >Condition Of Fuse Bar</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.c_fuse_bar }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txwiring" class="col-sm-3 col-form-label text-sm"
+                                >Tx Wiring</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.txwiring }}</div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inspect_notes" class="col-sm-3 col-form-label text-sm"
+                                >Inspector Notes</label
+                                >
+                                <div class="col-sm-9">{{ sub_form.inspect_notes }}</div>
+                            </div>
+
+                            <div>
+                                <ul>
+                                    {% for field in lv_form %}
+                                        <!-- /.card-body -->
+                                        {% if field.errors %}
+                                            <!-- /.card-body -->
+                                            {% for error in field.errors %}
+                                                <li style="color: red">{{ error }}</li>
+                                            {% endfor %}
+                                            <!-- /.card-body -->
+                                        {% endif %}
+                                        <!-- /.card-body -->
+                                    {% endfor %}
+                                    <li style="color: red">{{ lv_form.non_field_errors }}</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-5 mb-3">
+                                <button
+                                        type="submit"
+                                        name="finalsubmission"
+                                        class="btn btn-sm btn-success"
+                                        value="finalsubmission"
+                                >
+                                    Final Submit
+                                </button>
+                                <button
+                                        type="submit"
+                                        name="draft"
+                                        value="draft"
+                                        class="btn btn-sm btn-primary"
+                                >
+                                    Save Draft
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/substation_inspection.js' %}"></script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

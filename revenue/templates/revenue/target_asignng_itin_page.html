@@ -1,0 +1,244 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | REVENUE TARGET ALLOCATION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        DEBT LIST ALLOCATION
+        <br/>
+    </h1>
+    {#    <h5>These are generated reports for the Last 12 Months</h5>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button
+                                        type="button"
+                                        class="btn btn-tool"
+                                        data-card-widget="collapse"
+                                >
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item active">
+                                    <a href="{% url 'revenue:debt-list' %}" class="nav-link">
+                                        Assign By Accounts
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="{% url 'revenue:debt-list-itin' %}" class="nav-link">
+                                        Assign By Itin
+                                    </a>
+                                </li>
+                                 <li class="nav-item active">
+                                    <a href="{% url 'revenue:debt-list-zone' %}" class="nav-link">
+                                        Assign By Zone
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'revenue:county-asignments' %}" class="nav-link">
+                                        Assignments
+                                    </a>
+                                </li>
+
+
+
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-10">
+
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <p>
+                            <form action="{% url 'revenue:search-by-itin-itin' %}">
+                                <div class="input-group">
+                                    <input
+                                            type="text"
+                                            name="keyword"
+                                            required
+                                            class="form-control form-control-lg"
+                                            placeholder="Search By Itin"
+                                    />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            </p>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <div>
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+
+                            <form
+                                    class="form-horizontal"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                                    action="{% url 'revenue:asign-accounts-itin' %}"
+                                    novalidate
+                            >
+                                {% csrf_token %}
+                                {{ m_form.asigned_to.label_tag }}
+                                {{ m_form.asigned_to }}
+                                {{ m_form.dt_asigned.label_tag }}
+                                {{ m_form.dt_asigned }}
+
+                                <hr>
+
+                                <div class="card-body p-0 table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Itin</th>
+                                            <th class="text-right">No OF Accounts</th>
+                                             <th class="text-right">No Targeted Accounts</th>
+                                            <th class="text-right">Target Balance</th>
+                                            <th class="text-right">Current Balance</th>
+
+
+{#                                            <th>Itin</th>#}
+{#                                            <th>Sector</th>#}
+{#                                            <th>Zone</th>#}
+{#                                            <th>Location</th>#}
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for meterr in meters %}
+                                            <tr>
+                                                {#                  <td>{{forloop.counter}}</td> #}
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input largerCheckbox"
+                                                               type="checkbox"
+                                                               value="{{ meterr.itin }}" id="{{ meterr.itin }}"
+                                                               name="z" required>
+
+                                                    </div>
+                                                </td>
+                                                <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                        href="#">{{ meterr.itin }}</a>
+                                                </td>
+                                                <td class="text-right">{{ meterr.total_accounts }}</td>
+                                                 <td class="text-right">{{ meterr.target_accounts|intcomma }}</td>
+                                                <td class="text-right">{{ meterr.total_balance|intcomma }}</td>
+                                                <td class="text-right">{{ meterr.total_balance_new|intcomma }}</td>
+
+
+{#                                                <td title="CLICK TO VIEW MORE DETAILS"><a#}
+{#                                                        href="{% url 'revenue:debtlist-itins' meterr.itin %}">{{ meterr.itin }}</a>#}
+{#                                                </td>#}
+{#                                                <td>{{ meterr.sector }}</td>#}
+{#                                                <td>{{ meterr.zone }}</td>#}
+{#                                                <td>{{ meterr.location }}</td>#}
+                                                {#                   <td>{{meterr.xcood}},{{meterr.ycood}}</td>#}
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <p>
+                                    <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-info">SUBMIT</button>
+
+
+                                </div>
+                                <!-- /.card-footer -->
+                            </form>
+
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0"></div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+{% endblock content %}

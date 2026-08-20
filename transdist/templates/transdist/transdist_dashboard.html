@@ -1,0 +1,129 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | STATIONS DASHBOARD</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:generation-dashboard' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">Stations Inspections Dashboard</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Analytics</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart2"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-8 col-sm-6 col-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div id="chart1"></div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Regional Analysis</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0 p-0 table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>REGION</th>
+                                        <th>TARGET</th>
+                                        <th>INSPECTED SSN</th>
+                                        <th>PENDING</th>
+                                        <th>TODAY</th>
+                                        <th>{{ yesterday }}</th>
+                                        <th>{{ yesterday_1 }}</th>
+                                        <th>INCOMERS</th>
+                                        <th>INCOMERS-UNMETERED</th>
+                                        <th>POWERTX</th>
+                                        <th>POWERTX-UNMETERED</th>
+                                        <th>OUTGOING</th>
+                                         <th>OUTGOING-UNMETERED</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in regional_analytics %}
+                                        <tr>
+
+                                            <td>{{ meterr.region__name }}</td>
+                                            <td>{{ meterr.trdis_target|intcomma }}</td>
+                                            <td>{{ meterr.trdis_inspected|intcomma }}</td>
+                                            <td>{{ meterr.trdis_inspected_pending|intcomma }}</td>
+                                            <td>{{ meterr.trdis_today|intcomma }}</td>
+                                            <td>{{ meterr.trdis_yesturday|intcomma }}</td>
+                                            <td>{{ meterr.trdis_yesturday_1|intcomma }}</td>
+                                            <td>{{ meterr.incomers|intcomma }}</td>
+                                            <td>{{ meterr.incomer_unmetered|intcomma }}</td>
+                                            <td>{{ meterr.powertx|intcomma }}</td>
+                                            <td>{{ meterr.powertx_unmetered|intcomma }}</td>
+                                            <td>{{ meterr.outgoing|intcomma }}</td>
+                                            <td>{{ meterr.outgoing_unmetered|intcomma }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+
+            <!-- /.col -->
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{daily_trend_plot | safe }}
+            Plotly.plot("chart1", grapg1, {})
+
+        var grapg2 = {{target_achievement | safe }}
+            Plotly.plot("chart2", grapg2, {})
+
+
+    </script>
+{% endblock content %}
+</div>

@@ -1,0 +1,173 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | DOMESTIC CUSTOMERS ANOMALOUS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    {#    <a href="{% url 'postpaid:dc-viewinspected' %}" class="btn btn-default btn-sm" title="REFRESH">#}
+    {#        <i class="fas fa-sync-alt"></i>#}
+    {#    </a>#}
+    <h1 class="m-0">
+        Anomalous Domectic Customers Pending Resolution
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Telcos</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-3 col-6">
+                                <div class="description-block border-right">
+
+                                    <h5 class="description-header"> {{ meters_count|intcomma }}</h5>
+                                    <span class="description-text"> NO. OF ACCOUNTS PENDING</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+
+
+                            <!-- /.col -->
+
+
+                            <!-- /.col -->
+
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+
+                <div class="card-body">
+                </div>
+
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div id="chart1"></div>
+                    </div>
+                </div>
+
+                <!-- /.col-md-6 -->
+            </div>
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+
+                        {% if meters %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>MeterNo</th>
+                                        <th>Account</th>
+                                        <th>County</th>
+                                        <th>Meter Type</th>
+                                        <th>Metering Status</th>
+                                        <th>Date Inspected</th>
+                                        <th>AVG Units</th>
+                                        <th>System Reading</th>
+                                        <th>Meter Reading</th>
+                                        <th>Unbilled Units</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in meters %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="{% url 'postpaid:view-dc-inspected' meterr.id %}">{{ meterr.dc_meterno }}</a>
+                                            </td>
+                                            <td>{{ meterr.dc_accountno }}</td>
+                                            <td>{{ meterr.dc_county }}</td>
+                                            <td class='text-uppercase'>{{ meterr.dc_conf_type }}</td>
+                                            <td class='text-uppercase'>{{ meterr.dc_meteringstatus }}</td>
+                                            <td>{{ meterr.dtadd|date:"d M Y" }}</td>
+                                            <td>{{ meterr.dc.avg_units }}</td>
+                                            <td>{{ meterr.system_reading }}</td>
+                                            <td>{{ meterr.dc_reading }}</td>
+                                            <td>{{ meterr.diff|intcomma }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <p>
+                                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                </div>
+                                </p>
+                                <p>
+                                    <a href="{% url 'postpaid:telcos-anomalous-export' %}"
+                                       class="btn btn-primary btn-sm">Export List to csv</a>
+                                </p>
+
+                            </div>
+                        {% else %}
+                            <p>
+                                NO RECORDS FOUND.
+                            </p>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        var grapg1 = {{df | safe }}
+        Plotly.plot("chart1", grapg1, {})
+
+
+    </script>
+{% endblock content %}

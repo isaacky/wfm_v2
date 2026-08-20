@@ -1,0 +1,253 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button
+            title="GO BACK"
+            type="button"
+            class="btn btn-default btn-sm"
+            onclick="history.back()"
+    >
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr/>
+    <h1 class="m-0 text-bold">
+        MY TRANSMISSION INSPECTIONS
+        <br/>
+    </h1>
+    <h5>These are generated reports for the Last 12 Months</h5>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase">Report Category</h3>
+
+                            <div class="card-tools">
+                                <button
+                                        type="button"
+                                        class="btn btn-tool"
+                                        data-card-widget="collapse"
+                                >
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="{% url 'transmission:trans-dashboard-my' %}" class="nav-link">
+                                        My Tower Inspections
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'lv:lvinspection-my' %}" class="nav-link">
+                                        My LV Inspections
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            {% if title == 'My Tower Inspections' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>TOWER</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">{{ my.towerno }}</td>
+                                                <td>
+                                                    {% if my.final_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.final_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'transmission:tower-update' my.id %}"
+                                                                class="btn btn-sm btn-primary"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'transmission:tower-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvinspection-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% elif title == 'My LV Maintenance' %}
+                                <div class="card-body p-0 table-responsive">
+                                    <table id="example1" class="table table-sm table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>REPORT ID</th>
+                                            <th>INSPECTION DATE</th>
+                                            <th>SUBSTATION</th>
+                                            <th>SAVE STATUS</th>
+                                            <th>APROVE STATUS</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for my in data %}
+                                            <tr>
+                                                <td>{{ my.id }}</td>
+                                                <td>{{ my.dtupdate|date:"d M Y" }}</td>
+                                                <td class="text-uppercase">
+                                                    {{ my.lvinspection__substation__ssn }}
+                                                </td>
+                                                <td>
+                                                    {% if my.save_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> DRAFT</small
+                                                        >
+                                                    {% elif my.save_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> SAVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <small class="badge badge-danger"
+                                                        ><i class="far fa-clock"></i> PENDING</small
+                                                        >
+                                                    {% elif my.aprv_status == True %}
+                                                        <small class="badge badge-success"
+                                                        ><i class="far fa-clock"></i> APPROVED</small
+                                                        >
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    {% if my.aprv_status == False %}
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-update' my.lvinspection %}"
+                                                                class="btn btn-sm btn-primary btn-sm"
+                                                        >
+                                                            <i class="fas fa-edit"></i
+                                                            ></a>
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-delete' my.id %}"
+                                                                class="btn btn-sm btn-danger"
+                                                        >
+                                                            <i class="fas fa-trash"></i
+                                                            ></a>
+
+                                                    {% elif my.save_status == True %}
+                                                        <a
+                                                                href="{% url 'lv:lvmaintenance-print' my.id %}"
+                                                                target="_blank"
+                                                                class="btn btn-sm btn-success btn-sm"
+                                                        >
+                                                            <i class="fas fa-print"></i
+                                                            ></a>
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            {% endif %}
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0"></div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+        <!-- /.row -->
+    </div>
+
+{% endblock content %}

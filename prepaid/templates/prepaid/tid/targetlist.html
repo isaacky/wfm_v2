@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | TID CUSTOMERS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+     <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+{#    <a href="{% url 'postpaid:dc-viewinspected' %}" class="btn btn-default btn-sm" title="REFRESH">#}
+{#        <i class="fas fa-sync-alt"></i>#}
+{#    </a>#}
+    <h1 class="m-0">
+        Non Compliant TID Star Meters Target List in {{ county }}
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">DC</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <br>
+                        <p>
+                        <form action="{% url 'prepaid:tid-search-by-meter' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Meter Number"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+
+                        {% comment %} <p>
+                        <form action="{% url 'postpaid:telcos-search-by-siteid' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By Site ID"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p> {% endcomment %}
+
+
+                        {% if meters %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>MeterNo</th>
+                                        <th>Account</th>
+                                        <th>Customer Name</th>
+                                        <th>Supply Address</th>
+                                        <th>Itin</th>
+
+                                        <th>Sector</th>
+
+                                        <th>Zone</th>
+                                        <th>Tech Center</th>
+                                        <th>Geolocation</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in meters %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+
+                                            <td title="CLICK TO VIEW MORE DETAILS"><a
+                                                    href="{% url 'prepaid:upgrade-tid' meterr.id %}">{{ meterr.meterno }}</a>
+                                            </td>
+                                            <td>{{ meterr.accountno }}</td>
+                                            <td>{{ meterr.customer_name }}</td>
+                                            <td>{{ meterr.supply_address }}</td>
+                                            <td>{{ meterr.itin }}</td>
+                                            <td>{{ meterr.sector }}</td>
+                                            <td>{{ meterr.zone }}</td>
+                                            <td>{{ meterr.tech_center }}</td>
+                                            <td>{{ meterr.latitude }}{{ meterr.longitute }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <p>
+                                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                </div>
+                                </p>
+                               <p>
+                                                <a href="{% url 'prepaid:tid-export-pending' %}" class="btn btn-primary btn-sm">Export Pending in Your County</a>
+                                              </p>
+                                              <p>
+                                                <a href="{% url 'prepaid:tid-export-pending-overall' %}" class="btn btn-primary btn-sm">Export Overall Pending</a>
+                                              </p>
+
+                            </div>
+                        {% else %}
+                             <p>
+                                 NO RECORDS FOUND. 
+                            </p>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

@@ -1,0 +1,218 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LP My Inspections</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:lp-new-inspected' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">
+        My Large Power Inspection 2024
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Large Power</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+{#                        <h5 class="card-title"> For a Streetlight With no meter (Direct Supply),#}
+{#                            <a href="{% url 'postpaid:publiclighting-direct' %}"><strong>CLICK HERE</strong></a>#}
+{#                        </h5><br>#}
+{#                        <h5 class="card-title"> For a Streetlights account that is not on the target list,#}
+{#                            <a href="{% url 'postpaid:publiclighting-noton-target' %}"><strong>CLICK HERE</strong></a>#}
+{#                        </h5><br>#}
+                        <br>
+                        <p>
+                        <form action="{% url 'postpaid:lp-new-search-by-srn-inspected-my' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By SRN"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+ <p>
+                          <form action="{% url 'postpaid:lp-new-search-by-meterno-inspected-my' %}">
+                            <div class="input-group">
+                                <input
+                                        type="text"
+                                        name="keyword"
+                                        required
+                                        class="form-control form-control-lg"
+                                        placeholder="Search By METER NUMBER"
+                                />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </p>
+
+
+
+
+                        {% if meters %}
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                   <tr>
+                                        <th></th>
+                                        <th></th>
+                                         <th>SRN</th>
+                                        <th>MeterNo</th>
+                                        <th>Account</th>
+                                        <th>Customer Name</th>
+                                        <th>County</th>
+                                        <th>Progress</th>
+                                        <th>Anomalous</th>
+                                        <th>Date Updated</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for meterr in meters %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                                                                    <td>
+                                            {% if meterr.lp__inspection_status == 2  %}
+                                                <a href="{% url 'postpaid:inspection-print' meterr.lp__id %}" target="_blank"
+                                                   class="btn btn-sm btn-success">
+                                                    <i class="fas fa-print"></i
+                                                    ></a>
+                                            {% elif meterr.lp__inspection_status == 0 and meterr.lp__ctvt_mismatch == 'NO' and meterr.lp__zera_failed == 'YES' and meterr.lp__currents_mismatch == 'NO' %}
+                                                <a href="{% url 'postpaid:lp-new-inspection' meterr.lp__id %}"
+                                                   class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-plus"></i
+                                                    ></a>
+                                            {% elif meterr.lp__inspection_status == 1 or meterr.lp__ctvt_mismatch == 'NO' or meterr.lp__zera_failed == 'YES' or meterr.lp__currents_mismatch == 'NO' %}
+                                                <a href="{% url 'postpaid:lp-update-inspection' meterr.lp__id %}"
+                                                   class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i
+                                                    ></a>
+                                                <a href="{% url 'postpaid:inspection-delete' meterr.lp__id %}"
+                                                   class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i
+                                                    ></a>
+                                            {% endif %}
+
+                                        </td>
+                                             <td>{{ meterr.lp__srn }}
+                                            </td>
+
+                                            <td>{{ meterr.lp__meterno }}
+                                            </td>
+                                            <td>{{ meterr.lp__accountno }}</td>
+                                            <td>{{ meterr.lp__customer_name }}</td>
+                                            <td>{{ meterr.county__name }}</td>
+                                         <td class="project_progress">
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="{{ meterr.lp__over_per }}"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width: {{ meterr.lp__over_per }}%">
+                                                </div>
+                                            </div>
+                                            <small>
+                                                {{ meterr.lp__over_per }}% Complete
+                                            </small>
+
+
+                                        </td>
+                                        <td>
+                                            {% if meterr.lp__ctvt_mismatch == 'NO' %}
+                                            <small class="badge badge-danger">CTVT Mismatch</small>
+                                            {% endif %}
+                                            {% if meterr.lp__zera_failed == 'YES' %}
+                                            <small class="badge badge-danger">Failed Zera</small>
+                                            {% endif %}
+                                            {% if meterr.lp__currents_mismatch == 'NO' %}
+                                            <span class="badge badge-danger">Currents Mismatch</span>
+                                           {% endif %}
+                                        </td>
+                                        <td>{{ meterr.dtupdate|date:"d M Y" }}</td>
+
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <p>
+                                <div class="pagination pagination-sm m-0 float-right">
+                  <span class="step-links">
+                    {% if meters.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ meters.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                      <span class="current">
+                      Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                    </span>
+
+                      {% if meters.has_next %}
+                          <a href="?page={{ meters.next_page_number }}">next</a>
+                          <a href="?page={{ meters.paginator.num_pages }}"
+                          >last &raquo;</a
+                          >
+                      {% endif %}
+                  </span>
+                                </div>
+                                </p>
+                                {#              <p>#}
+                                {#                <a href="{% url 'postpaid:threephase-target-export' %}" class="btn btn-primary btn-sm">Export Target List to csv</a>#}
+                                {#              </p>#}
+
+                            </div>
+                        {% else %}
+                            <p>
+                                NO RECORDS FOUND.
+                            </p>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

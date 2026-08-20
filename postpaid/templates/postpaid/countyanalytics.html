@@ -1,0 +1,118 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0">Zero Bills Campaign Analytics</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">Analytics</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Overall County Target</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic in analytics %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td title="CLICK TO VIEW MORE DETAILS">
+                      <a href="{% url 'postpaid:view-user' analytic.id %}"
+                        >{{analytic.name}}</a
+                      >
+                    </td>
+
+                    <td>
+                      <strong style="color: red"
+                        >{{analytic.pending|intcomma}}</strong
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- /.Analytic Table -->
+          <div class="row">
+            <div class="card-body table-responsive p-0">
+              <br />
+              <h3 class="card-title">
+                <strong>Overall County Resolution Progress Report</strong>
+              </h3>
+
+              <table class="table table-bordered table-sm table responsive">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>County</th>
+                    <th>Resolution-Overall</th>
+                    <th>Resolution-Today</th>
+                    <th>Resolution-Yesterday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for analytic1 in analytics1 %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{analytic1.name}}</td>
+
+                    <td>{{analytic1.over_r|intcomma}}</td>
+                    <td>{{analytic1.over_r_t }}</td>
+                    <td>{{analytic1.over_r_y }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}

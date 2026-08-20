@@ -1,0 +1,155 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | PUBLIC LIGHTING INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0"><small>PublicLighting Inspection</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">PublicLighting Inspection</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Record Form</h3>
+
+                            </div>
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.errors }}
+                                </div>
+                            {% endif %}
+                            <p>NOTE: 1. The image is Required 2. Where Meter is Faulty or not readable, input 0 as the
+                                meter reading</p>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <div>
+
+                                <form
+                                        class="form-horizontal"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        novalidate
+                                >
+
+                                    {% csrf_token %}
+                                    <button type="button" id="find-me">Show my location</button>
+                                    <br/>
+                                    <p id="status"></p>
+                                    <a id="map-link" target="_blank"></a>
+
+                                    {{ form.x }} {{ form.y }}
+
+
+                                    {{ form.meterno.label_tag }}
+                                    {{ form.meterno }}
+                                    {{ form.accountno.label_tag }}
+                                    {{ form.accountno }}
+
+                                    {{ form.phase.label_tag }}
+                                    {{ form.phase }}
+
+                                    {{ form.metertype.label_tag }}
+                                    {{ form.metertype }}
+
+                                    {{ form.meter_type.label_tag }}
+                                    {{ form.meter_type }}
+
+                                    {{ form.meter_readable.label_tag }}
+                                    {{ form.meter_readable }}
+                                    <div id="reading">
+                                        {{ form.reading.label_tag }}
+                                        {{ form.reading }}
+                                    </div>
+
+
+                                    {{ form.meteringstatus.label_tag }}
+                                    {{ form.meteringstatus }}
+
+                                    {{ form.faultystatus }}
+
+                                    {{ form.tamperedstatus }}
+                                    {{ form.bypassstatus }}
+
+                                    {{ form.installationstatus.label_tag }}
+                                    {{ form.installationstatus }}
+                                    {{ form.notokaystatus }}
+
+
+                                    {{ form.comment.label_tag }}
+                                    {{ form.comment }}
+
+                                    <br>
+
+                                    {{ form.public_l_img.label_tag }}
+                                    {{ form.public_l_img }}
+                                    <br>
+
+
+                                    </hr>
+                                    <br>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">SUBMIT RECORD</button>
+
+
+                                    </div>
+
+
+                                </form>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.col-md-6 -->
+
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+

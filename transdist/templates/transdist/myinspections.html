@@ -1,0 +1,161 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | TRANSDIST INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">
+        My Transmission/Distribution substation Inspections
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+            <li class="breadcrumb-item active">My-Inspections</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">You Have <strong class="text-success"> {{ meters_count }} </strong>
+                            Inspections</h5><br>
+
+                        <p>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>INSPECTION ID</th>
+                                    <th>SUBSTATION NAME</th>
+                                    <th>TYPE</th>
+                                    <th>INCOMING FEEDERS</th>
+                                    <th>OUTGOING FEEDERS</th>
+                                    <th>POWER TX</th>
+                                    <th>AUX TX</th>
+                                    <th>DATE</th>
+                                    <th>SAVE STATUS</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for my in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}.</td>
+                                        <td>{{ my.id }}</td>
+                                        <td class="text-uppercase">{{ my.transdist.name }}</td>
+                                        <td class="text-uppercase">{{ my.transdist.type }}</td>
+                                        <td>{{ my.incomers }}</td>
+                                        <td>{{ my.outgoing }}</td>
+                                        <td>{{ my.powertx }}</td>
+                                        <td>{{ my.auxtx }}</td>
+                                        <td>{{ my.dtupdate|date:"d M Y" }}</td>
+
+                                        <td>
+                                            {% if my.save_status == True %}
+                                                <span class="badge bg-success">SUBMITTED</span>
+                                            {% elif my.save_status == False %}
+                                                <span class="badge bg-warning">DRAFT</span>
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+                                            {% if my.save_status == False %}
+                                                <a href="{% url 'transdist:transdist-update' my.id %}"
+                                                   title="CLICK tO UPDATE"
+                                                   class="btn btn-sm btn-primary btn-sm"> <i
+                                                        class="fas fa-edit"></i></a>
+                                                <a
+                                                        href="{% url 'transdist:transdist-delete' my.id %}"
+                                                        title="CLICK TO DELETE"
+                                                        class="btn btn-sm btn-danger"
+                                                >
+                                                    <i class="fas fa-trash"></i
+                                                    ></a>
+                                            {% elif my.save_status == True %}
+
+                                                <a href="{% url 'transdist:inspection-detail' my.id %}"
+                                                   target="_blank" class="btn btn-sm btn-success btn-sm"> <i
+                                                        class="fas fa-print"></i></a>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        </p>
+                        <div class="pagination pagination-sm m-0 float-right">
+              <span class="step-links">
+                {% if meters.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ meters.previous_page_number }}">previous</a>
+                {% endif %}
+
+                  <span class="current">
+                  Page {{ meters.number }} of {{ meters.paginator.num_pages }}.
+                </span>
+
+                  {% if meters.has_next %}
+                      <a href="?page={{ meters.next_page_number }}">next</a>
+                      <a href="?page={{ meters.paginator.num_pages }}"
+                      >last &raquo;</a
+                      >
+                  {% endif %}
+              </span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

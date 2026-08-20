@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WORKFORCE | MV INSPECTION PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> KYN
+                    <small class="float-right">Date: {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ lvinspection.id }}</b><br>
+                <br>
+                <b>FEEDER:</b> {{ lvinspection.feeder }}<br>
+                <b>FEEDER SECTION:</b> {{ lvinspection.feeder_section}}<br>
+                <b>FEEDER SECTION DETAIL:</b> {{ lvinspection.feeder_section.detail}}<br>
+                <b>COUNTY:</b> {{ lvinspection.county.name }}
+            </div>
+            <!-- /.col -->
+
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>INSPECTION DATE:</b> {{ lvinspection.dtupdate|date:"d M Y" }}<br>
+                <b>INSPECTED BY:</b>KPL {{ lvinspection.inspectedby}}<br>
+                <b>SIGN</b>____________________________ <br><br>
+                <b>APPROVED DATE:</b> {{ lvinspection.aprv_dt|date:"d M Y" }}<br>
+                <b>APPROVED BY:</b>KPL {{ lvinspection.aprv_by }}<br>
+                 <b>SIGN</b>____________________________ <br>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table table-striped table-bordered table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ITEM</th>
+                                <th>FINDINGS</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>FEEDER</td>
+                                <td class="text-uppercase">{{ lvinspection.feeder }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>FEEDER SECTION</td>
+                                <td class="text-uppercase">{{ lvinspection.feeder_section }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>SECTION DETAIL</td>
+                                <td class="text-uppercase"> {{ lvinspection.feeder_section.name }}</td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td>4.</td>
+                                <td>DATE OF INSPECTION</td>
+                                <td>{{ lvinspection.dtupdate|date:"d M Y" }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>INSPECTOR</td>
+                                <td class="text-uppercase">KPL{{ lvinspection.inspectedby }}
+                                    - {{ lvinspection.inspectedby.user.name }}, {{ lvinspection.inspectedby.othername }}
+                                    <br>
+                                    <span>MOBILE : {{ lvinspection.inspectedby.user.mobile }}</span></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>INSPECTOR MOTES</td>
+                                <td class="text-uppercase">{{ lvinspection.comments }}</td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p class="text-uppercase"><strong>INSPECTION DETAILS</strong></p>
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>NO. POLES WITHOUT STAYS?</td>
+                                <td>{{ lvinspection.no_poleswithoutstays }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>NO. OF ROTTEN TX STRUCTURE</td>
+                                <td>{{ lvinspection.no_rottentxstructure }}
+
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>NO. OF LEANING TX STRUCTURE</td>
+                                <td>{{ lvinspection.no_leaningtxstructure }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>10.</td>
+                                <td>NO. OF SAGS TO RETENTION</td>
+                                <td>{{ lvinspection.no_sagstoretention }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11.</td>
+                                <td>NO. OF SECTIONS TO DOUBLE JUMPER</td>
+                                <td>{{ lvinspection.no_sectionstodoublejumper }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>12.</td>
+                                <td>NO. OF FUSE MOUNTS TO BE REPLACED</td>
+                                <td>{{ lvinspection.no_replacefusemounts }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>13.</td>
+                                <td>NO. OF HT FUSES BYPASSED</td>
+                                <td>{{ lvinspection.no_bypassedhtfuses }} <br>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>14.</td>
+                                <td>NO. OF SPUR TAPLINS TO INSTALL</td>
+                                <td>{{ lvinspection.no_spurtaplins }}
+                                </td>
+
+                            </tr>
+                               <tr>
+                                <td>15.</td>
+                                <td>NO. OF FAULTY A/B SWITCHES</td>
+                                <td>{{ lvinspection.no_faultyabswitces }}
+                                </td>
+
+                            </tr>
+                              <tr>
+                                <td>16.</td>
+                                <td>NO. OF NEW A/B SWITCHES TO INSTALL</td>
+                                <td>{{ lvinspection.no_installabswitces }}
+                                </td>
+
+                            </tr>
+                              <tr>
+                                <td>17.</td>
+                                <td>NO. OF LOCATION WITH OVERHANGING TREES</td>
+                                <td>{{ lvinspection.no_overhangingtrees }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>NO. OF KMs FOR TRACE MAINTENANCE</td>
+                                <td>{{ lvinspection.no_tracemaint }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>19.</td>
+                                <td>NO. OF KMs FOR UPRATING CONDUCTORS</td>
+                                <td>{{ lvinspection.no_upratingconductors }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>20.</td>
+                                <td>NO. OF AUTOCLOSURES REQUIRED</td>
+                                <td>{{ lvinspection.no_autoclosures }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>20.</td>
+                                <td>NO. OF FAULTY AUTOCLOSURES </td>
+                                <td>{{ lvinspection.no_autoclosuresfaulty }}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>21.</td>
+                                <td>NO. OF FAULTY HV CABLE </td>
+                                <td>{{ lvinspection.no_faultyhvcable }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>22.</td>
+                                <td>NO. OF STRUCTURES WITHOUT TX </td>
+                                <td>{{ lvinspection.no_structureswithouttx }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>23.</td>
+                                <td>NO. OF HV JUMPER CABLES WITHOUT LUGS </td>
+                                <td>{{ lvinspection.no_jumpercableswithoutlugs }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>24.</td>
+                                <td>NO. OF MISSING/DISCONNECTED SURGE DIVERTERS </td>
+                                <td>{{ lvinspection.no_disconnsurged }}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>25.</td>
+                                <td>NO. OF TX MISSING EARTHING </td>
+                                <td>{{ lvinspection.no_txmissingearthing }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>26.</td>
+                                <td>NO. OF SUBSTATION WITHOUT NUMBERS </td>
+                                <td>{{ lvinspection.no_ssnnumberless }}
+                                </td>
+
+                            </tr>
+                             <tr>
+                                <td>27.</td>
+                                <td>NO. OF LOCATIONS WITH WAYLEAVE INFRINGEMENT </td>
+                                <td>{{ lvinspection.no_wayleaveinfrng }}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>28.</td>
+                                <td>POLE DEFECTS</td>
+                                <td>
+                                    <div class="card">
+
+                                        <!-- /.card-header -->
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>DEFECT TYPE</th>
+                                                    <th>LOCATION</th>
+                                                    <th>CORDINATES</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for pd in poledefects %}
+
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}.</td>
+                                                        <td class="text-uppercase">{{ pd.defect_type }}</td>
+                                                        <td class="text-uppercase">{{ pd.location }}</td>
+                                                        <td class="text-uppercase">{{ pd.y }},{{ pd.x }}</td>
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </td>
+                                <td></td>
+
+                            </tr>
+
+                            <tr>
+                                <td>28.</td>
+                                <td>APPROVE NOTES </td>
+                                <td>{{ lvinspection.aprv_notes }}
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+                        </td>
+                        <td></td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Zero Bill</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %} {% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">View Upload</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<section class="content">
+  <!-- Default box -->
+
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h1 style="color red">
+            <span class="badge bg-danger">
+              Sorry we are doing some updates. We wil be back
+              shortly.............</span
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | MY DASHBOARD</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <h1 class="m-0">
+        MY-DASHBOARD
+        {#  <small#}
+        {#    ><a href="{% url 'change-sector' %}" title="CLICK HERE TO CHANGE THE COUNTY"#}
+        {#      >{{sectorname}}</a#}
+        {#    >#}
+        {#    COUNTY</small#}
+        {#  >#}
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">My-Dashboard</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            {#  KAGUA CONNECTION CARD#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">DOMESTIC CUSTOMERS</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:domestic-customers' %}"
+                            >View Target List</a
+                            ></span
+                            >
+
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:my-dc' %}"
+                            >My Inspections
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:dc-viewinspected' %}"
+                                >View Results
+            </a></span
+                                >
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:dc-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:dc-useranalytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+                                <span class="info-box-number"><a href="{% url 'postpaid:dc-anomalous-dashboard' %}"
+                                                                 class='text-success'
+                                >ANOMALOUS ACCOUNTS</a
+                                ></span>
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+            {#THREE PHASE CARD#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">HIGH END CUSTOMERS</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:threephase-target' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:mythreephase-list' %}"
+                            >My Inspections
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:threephase-results-list' %}"
+                                >View Results
+            </a></span
+                                >
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:threephase-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+                                {#          <span class="info-box-number"#}
+                                {#            ><a href="{% url 'postpaid:threephase-regional-analytics' %}"#}
+                                {#              >Regional Alalysis</a#}
+                                {#            ></span#}
+                                {#          >#}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:threephase-inspector-analytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+                                <span class="info-box-number"><a href="{% url 'postpaid:highend-anomalous-dashboard' %}"
+                                                                 class='text-success'
+                                >ANOMALOUS ACCOUNTS</a
+                                ></span>
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+
+            {#  TELCOS CARD#}
+{#            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}#}
+                {#                <div class="col-md-2 col-sm-6 col-12">#}
+                {#                    <div class="info-box">#}
+                {##}
+                {##}
+                {#                        <div class="info-box-content">#}
+                {#                            <span class="info-box-text">TELCOS INSPECTION</span>#}
+                {#                            <span class="info-box-number"#}
+                {#                            ><a href="{% url 'postpaid:telcos-target' %}"#}
+                {#                            >View Target List#}
+                {#            </a></span#}
+                {#                            >#}
+                {#                            <span class="info-box-number"#}
+                {#                            ><a href="{% url 'postpaid:mytelcos-list' %}"#}
+                {#                            >My Inspections#}
+                {#            </a></span#}
+                {#                            >#}
+                {##}
+                {#                            {% if user.is_staff or user.is_admin %}#}
+                {#                                <span class="info-box-number"#}
+                {#                                ><a href="{% url 'postpaid:view-telcos' %}"#}
+                {#                                >View Results#}
+                {#            </a></span#}
+                {#                                >#}
+                {##}
+                {#                                <span class="info-box-number"#}
+                {#                                ><a href="{% url 'postpaid:telcos-dashboard-atc' %}"#}
+                {#                                >Global Analytics</a#}
+                {#                                ></span#}
+                {#                                >#}
+                {##}
+                {#                                <span class="info-box-number"#}
+                {#                                ><a href="{% url 'postpaid:telcos-inspector-analytics' %}"#}
+                {#                                >Inspector Analytics</a#}
+                {#                                ></span#}
+                {#                                >#}
+                {#                            <span class="info-box-number"#}
+                {#                            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+                {#                            >To Be Billed</a#}
+                {#                            ></span#}
+                {#                            >#}
+                {#                                <span class="info-box-number"#}
+                {#                                ><a href="{% url 'postpaid:telcos-anomolous' %}"#}
+                {#                                >Anomalous Accounts</a#}
+                {#                                ></span#}
+                {#                                >#}
+                {#                            {% endif %}#}
+                {#                        </div>#}
+                {#                        <!-- /.info-box-content -->#}
+                {#                    </div>#}
+                {#                    <!-- /.info-box -->#}
+                {#                </div>#}
+{#            {% endif %}#}
+            {#  TELCOS METER REPLACEMENT CARD#}
+
+            <div class="col-md-2 col-sm-6 col-12">
+                <div class="info-box">
+
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">TELCOS METER REPLACEMENT</span>
+                        <span class="info-box-number"
+                        ><a href="{% url 'postpaid:telcos-rplc_target' %}"
+                        >View Target List
+            </a></span
+                        >
+                        <span class="info-box-number"
+                        ><a href="{% url 'postpaid:mytelcos-replc_list' %}"
+                        >My Inspections
+            </a></span
+                        >
+
+                        {% if user.userprofile.campaign == 'contractor_safaricom' %}
+
+
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:view-replc_telcos_sf' %}"
+                            >View Results-SAFARICOM
+                        </a>
+                        </span>
+                        {% elif user.userprofile.campaign == 'contractor_allandick' %}
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:view-replc_telcos_ad' %}"
+                            >View Results-ALLANDICK
+                        </a>
+                        </span>
+                        {% endif %}
+
+                        {% if user.is_staff or user.is_admin %}
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:view-replc_telcos' %}"
+                            >View Results
+            </a></span
+                            >
+
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:telcos-replacement-dahboard' %}"
+                            >Global Analytics</a
+                            ></span
+                            >
+
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:county-replacement-analytics'  %}"
+                            >Inspector Analytics</a
+                            ></span
+                            >
+                            {#                            <span class="info-box-number"#}
+                            {#                            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+                            {#                            >To Be Billed</a#}
+                            {#                            ></span#}
+                            {#                            >#}
+                            {#                            <span class="info-box-number"#}
+                            {#                            ><a href="{% url 'postpaid:telcos-anomolous' %}"#}
+                            {#                            >Anomalous Accounts</a#}
+                            {#                            ></span#}
+                            {#                            >#}
+                        {% endif %}
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+
+         {#  TID CARD#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">TID METERS UPGRADE</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'prepaid:star-tid-customers' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'prepaid:mytidupgrade-list' %}"
+                            >My Upgrades
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'prepaid:tidupgraded-list' %}"
+                                >View Results
+            </a></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'prepaid:tid-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'prepaid:tid-inspector-analytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+                                {#                            <span class="info-box-number"#}
+                                {#                            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+                                {#                            >To Be Billed</a#}
+                                {#                            ></span#}
+                                {#                            >#}
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+            {#  TID CARD#}
+            
+                     {#  ZERO BILLS CONFIRMATION CARD#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">ZERO BILLS CONFIRMATION</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:zerobills_target' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:myzerobills-list' %}"
+                            >My Confirmations
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:view-confirmed-zerobill' %}"
+                                >View All Confirmations
+            </a></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:zerobills-confirmation-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:zerobills_useranalytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+                                {#                            <span class="info-box-number"#}
+                                {#                            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+                                {#                            >To Be Billed</a#}
+                                {#                            ></span#}
+                                {#                            >#}
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+            {#  ZERO BILLS CONFIRMATION CARD#}
+            
+             {#  FAULTY & TAMPERED CARD#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">FALLBACK ACTIVITIES RRI</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:anomalous-target' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:myanomalous-list' %}"
+                            >My Resolutions
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:view-resolved-anomaly' %}"
+                                >View All Resolutions
+            </a></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:anomalous-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:anomalous-useranalytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+                                {#                            <span class="info-box-number"#}
+                                {#                            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+                                {#                            >To Be Billed</a#}
+                                {#                            ></span#}
+                                {#                            >#}
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+            {#  FAULTY & TAMPERED CARD#}
+            
+
+            {#  PUBLIC LIGHTING#}
+            {#            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}#}
+            {#                <div class="col-md-2 col-sm-6 col-12">#}
+            {#                    <div class="info-box">#}
+            {##}
+            {#                        <div class="info-box-content">#}
+            {#                            <span class="info-box-text">PUBLIC LIGHTING</span>#}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'postpaid:publiclighting-target' %}"#}
+            {#                            >View Target List#}
+            {#            </a></span#}
+            {#                            >#}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'postpaid:mypubliclighting-list' %}"#}
+            {#                            >My Inspections#}
+            {#            </a></span#}
+            {#                            >#}
+            {##}
+            {#                            {% if user.is_staff or user.is_admin %}#}
+            {#                                <span class="info-box-number"#}
+            {#                                ><a href="{% url 'postpaid:view-publiclighting' %}"#}
+            {#                                >View Results#}
+            {#            </a></span#}
+            {#                                >#}
+            {#                                <span class="info-box-number"#}
+            {#                                ><a href="{% url 'postpaid:publiclighting-dashboard' %}"#}
+            {#                                >Global Analytics</a#}
+            {#                                ></span#}
+            {#                                >#}
+            {##}
+            {#                                <span class="info-box-number"#}
+            {#                                ><a href="{% url 'postpaid:publiclighting-inspector-analytics' %}"#}
+            {#                                >Inspector Analytics</a#}
+            {#                                ></span#}
+            {#                                >#}
+            {#                                <span class="info-box-number"><a#}
+            {#                                        href="{% url 'postpaid:publiclighting-anomalous-dashboard' %}"#}
+            {#                                        class='text-success'#}
+            {#                                >ANOMALOUS ACCOUNTS</a#}
+            {#                                ></span>#}
+            {#               <span class="info-box-number"#}
+            {#            ><a href="{% url 'postpaid:telcos-tobe-billed' %}"#}
+            {#              >To Be Billed</a#}
+            {#            ></span#}
+            {#          >#}
+            {#                            {% endif %}#}
+            {#                        </div>#}
+            {#                        <!-- /.info-box-content -->#}
+            {#                    </div>#}
+            {#                    <!-- /.info-box -->#}
+            {#                </div>#}
+            {#            {% endif %}#}
+
+            {#  LARGE POWER#}
+            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">LARGE POWER</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:lp-target' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:my-lp' %}"
+                            >My Inspections
+            </a></span
+                            >
+
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:lp-view-inspeted' %}"
+                                >View Results
+            </a></span
+                                >
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:lp-dashboard' %}"
+                                >Global Analytics</a
+                                ></span
+                                >
+
+                                <span class="info-box-number"
+                                ><a href="{% url 'postpaid:lp-inspector-analytics' %}"
+                                >Inspector Analytics</a
+                                ></span
+                                >
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+
+            {#  GENERATING STATIONS #}
+            {% if user.userprofile.campaign == 'genstns' %}
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">GENERATION STATIONS</span>
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:generation-stations' %}"
+                            >View Target List
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:my-genstns' %}"
+                            >My Inspections
+            </a></span
+                            >
+
+
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:genstn-viewinspected' %}"
+                            >View Results
+            </a></span
+                            >
+                            <span class="info-box-number"
+                            ><a href="{% url 'postpaid:generation-dashboard' %}"
+                            >Global Analytics</a
+                            ></span
+                            >
+
+                            <span class="info-box-number"
+                            ><a href="#"
+                            >Inspector Analytics</a
+                            ></span
+                            >
+
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            {% endif %}
+
+            {% comment %} TRANSMISSION STATIONS {% endcomment %}
+            {#            {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}#}
+            {#                <div class="col-md-2 col-sm-6 col-12">#}
+            {#                    <div class="info-box">#}
+            {##}
+            {##}
+            {#                        <div class="info-box-content">#}
+            {#                            <span class="info-box-text">TRANS/DIST STATIONS</span>#}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'transdist:transdist-stations' %}"#}
+            {#                            >Target List#}
+            {#            </a></span#}
+            {#                            >#}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'transdist:inspections-my' %}"#}
+            {#                            >My Inspections#}
+            {#            </a></span#}
+            {#                            >#}
+            {##}
+            {##}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'transdist:transdist-inspections' %}"#}
+            {#                            >View Results#}
+            {#            </a></span#}
+            {#                            >#}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="{% url 'transdist:transdist-dashboard' %}"#}
+            {#                            >Global Analytics</a#}
+            {#                            ></span#}
+            {#                            >#}
+            {##}
+            {#                            <span class="info-box-number"#}
+            {#                            ><a href="#"#}
+            {#                            >Inspector Analytics</a#}
+            {#                            ></span#}
+            {#                            >#}
+            {##}
+            {##}
+            {#                        </div>#}
+            {#                        <!-- /.info-box-content -->#}
+            {#                    </div>#}
+            {#                    <!-- /.info-box -->#}
+            {#                </div>#}
+            {#            {% endif %}#}
+            <hr>
+
+            {#ZERO BILLS#}
+
+
+
+
+        </div>
+        {% if user.userprofile.campaign != 'contractor_safaricom' and user.userprofile.campaign != 'contractor_allandick' %}
+           <div class="row">
+                <div class="col-md-2 col-sm-6 col-12">
+                    <div class="info-box">
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">NETWORK PAGES</span>
+                            <span class="info-box-number"><a href="{% url 'lv:substation-search' %}">LV </a></span>
+                            <span class="info-box-number"><a href="{% url 'mediumv:feeder-search' %}">MV </a></span>
+                            <span class="info-box-number"><a
+                                    href="{% url 'lv:network-myinspections' %}">My Inspections </a></span>
+                            {% if user.is_staff or user.is_admin %}
+                                <span class="info-box-number"><a
+                                        href="{% url 'lv:county-analysis' %}">County Analysis </a></span>
+                                <span class="info-box-number"><a
+                                        href="{% url 'lv:region-analysis' %}">Regional Analysis </a></span>
+                                <span class="info-box-number"><a
+                                        href="{% url 'lv:global-lv' %}">Global Analysis </a></span>
+                               
+
+                            {% endif %}
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+
+            </div>
+        {% endif %}
+
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+

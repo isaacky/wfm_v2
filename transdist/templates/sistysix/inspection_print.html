@@ -1,0 +1,447 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KYN | {{ customer }} INSPECTION PRINT</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'assets/css/boa.min.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="page-header">
+                    <i class=""></i> 66KV Customer Inspection
+                    <small class="float-right">Print Date: {% now "d-m-Y" %}</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <b>Report #{{ inspection.id }}</b><br>
+                <br>
+                <b>CUSTOMER NAME:</b> {{ customer }}<br>
+                <b>METER:</b> {{ customer.meter_number}}<br>
+                <b>COUNTY:</b> {{ customer.county.name }}
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+
+                <br>
+
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br>
+                <b>INSPECTION DATE:</b> {{ inspection.dtupdate|date:"d M Y" }}<br>
+                <b>INSPECTED BY:</b>KPL {{ inspection.inspectedby}}<br>
+                <b>SIGN</b>____________________________ <br><br>
+{#                <b>APPROVED DATE:</b> {{ lvinspection.aprv_dt|date:"d M Y" }}<br>#}
+{#                <b>APPROVED BY:</b>KPL {{ lvinspection.aprv_by }}<br>#}
+{#                 <b>SIGN</b>____________________________ <br>#}
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <br>
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                 <table class="table table-striped table-bordered table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ITEM</th>
+                                <th>FINDINGS</th>
+                                <th>FINDINGS</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>SUBSTATION NAME</td>
+                                <td>{{ inspection.substation_name }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>TRANSFORMATION VOLTAGE (KV)</td>
+                                <td>{{ inspection.transform_voltage }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>NO. OF TRANSFORMERS IN THE SS</td>
+                                <td> {{ inspection.no_tx_ss }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>TRANSFORMER RATING</td>
+                                <td>{{ inspection.tx_rating }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>NO. OF PRIMARY LINES (HV)</td>
+                                <td>{{ inspection.no_hv_lines }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>NO. OF  SECONDARY FEEDOUT (MV)</td>
+                                <td>{{ inspection.no_mv_lines }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>METERING DETAILS</strong></p>
+                                </td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>FEEDER NAME</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.feeder_name }}</td>
+                                <td></td>
+
+
+
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>CONNECTION CONFIGURATION</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.conn_config }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>METER NUMBER</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.meter_number }}</td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>10.</td>
+                                <td>METER MANUFACTURER</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.manufacturer }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>11.</td>
+                                <td>METER MODEL</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.meter_model }}</td>
+                                <td></td>
+                            </tr>
+                             <tr>
+                                <td>12.</td>
+                                <td>YEAR OF MANUFACTURER</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.yom }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>13.</td>
+                                <td>METER ACCURACY CLASS</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.meter_accuracy_class }}</td>
+                                <td></td>
+                            </tr>
+                             <tr>
+                                <td>14.</td>
+                                <td>PROGRAMMED CTR</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.progrm_ctr }}</td>
+                                <td></td>
+                            </tr>
+                             <tr>
+                                <td>14.</td>
+                                <td>PROGRAMMED VTR</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.progrm_vtr }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>15.</td>
+                                <td>METERING CONFIGURATION</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_meter.meter_config }}</td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>SEALING DATA</strong></p>
+                                </td>
+                                <td><p><strong>INITIAL</strong></p></td>
+                                <td><p><strong>FINAL</strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>16.</td>
+                                <td>PROGRAMMING SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.prg_seal_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.prg_seal_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>17.</td>
+                                <td>METER TERMINAL SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.term_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.term_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>TEST BLOCK SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.testb_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.testb_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>19.</td>
+                                <td>METER BODY SEAL NO.</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.body_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.body_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>20.</td>
+                                <td class="text-uppercase">VT Enclosure Chamber - Red.</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_r_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_r_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>21.</td>
+                                <td class="text-uppercase">VT Enclosure Chamber - Yellow</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_y_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_y_sl_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>22.</td>
+                                <td class="text-uppercase">VT Enclosure Chamber - Blue</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_b_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.vten_b_sl_init }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>23.</td>
+                                <td class="text-uppercase">CT Enclosure Chamber - Red</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_r_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_r_sl_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>24.</td>
+                                <td class="text-uppercase">CT Enclosure Chamber - Yellow</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_y_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_y_sl_fin }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>25.</td>
+                                <td class="text-uppercase">CT Enclosure Chamber - Blue</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_b_sl_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.cten_b_sl_fin }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>26.</td>
+                                <td class="text-uppercase">MARSHALLING KIOSK</td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.marsha_kiosk_init }}
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_sealing.marsha_kiosk_init }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong> TEST EQUIPMENT USED</strong></p>
+                                </td>
+                                <td><p><strong>TEST EQUIPMENT</strong></p></td>
+                                <td><p><strong>SEAL NUMBER</strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>27.</td>
+                                <td class="text-uppercase">ENERGY METER</td>
+                                <td class="text-uppercase">ZERA
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.zera_sn }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>28.</td>
+                                <td class="text-uppercase">CT</td>
+                                <td class="text-uppercase">CT ANALYZER/CPC 100
+
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.ct_analyz_sn }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>29.</td>
+                                <td class="text-uppercase">VT</td>
+                                <td class="text-uppercase">ISA 5000/CPC 100
+
+
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.vt_isa_sn }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>30.</td>
+                                <td class="text-uppercase">CLAMP (LINE LOAD)</td>
+                                <td class="text-uppercase">AMCORDER
+                                </td>
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.amcoder_sn }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>METER TEST RESULTS</strong></p>
+                                </td>
+                                <td><p><strong>ERROR TEST</strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                             <tr>
+                                <td>31.</td>
+                                <td class="text-uppercase">% Error Trial 1</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.error_t1 }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>32.</td>
+                                <td class="text-uppercase">% Error Trial 2</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.error_t2 }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                             <tr>
+                                <td>33.</td>
+                                <td class="text-uppercase">% Error Trial 3</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.error_t3 }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>34.</td>
+                                <td class="text-uppercase">AVG % Error</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.error_avg }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                             <tr>
+                                <td>35.</td>
+                                <td class="text-uppercase">REMARKS ON ERROR TEST</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.rem_error_test }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>REGISTER TEST RESULTS</strong></p>
+                                </td>
+                                <td><p><strong></strong></p></td>
+                                <td><p><strong></strong></p></td>
+
+                            </tr>
+                            <tr>
+                                <td>36.</td>
+                                <td class="text-uppercase">AVG % Error</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.avg_per_err }}
+                                </td>
+                                 <td></td>
+                            </tr>
+                            <tr>
+                                <td>37.</td>
+                                <td class="text-uppercase">REMARKS ON REGISTER TEST RESULT</td>
+
+                                <td class="text-uppercase">{{ inspection.sixtysix_testeqp.rem_reg_test }}
+                                </td>
+                                 <td></td>
+                            </tr>
+
+
+
+                            </tbody>
+                        </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+                        </td>
+                        <td></td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+    window.addEventListener("load", window.print());
+</script>
+</body>
+</html>

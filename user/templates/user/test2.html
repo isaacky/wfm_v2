@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Zero Bill</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %} {% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">View Upload</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<section class="content">
+  <!-- Default box -->
+
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h1 style="color red">
+            <span class="badge bg-danger">
+              Sorry we are doing some updates. We wil be back
+              shortly.............</span
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.container-fluid -->
+
+{% endblock content %}

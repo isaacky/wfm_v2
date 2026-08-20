@@ -1,0 +1,519 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load static %}
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV COMMISSION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="card">
+                    <div>
+                        {% if sub_form.errors %}
+                            <div class="alert alert-danger">
+                                {{ sub_form.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5>Commission Inspection Form.</h5>
+                        <p>All Fields are required</p>
+                        <form class="form-horizontal" action="{% url 'lv:commission-update' substation_id %}"
+                              method="post">
+
+                            {% csrf_token %}
+                            <button type="button" id="find-me-lv" class="btn btn-primary">Get my
+                                location
+                            </button>
+                            <br/>
+                            <p id="status-lv"></p>
+                            <a id="map-link-lv" target="_blank"></a>
+
+                            {{ sub_form.longitude }} {{ sub_form.latitude }}
+
+
+                            <div class="form-group row">
+                                <label for="location" class="col-sm-3 col-form-label text-sm">Physical Location</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.location }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.location.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="dt_commission" class="col-sm-3 col-form-label text-sm">Date Of
+                                    Commission</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.dt_commission }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.dt_commission.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="control_center" class="col-sm-3 col-form-label text-sm">Control
+                                    Center</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.control_center }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.control_center.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="ptw_no" class="col-sm-3 col-form-label text-sm">P.T.W No</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.ptw_no }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.ptw_no.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="typeofchange" class="col-sm-3 col-form-label text-sm">Type Of Change</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.typeofchange }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.typeofchange.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="typeofload" class="col-sm-3 col-form-label text-sm">Type Of Load</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.typeofload }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.typeofload.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dcs_reference" class="col-sm-3 col-form-label text-sm">DCS Reference</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.dcs_reference }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.dcs_reference.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="rerec_reference" class="col-sm-3 col-form-label text-sm">Rerec Scheme
+                                    Ref</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.rerec_reference }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.rerec_reference.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="internalorder" class="col-sm-3 col-form-label text-sm">Internal
+                                    Order</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.internalorder }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.internalorder.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lastmile_reference" class="col-sm-3 col-form-label text-sm">Last Mile
+                                    Reference</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.lastmile_reference }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.lastmile_reference.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <h5 class="text-bold">Transformer Name Plate Detail</h5>
+                            <div class="form-group row">
+                                <label for="make" class="col-sm-3 col-form-label text-sm">Transformer Make</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.make }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.make.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="gnumber" class="col-sm-3 col-form-label text-sm">G Number</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.gnumber }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.gnumber.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="yom" class="col-sm-3 col-form-label text-sm">YOM</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.yom }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.yom.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="kvarating" class="col-sm-3 col-form-label text-sm">KVA Rating</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.kvarating }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.kvarating.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltage" class="col-sm-3 col-form-label text-sm">Voltage</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.voltage }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.voltage.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txweight" class="col-sm-3 col-form-label text-sm">Transformer Weight</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txweight }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txweight.help_text }}</em></span>
+                            </div>
+
+                            <hr>
+                            <div class="form-group row">
+                                <label for="txstatus" class="col-sm-3 col-form-label text-sm">Transformer Status</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txstatus }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txstatus.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="refubby">
+                                <label for="refurbishedby" class="col-sm-3 col-form-label text-sm">Refurbished
+                                    By</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.refurbishedby }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.refurbishedby.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row" id="workshop">
+                                <label for="kplcworkshop" class="col-sm-3 col-form-label text-sm">KPLC Workshop</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.kplcworkshop }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.kplcworkshop.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="htisolation" class="col-sm-3 col-form-label text-sm">HT Isolation</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.htisolation }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.htisolation.help_text }}</em></span>
+                            </div>
+                            <hr>
+                            <h5 class="text-bold">LV Fuse Ratings(amps</h5>
+                            <div class="form-group row">
+                                <label for="noofcircuits" class="col-sm-3 col-form-label text-sm">No. Of
+                                    Circuits</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.noofcircuits }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.noofcircuits.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lvprotection" class="col-sm-3 col-form-label text-sm">LV Protection</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.lvprotection }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.lvprotection.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txprotection" class="col-sm-3 col-form-label text-sm">Type Of Transformer
+                                    Protection</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.txprotection }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.txprotection.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="nooftappositions" class="col-sm-3 col-form-label text-sm">Number Of Tap
+                                    Positions</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.nooftappositions }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.nooftappositions.help_text }}</em></span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="voltagetappingsetattap" class="col-sm-3 col-form-label text-sm">Voltage
+                                    Tapping set at tap</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.voltagetappingsetattap }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.voltagetappingsetattap.help_text }}</em></span>
+                            </div>
+                            <div>
+                                <h6>Earthing Values At Structure</h6>
+                                <div class="form-group row">
+                                    <label for="earthval_at_structure_ht" class="col-sm-3 col-form-label text-sm">HT
+                                        Value</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.earthval_at_structure_ht }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.earthval_at_structure_ht.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="earthval_at_structure_sd" class="col-sm-3 col-form-label text-sm">SD
+                                        Value</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.earthval_at_structure_sd }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.earthval_at_structure_sd.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>LV One Span Away</h6>
+                                <div class="form-group row">
+                                    <label for="lv_onespanaway" class="col-sm-3 col-form-label text-sm">LV Value</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_onespanaway }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_onespanaway.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <h5>
+                                Winding Continuity (Ohms)
+                            </h5>
+                            <div>
+                                <h6>
+                                    HV
+
+                                </h6>
+                                <div class="form-group row">
+                                    <label for="hv_b_r" class="col-sm-3 col-form-label text-sm">B-R</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_b_r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_b_r.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="hv_r_y" class="col-sm-3 col-form-label text-sm">R-Y</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_r_y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_r_y.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="hv_y_b" class="col-sm-3 col-form-label text-sm">Y-B</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.hv_y_b }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.hv_y_b.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <h6>LV</h6>
+                                <div class="form-group row">
+                                    <label for="lv_b_n" class="col-sm-3 col-form-label text-sm">b-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_b_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_b_n.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lv_r_n" class="col-sm-3 col-form-label text-sm">r-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_r_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_r_n.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lv_y_n" class="col-sm-3 col-form-label text-sm">y-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.lv_y_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.lv_y_n.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <h5>Insulation(m-Ohms) -HV-LV</h5>
+                                <div class="form-group row">
+                                    <label for="insul_lve" class="col-sm-3 col-form-label text-sm">LV-E</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_lve }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_lve.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="insul_hv_lv" class="col-sm-3 col-form-label text-sm">HV-LV</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_hv_lv }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_hv_lv.help_text }}</em></span>
+                                </div>
+                                 <div class="form-group row">
+                                    <label for="insul_hv_e" class="col-sm-3 col-form-label text-sm">HV-E</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.insul_hv_e }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.insul_hv_e.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <h5>Voltage Measurements (LV)</h5>
+                                 <div class="form-group row">
+                                    <label for="volt_b_r" class="col-sm-3 col-form-label text-sm">b-r</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_b_r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_b_r.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="volt_r_y" class="col-sm-3 col-form-label text-sm">r-y</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_r_y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_r_y.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="volt_y_b" class="col-sm-3 col-form-label text-sm">y-b</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_y_b }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_y_b.help_text }}</em></span>
+                                </div>
+                                 <div class="form-group row">
+                                    <label for="volt_b_n" class="col-sm-3 col-form-label text-sm">b-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_b_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_b_n.help_text }}</em></span>
+                                </div>
+                                 <div class="form-group row">
+                                    <label for="volt_r_n" class="col-sm-3 col-form-label text-sm">r-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_r_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_r_n.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="volt_y_n" class="col-sm-3 col-form-label text-sm">y-n</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.volt_y_n }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.volt_y_n.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div><h5>HT Fuse Ratings (amps)</h5>
+                            <div class="form-group row">
+                                    <label for="htfuse_b" class="col-sm-3 col-form-label text-sm">B</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.htfuse_b }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.htfuse_b.help_text }}</em></span>
+                                </div>
+                                 <div class="form-group row">
+                                    <label for="htfuse_r" class="col-sm-3 col-form-label text-sm">R</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.htfuse_r }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.htfuse_r.help_text }}</em></span>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="htfuse_y" class="col-sm-3 col-form-label text-sm">Y</label>
+                                    <div class="col-sm-9">
+                                        {{ sub_form.htfuse_y }}
+                                    </div>
+                                    <span class="text-danger"><em>{{ sub_form.htfuse_y.help_text }}</em></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="phasetotation" class="col-sm-3 col-form-label text-sm">Phase Rotation</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.phasetotation }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.phasetotation.help_text }}</em></span>
+                            </div>
+                            <hr>
+
+
+                            <div class="form-group row">
+                                <label for="comments" class="col-sm-3 col-form-label text-sm">Inspection Notes</label>
+                                <div class="col-sm-9">
+                                    {{ sub_form.comments }}
+                                </div>
+                                <span class="text-danger"><em>{{ sub_form.comments.help_text }}</em></span>
+                            </div>
+                            <hr>
+
+
+                            <div class="text-center mt-5 mb-3">
+                                <button
+                                        type="submit"
+                                        name="finalsubmission"
+                                        class="btn btn-sm btn-success"
+                                        value="finalsubmission"
+                                >
+                                    Final Submit
+                                </button>
+                                <button
+                                        type="submit"
+                                        name="draft"
+                                        value="draft"
+                                        class="btn btn-sm btn-primary"
+                                >
+                                    Save Draft
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/commission.js' %}"></script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

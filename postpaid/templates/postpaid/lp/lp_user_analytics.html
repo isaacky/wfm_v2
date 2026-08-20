@@ -1,0 +1,124 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LP User Analytics</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="{% url 'postpaid:lp-new-inspector-analytics' %}" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <h1 class="m-0">Large Power Staff Performance Analytics:</h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home Page</a>
+            </li>
+            {#    <li class="breadcrumb-item">#}
+            {#      <a href="{% url 'postpaid:publiclighting-dashboard' %}"#}
+            {#        >LP Analytics Page</a#}
+            {#      >#}
+            {#    </li>#}
+            <li class="breadcrumb-item active">Staff Performance Page</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- /.Analytic Table -->
+
+                        <div class="row">
+                            <div class="card-body table-responsive p-0">
+                                <br/>
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Staff Name</th>
+                                        <th>Total</th>
+                                        <th>Region</th>
+{#                                        <th>Total_ODK</th>#}
+                                        <th>Today</th>
+{#                                        <th>Today_ODK</th>#}
+                                        <th>{{ yesterday }}</th>
+{#                                        <th>{{ yesterday }}_ODK</th>#}
+                                        <th>{{ yesterday_1 }}</th>
+{#                                        <th>{{ yesterday_1 }}_ODK</th>#}
+                                        <th>{{ yesterday_2 }}</th>
+{#                                        <th>{{ yesterday_2 }}_ODK</th>#}
+                                        <th>{{ yesterday_3 }}</th>
+{#                                        <th>{{ yesterday_3 }}_ODK</th>#}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for analytic in analytics %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                {{ analytic.inspectedby__user_id__stid }} - {{ analytic.inspectedby__user_id__name }}
+                                            </td>
+                                            <td>{{ analytic.the_count }}</td>
+                                             <td>{{ analytic.inspectedby__region__name }}</td>
+{#                                            <td>{{ analytic.total_odk }}</td>#}
+
+                                            <td>
+                                                <strong>{{ analytic.today }}</strong>
+                                            </td>
+{#                                            <td>#}
+{#                                                <strong>{{ analytic.today_odk }}</strong>#}
+{#                                            </td>#}
+                                            <td>
+                                                <strong>{{ analytic.yesturday }}</strong>
+                                            </td>
+{#                                            <td>#}
+{#                                                <strong>{{ analytic.today_1_odk }}</strong>#}
+{#                                            </td>#}
+                                            <td>
+                                                <strong>{{ analytic.yesturday_1 }}</strong>
+                                            </td>
+{#                                            <td>#}
+{#                                                <strong>{{ analytic.today_2_odk }}</strong>#}
+{#                                            </td>#}
+                                            <td>
+                                                <strong>{{ analytic.yesturday_2 }}</strong>
+                                            </td>
+{#                                            <td>#}
+{#                                                <strong>{{ analytic.today_3_odk }}</strong>#}
+{#                                            </td>#}
+                                            <td>
+                                                <strong>{{ analytic.yesturday_3 }}</strong>
+                                            </td>
+{#                                            <td>#}
+{#                                                <strong>{{ analytic.today_4_odk }}</strong>#}
+{#                                            </td>#}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

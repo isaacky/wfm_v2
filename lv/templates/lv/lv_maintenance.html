@@ -1,0 +1,209 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LV INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    <a href="#" class="btn btn-default btn-sm" title="REFRESH">
+        <i class="fas fa-sync-alt"></i>
+    </a>
+    <hr>
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+
+   <div class="row">
+
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Maintenance Activities for SSN : {{ lv_inspection.substation.ssn }}</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form class="form-horizontal" method="Post" action="#">
+                                {% csrf_token %}
+
+
+                                <hr>
+<div class="card-body p-0 table-responsive p-0">
+                            <table class="table table-sm table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Task</th>
+                        <th>Inspection Status</th>
+                      <th>Was There Maintenance?</th>
+                      <th>Describe Maintenance Activities</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1.</td>
+                      <td>Are There Poor Sags/Clashing Conductors? <br> Spans Require Retention?</td>
+                        <td>{{ lv_inspection.poor_sags_cl_cond }} <br> {{ lv_inspection.retention_req }}</td>
+                     <td>{{ maintain_form.reconducturing_pvc_l_status }}</td>
+                        <td>{{ maintain_form.retention_req }}</td>
+
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>Vegetation On The LV Line? <br> Spans require trace clearance?</td>
+                        <td class="text-uppercase">{{ lv_inspection.lvline_veg }} <br> {{ lv_inspection.traceclear_span }}</td>
+                     <td>{{ maintain_form.traceclear_span_status }}</td>
+                        <td>{{ maintain_form.traceclear_span }}</td>
+
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Uprating Of Conductors? <br> Total Conductor Lenth(m)</td>
+                        <td class="text-uppercase">{{ lv_inspection.conductors_uprate }} <br> {{ lv_inspection.conductors_uprate_span }}</td>
+                     <td>{{ maintain_form.conductors_uprate_status }}</td>
+                        <td>{{ maintain_form.conductors_uprate_span }}</td>
+
+                    </tr>
+                   <tr>
+                      <td>4.</td>
+                      <td>PME installed(Every 4LV Spans)? <br> Missing In How Many Poles?</td>
+                        <td class="text-uppercase">{{ lv_inspection.pme_installed }} <br> {{ lv_inspection.pme_missing_poles }}</td>
+                     <td>{{ maintain_form.pme_missing_poles_status }}</td>
+                        <td>{{ maintain_form.pme_missing_poles }}</td>
+
+                    </tr>
+                   <tr>
+                      <td>5.</td>
+                      <td>Overdistance LV Network? <br> Overdistance LV Network?</td>
+                        <td class="text-uppercase">{{ lv_inspection.lv_overdistance }} <br> {{ lv_inspection.lv_overdistance_l }}</td>
+                     <td>{{ maintain_form.lv_overdistance_l_status }}</td>
+                        <td>{{ maintain_form.lv_overdistance_l }}</td>
+
+                    </tr>
+                   <tr>
+                      <td>6.</td>
+                      <td>Illegal Connections to recover? <br> Approximate Length(m)?</td>
+                        <td class="text-uppercase">{{ lv_inspection.illegal_connections }} <br> {{ lv_inspection.illegal_connections_l }}</td>
+                     <td>{{ maintain_form.illegal_connections_l_status }}</td>
+                        <td>{{ maintain_form.illegal_connections_l }}</td>
+
+                    </tr>
+                  <tr>
+                      <td>7.</td>
+                      <td>LV Reconducturing with PVC/ABC? <br> Total Lenth of Conductor?</td>
+                        <td class="text-uppercase">{{ lv_inspection.reconducturing_pvc }} <br> {{ lv_inspection.reconducturing_pvc_l }}</td>
+                     <td>{{ maintain_form.reconducturing_pvc_l_status }}</td>
+                        <td>{{ maintain_form.reconducturing_pvc_l }}</td>
+
+                    </tr>
+                   <tr>
+                      <td>8.</td>
+                      <td> Poshomills On Single Phase? <br> How Many?</td>
+                        <td class="text-uppercase">{{ lv_inspection.poshomills_onsingle_p }} <br> {{ lv_inspection.poshomills_onsingle_p_n }}</td>
+                     <td>{{ maintain_form.poshomills_onsingle_p_n_status }}</td>
+                        <td>{{ maintain_form.poshomills_onsingle_p_n }}</td>
+
+                    </tr>
+                   <tr>
+                      <td>9.</td>
+                      <td> Inspection Notes <br> </td>
+                        <td class="text-uppercase">{{ lv_inspection.inspect_notes }}</td>
+                     <td>
+                   </td>
+
+                    </tr>
+                   <tr>
+                      <td>10.</td>
+                      <td> Maintenance Notes <br> </td>
+                        <td class="text-uppercase">{{ maintain_form.inspect_notes }}</td>
+                     <td>
+                   </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+ <div>
+
+
+                                <div>
+                                    <ul>
+                                        {% for field in pole_form %}
+                                            <!-- /.card-body -->
+                                            {% if field.errors %}
+                                                <!-- /.card-body -->
+                                                {% for error in field.errors %}
+                                                    <li style="color: red">{{ error }}</li>
+                                                {% endfor %}
+                                                <!-- /.card-body -->
+                                            {% endif %}
+                                            <!-- /.card-body -->
+                                        {% endfor %}
+                                        <li style="color: red">{{ pole_form.non_field_errors }}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+
+            <!-- /.col-md-6 -->
+
+            <!-- /.col-md-6 -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,470 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | SUBSTATION INSPECTION</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    {#    <h1 class="m-0">#}
+    {#        Search Substation#}
+    {##}
+    {#    </h1>#}
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+
+
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Substation Inspection Details</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0 table-responsive p-0">
+                        <table class="table table-striped table-bordered table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>INSPECTION ITEM</th>
+                                <th>FINDINGS</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>SSN</td>
+                                <td>{{ lvinspection.substation.ssn }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>SSN NAME</td>
+                                <td>{{ lvinspection.substation.name }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>ORIGIN OF ELEMENT</td>
+                                <td> {{ lvinspection.substation.originofelement }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>FEEDER ELEMENT</td>
+                                <td>{{ lvinspection.substation.feederofelement }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>LOCATION</td>
+                                <td>{{ lvinspection.substation.physicallocation }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>DATE OF INSPECTION</td>
+                                <td>{{ lvinspection.dtupdate }}</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>INSPECTOR</td>
+                                <td class="text-uppercase">KPL{{ lvinspection.inspectedby }}
+                                    - {{ lvinspection.inspectedby.user.name }}
+                                    <br>
+                                    <span>MOBILE : {{ lvinspection.inspectedby.user.mobile }}</span></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>INSPECTOR MOTES</td>
+                                <td class="text-uppercase">{{ lvinspection.inspect_notes }}</td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p><strong>INSPECTION DETAILS</strong></p>
+                                </td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>SERIAL NUMBER</td>
+                                <td class="text-uppercase">{{ lvinspection.serialno }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>10.</td>
+                                <td>VOLTAGE?</td>
+                                <td class="text-uppercase">{{ lvinspection.voltage }}
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>11.</td>
+                                <td>KVA RATING</td>
+                                <td class="text-uppercase">{{ lvinspection.kvarating }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>12.</td>
+                                <td>G NUMBER</td>
+                                <td class="text-uppercase">{{ lvinspection.gnumber }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>13.</td>
+                                <td>TRANSFORMER MAKE</td>
+                                <td class="text-uppercase">{{ lvinspection.make }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>14.</td>
+                                <td>YOM</td>
+                                <td class="text-uppercase">{{ lvinspection.yom }}
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>15.</td>
+                                <td>LOCATION</td>
+                                <td class="text-uppercase">{{ lvinspection.location }} <br>
+
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>16.</td>
+                                <td>FUSE SIZE</td>
+                                <td class="text-uppercase">{{ lvinspection.fusesize }}
+
+                                </td>
+
+
+                            </tr>
+                             <tr>
+                                <td>17.</td>
+                                <td>SIZE OF LV CONDUCTOR</td>
+                                <td class="text-uppercase">{{ lvinspection.sizeoflvconductor }}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>17.</td>
+                                <td>SIZE OF LV CONDUCTOR</td>
+                                <td class="text-uppercase">{{ lvinspection.sizeoflvconductor }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>17.</td>
+                                <td>NUMBER OF CIRCUITS?
+                                    <br>
+                                 VALUES
+                                </td>
+
+
+                                <td>{{ lvinspection.noofcircuits }} <br>
+                                    {% if lvinspection.noofcircuits == '1' %}
+                                        R:  {{ lvinspection.c_1_R }}, Y:{{ lvinspection.c_1_Y }}, B:
+                                        {{ lvinspection.c_1_B }}, r-n : {{ lvinspection.c_1_rn }}, y-n : {{ lvinspection.c_1_yn }}, b-n : {{ lvinspection.c_1_bn }}<br>
+                                    {% elif lvinspection.noofcircuits == '2' %}
+                                        Cir1 R:  {{ lvinspection.c2_1_R }}, Cir1 Y:{{ lvinspection.c2_1_Y }}, Cir1 B:
+                                        {{ lvinspection.c2_1_B }}, r-n : {{ lvinspection.c2_1_rn }}, y-n : {{ lvinspection.c2_1_yn }}, b-n : {{ lvinspection.c2_1_bn }} <br>
+                                        Cir2 R:  {{ lvinspection.c2_2_R }}, Cir2 Y:{{ lvinspection.c2_2_Y }}, Cir2 B:
+                                        {{ lvinspection.c2_2_B }}, r-n : {{ lvinspection.c2_2_rn }}, y-n : {{ lvinspection.c2_2_yn }}, b-n : {{ lvinspection.c2_2_bn }} <br>
+                                    {% elif lvinspection.noofcircuits == '3' %}
+                                         Cir1 R:  {{ lvinspection.c3_1_R }}, Cir1 Y:{{ lvinspection.c3_1_Y }}, Cir1 B:
+                                        {{ lvinspection.c3_1_B }}, r-n : {{ lvinspection.c3_1_rn }}, y-n : {{ lvinspection.c3_1_yn }}, b-n : {{ lvinspection.c3_1_bn }} <br>
+                                        Cir2 R:  {{ lvinspection.c3_2_R }}, Cir2 Y:{{ lvinspection.c3_2_Y }}, Cir2 B:
+                                        {{ lvinspection.c3_2_B }}, r-n : {{ lvinspection.c3_2_rn }}, y-n : {{ lvinspection.c3_2_yn }}, b-n : {{ lvinspection.c3_2_bn }} <br>
+                                        Cir3 R:  {{ lvinspection.c3_3_R }}, Cir3 Y:{{ lvinspection.c3_3_Y }}, Cir2 B:
+                                        {{ lvinspection.c3_3_B }}, r-n : {{ lvinspection.c3_3_rn }}, y-n : {{ lvinspection.c3_3_yn }}, b-n : {{ lvinspection.c3_3_bn }} <br>
+                                    {% endif %}
+
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>HV EARTH INTACT</td>
+                                <td class="text-uppercase">{{ lvinspection.hvearth_intact }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>HV EARTH VALUES</td>
+                                <td class="text-uppercase">{{ lvinspection.hvearth_values }} <br>
+                                </td>
+                            </tr>
+                              <tr>
+                                <td>18.</td>
+                                <td>NEUTRAL EARTH INTACT</td>
+                                <td class="text-uppercase">{{ lvinspection.neutralearth_intact }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>NEUTRAL EARTH VALUES</td>
+                                <td class="text-uppercase">{{ lvinspection.neutralvearth_values }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>SURGE ARRESTERS</td>
+                                <td class="text-uppercase">{{ lvinspection.surgearrestors }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>SURGE ARRESTERS VALUES</td>
+                                <td class="text-uppercase">{{ lvinspection.surgearrestors_values }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>ARCING HORNS</td>
+                                <td class="text-uppercase">{{ lvinspection.arcinghorns }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>GAPSET VALUES</td>
+                                <td class="text-uppercase">{{ lvinspection.gapset_values }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) HV B-R
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.hv_b_r }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) HV R-Y
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.hv_r_y }}
+
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) HV Y-B
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.hv_y_b }}
+
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) LV b-n
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.lv_b_n }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) LV r-n
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.lv_r_n }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Winding Continuity (Ohms) LV y-n
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.lv_y_n }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Insulation(m-Ohms) -HV-L LV-E
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.insul_lve }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Insulation(m-Ohms) -HV-L HV-LV
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.insul_hv_lv }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>33.</td>
+                                <td>Insulation(m-Ohms) -HV-L HV-E
+                                </td>
+                                <td class="text-uppercase">{{ lvinspection.insul_hv_e }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>LV LEAD SIZE</td>
+                                <td class="text-uppercase">{{ lvinspection.lvleads_size }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>TX LOADING</td>
+                                <td class="text-uppercase">{{ lvinspection.txloading }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>TX LOADING-YES</td>
+                                <td class="text-uppercase">{{ lvinspection.txloading_yes }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>LOAD DISTRIBUTED BY</td>
+                                <td class="text-uppercase">{{ lvinspection.load_distributionby }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>CONDITION OF TX STRUCTURE</td>
+                                <td class="text-uppercase">{{ lvinspection.c_tx_structure }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>CONDITION OF FUSE CARRIERS</td>
+                                <td class="text-uppercase">{{ lvinspection.c_fuse_carriers }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>TYPE OF FUSE BAR</td>
+                                <td class="text-uppercase">{{ lvinspection.t_fuse_bar }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>CONDITION OF FUSE BAR</td>
+                                <td class="text-uppercase">{{ lvinspection.c_fuse_bar }} <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18.</td>
+                                <td>TX WIRING</td>
+                                <td class="text-uppercase">{{ lvinspection.txwiring }} <br>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>18.</td>
+                                <td>INSPECTION NOTES</td>
+                                <td class="text-uppercase">{{ lvinspection.inspect_notes }} <br>
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+
+                        <form class="form-horizontal" action="" method="post">
+
+                            {% csrf_token %}
+                            <div class="form-group row" id="retention_req">
+                                <label for="retention_req" class="col-sm-3 col-form-label text-sm">Choose Status</label>
+                                <div class="col-sm-9">
+                                    {{ form.aprv_key }}
+                                </div>
+                            </div>
+                            <div class="form-group row" id="retention_req">
+                                <label for="retention_req" class="col-sm-3 col-form-label text-sm">Approve Notes</label>
+                                <div class="col-sm-9">
+                                    {{ form.aprv_notes }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit Approval</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.container-fluid -->
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

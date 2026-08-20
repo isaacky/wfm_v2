@@ -1,0 +1,1412 @@
+{% extends "index.html" %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+    <title>WORKFORCE | LP INSPECTIONS</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+    <button title="GO BACK" type="button" class="btn btn-default btn-sm" onclick="history.back()">
+        <i class="fas fa-reply"></i>
+    </button>
+    {#    <a href="{% url 'postpaid:dc-viewinspected' %}" class="btn btn-default btn-sm" title="REFRESH">#}
+    {#        <i class="fas fa-sync-alt"></i>#}
+    {#    </a>#}
+    <h1 class="m-0">
+        {{ customer.customer_name }}
+        <br>
+        <small>SRN: {{ customer.srn }}</small>
+
+    </h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{% url 'main:my-dashboard' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">LP Inspection</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- /.col-md-6 -->
+            <div class="col-lg-12">
+
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home"
+                                   aria-selected="true">Customer Data</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile"
+                                   aria-selected="false">Sealing Data</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-messages" role="tab"
+                                   aria-controls="custom-tabs-four-messages" aria-selected="false">CT VT Data</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-settings" role="tab"
+                                   aria-controls="custom-tabs-four-settings" aria-selected="false">Zera Meter Test
+                                    Results</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-current-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-current" role="tab"
+                                   aria-controls="custom-tabs-four-current" aria-selected="false">Current
+                                    Verify(Amcorder upto 66KV)</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-mreadings-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-mreadings" role="tab"
+                                   aria-controls="custom-tabs-four-mreadings" aria-selected="false">Meter Readings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-otherinfo-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-otherinfo" role="tab"
+                                   aria-controls="custom-tabs-four-otherinfo" aria-selected="false">Other Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-finalsubmission-tab" data-toggle="pill"
+                                   href="#custom-tabs-four-finalsubmission" role="tab"
+                                   aria-controls="custom-tabs-four-finalsubmission" aria-selected="false">Final
+                                    Submission</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-home-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-customerdata-inspection' customer.id %}">
+                                    {% csrf_token %}
+                                    <button type="button" id="find-me-lv" class="btn btn-primary btn-sm">Get my
+                                        location
+                                    </button>
+                                    <br/>
+                                    <p id="status-lv"></p>
+                                    <a id="map-link-lv" target="_blank"></a>
+
+                                    {{ form.longitude }} {{ form.latitude }}
+
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label for="meterno" class="col-sm-2 col-form-label">Meter Number</label>
+                                        <div class="col-sm-10">
+                                            {{ form.meterno }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form.meterno.help_text }}</em></span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="type_of_industry" class="col-sm-2 col-form-label">Type Of
+                                            Industry</label>
+                                        <div class="col-sm-10">
+                                            {{ form.type_of_industry }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form.type_of_industry.help_text }}</em></span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="smart_meter_i" class="col-sm-2 col-form-label">Metering
+                                            Installation</label>
+                                        <div class="col-sm-10">
+                                            {{ form.smart_meter_i }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form.smart_meter_i.help_text }}</em></span>
+                                    </div>
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Customer Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-profile-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-sealing-inspection' customer.id %}">
+                                    {% csrf_token %}
+
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Seal Name</th>
+                                                <th>Initial</th>
+                                                <th>Final</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>Programming Seal</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.prg_seal_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.prg_seal_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.prg_seal_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.prg_seal_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Meter Terminal Seal No.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.term_sl_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.term_sl_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.term_sl_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.term_sl_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>Test Block Seal No.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.testb_sl_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.testb_sl_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.testb_sl_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.testb_sl_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.</td>
+                                                <td>Meter Body Seal No.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.body_sl_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.body_sl_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.body_sl_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.body_sl_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.</td>
+                                                <td>Smart Meter Enclosure Seal No.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.smart_meter_sl_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.smart_meter_sl_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.smart_meter_sl_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.smart_meter_sl_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            {#                                            <tr>#}
+                                            {#                                                <td>6.</td>#}
+                                            {#                                                <td>CT Chamber for AMR Seal No.</td>#}
+                                            {#                                                <td>#}
+                                            {#                                                    <div class="form-group row" id="amrm">#}
+                                            {##}
+                                            {#                                                        <div class="col-sm-10">#}
+                                            {#                                                            {{ form1.amr_sl_init }}#}
+                                            {#                                                        </div>#}
+                                            {#                                                        <span class="text-danger"><em>{{ form1.amr_sl_init.help_text }}</em></span>#}
+                                            {#                                                    </div>#}
+                                            {#                                                </td>#}
+                                            {#                                                <td>#}
+                                            {#                                                    <div class="form-group row">#}
+                                            {##}
+                                            {#                                                        <div class="col-sm-10">#}
+                                            {#                                                            {{ form1.amr_sl_fin }}#}
+                                            {#                                                        </div>#}
+                                            {#                                                        <span class="text-danger"><em>{{ form1.amr_sl_fin.help_text }}</em></span>#}
+                                            {#                                                    </div>#}
+                                            {#                                                </td>#}
+                                            {#                                            </tr>#}
+
+
+                                            <tr>
+                                                <td>7.</td>
+                                                <td>Any Other Seal No.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.other_sl_init }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.other_sl_init.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form1.other_sl_fin }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form1.other_sl_fin.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <hr>
+
+
+                                        <div class="form-group row">
+                                            <label for="is_amr" class="col-sm-2 col-form-label">AMR Meter.</label>
+                                            <div class="col-sm-10">
+                                                {{ form1.is_amr }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ form1.is_amr.help_text }}</em></span>
+                                        </div>
+                                        <div id=amrm>
+                                            <div>
+                                                <div class="form-group row">
+                                                    <label for="amr_sl_init" class="col-sm-2 col-form-label">CT Chamber
+                                                        for AMR Seal No.Initial</label>
+
+                                                    <div class="col-sm-10">
+                                                        {{ form1.amr_sl_init }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form1.amr_sl_init.help_text }}</em></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="form-group row">
+                                                    <label for="amr_sl_fin" class="col-sm-2 col-form-label">CT Chamber
+                                                        for AMR Seal No.Final</label>
+
+                                                    <div class="col-sm-10">
+                                                        {{ form1.amr_sl_fin }}
+                                                    </div>
+                                                    <span class="text-danger"><em>{{ form1.amr_sl_fin.help_text }}</em></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form1 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form1.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Sealing Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-messages-tab">
+                                <form class="form-horizontal" method="post" enctype="multipart/form-data"
+                                      action="{% url 'postpaid:lp-ctvt-inspection' customer.id %}">
+                                    {% csrf_token %}
+
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>CTVT</th>
+                                                <th>Initial</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>Meter Connection Config</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.meter_config }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.meter_config.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Meter Voltage At Site.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.meter_voltage }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.meter_voltage.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>CT ratio Programmed At Meter.</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.ct_ratio_prmed }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.ct_ratio_prmed.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4.</td>
+                                                <td>CT ratio Programmed At Meter Image</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.ctratio_img }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.ctratio_img.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>5.</td>
+                                                <td>CT ratio CTs Installed on Site</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.ct_ratio_inst }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.ct_ratio_inst.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>6.</td>
+                                                <td>Programmed VT Ratio</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.vt_ratio_prmed }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.vt_ratio_prmed.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>7.</td>
+                                                <td>AMR Recovered</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.amr_recovered }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.amr_recovered.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>7.</td>
+                                                <td>CT VT Match With Installed</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.ctvt_match }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.ctvt_match.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>8.</td>
+                                                <td>Mismatch Description</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form2.ctvt_mismatch_text }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.ctvt_mismatch_text.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form2 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form2.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit CTVT Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-settings-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-zeratest-inspection' customer.id %}">
+                                    {% csrf_token %}
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label for="zeratest" class="col-sm-2 col-form-label">Was Zera Test
+                                            Done?</label>
+                                        <div class="col-sm-10">
+                                            {{ form3.zeratest }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form3.zeratest.help_text }}</em></span>
+                                    </div>
+
+                                    <div class="card-body table-responsive p-0" id="zera-test">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Error/Pulse Test</th>
+                                                <th>Result</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>% Error Trial</td>
+
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form3.error_trial }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form3.error_trial.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Remarks On Error Test</td>
+
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form3.error_test_rem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form2.error_test_rem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-bold">Register Test Results</td>
+                                                <td></td>
+                                                <td></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>% Error</td>
+
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form3.register_error }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form3.register_error.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Remarks On Register Test Result</td>
+
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form3.register_error_rem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form3.register_error_rem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>Did Meter Pass Test</td>
+
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form3.meter_passed }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form3.meter_passed.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br>
+
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form3 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form3.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Zera Test Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-current" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-current-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-current-inspection' customer.id %}">
+                                    {% csrf_token %}
+
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>PHASE</th>
+                                                <th>AMCORDER</th>
+                                                <th>METER</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>Red Phase</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.rphase_amcoder }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.rphase_amcoder.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.rphase_meter }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.rphase_meter.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Yellow Phase</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.yphase_amcoder }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.yphase_amcoder.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.yphase_meter }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.yphase_meter.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>Blue Phase</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.bphase_amcoder }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.bphase_amcoder.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form4.bphase_meter }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form4.bphase_meter.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <div class="form-group row">
+                                                <label for="load_balancing" class="col-sm-4 col-form-label">Comment On
+                                                    Load Balancing</label>
+                                                <div class="col-sm-8">
+                                                    {{ form4.load_balancing }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ form4.load_balancing.help_text }}</em></span>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="currents_range" class="col-sm-4 col-form-label">Meter
+                                                    Currents & Clamp Currents are Matching and within Acceptable
+                                                    range </label>
+                                                <div class="col-sm-8">
+                                                    {{ form4.currents_range }}
+                                                </div>
+                                                <span class="text-danger"><em>{{ form4.currents_range.help_text }}</em></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form4 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form4.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Current
+                                                Verification Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="custom-tabs-four-mreadings" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-mreadings-tab">
+                                <form class="form-horizontal" method="POST" enctype="multipart/form-data"
+                                      action="{% url 'postpaid:lp-mreadings-inspection' customer.id %}"
+                                      novalidate>
+                                    {% csrf_token %}
+
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>NAME</th>
+                                                <th>ACTUAL</th>
+                                                <th>METER</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>Time</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.meter_time_actual }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.meter_time_actual.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.meter_time_meter }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.meter_time_meter.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>Date</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.meter_date_actual }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.meter_date_actual.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.meter_date_meter }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.meter_date_meter.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Item Name</th>
+                                                <th>Current Readings</th>
+                                                <th>Memory Readings</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>1.8.0 KWH</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_180_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_180_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_180_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_180_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>1.8.0 (IMPORT KWH) IMAGE</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.reading_180_img }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.reading_180_img.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>2.8.0 KWH</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_280_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_280_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_280_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_280_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.</td>
+                                                <td>2.8.0 KWH IMAGE</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.reading_280_img }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.reading_280_img.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.</td>
+                                                <td>9.6.0 (KVA)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kva_960_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kva_960_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kva_960_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kva_960_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.</td>
+                                                <td>1.5.0 (KW)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_150_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_150_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_150_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_150_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.</td>
+                                                <td>1.8.1 (KW)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_181_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_181_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_181_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_181_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.</td>
+                                                <td>1.8.2 (KW)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_182_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_182_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_182_mem }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_182_mem.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>9.7.0 (Instaneous kVA)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kva_970_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kva_970_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>1.7.0(Instaneous KW)</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.kwh_170_cur }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.kwh_170_cur.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>RED PHASE VOLTAGE</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.r_phase_v }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.r_phase_v.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.</td>
+                                                <td>YELLOW PHASE VOLTAGE</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.y_phase_v }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.y_phase_v.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>11.</td>
+                                                <td>BLUE PHASE VOLTAGE</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.b_phase_v }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.b_phase_v.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>12.</td>
+                                                <td>RED PHASE CURRENT</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.r_phase_c }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.r_phase_c.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>13.</td>
+                                                <td>YELLOW PHASE CURRENT</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.y_phase_c }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.y_phase_c.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>14.</td>
+                                                <td>BLUE PHASE CURRENT</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.b_phase_c }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.b_phase_c.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>15.</td>
+                                                <td>POWER FACTOR</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.pw_f }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.pw_f.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>16.</td>
+                                                <td>OVERALL REMARKS</td>
+                                                <td>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-sm-10">
+                                                            {{ form5.m_remarks }}
+                                                        </div>
+                                                        <span class="text-danger"><em>{{ form5.m_remarks.help_text }}</em></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form5 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form5.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Meter Readings
+                                                Data
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-otherinfo" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-otherinfo-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-otherinfo-inspection' customer.id %}">
+                                    {% csrf_token %}
+
+                                    <div class="form-group row">
+                                        <label for="solar_installed" class="col-sm-2 col-form-label"> Has the customer
+                                            installed a solar system to complement their demand?</label>
+                                        <div class="col-sm-10">
+                                            {{ form6.solar_installed }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form6.solar_installed.help_text }}</em></span>
+                                    </div>
+                                    <div id="solar-installation">
+                                        <div class="form-group row">
+                                            <label for="solar_size" class="col-sm-2 col-form-label">Size Of The Solar
+                                                System</label>
+                                            <div class="col-sm-10">
+                                                {{ form6.solar_size }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ form6.solar_size.help_text }}</em></span>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="meter_number" class="col-sm-2 col-form-label">Aprx Date Of
+                                                Installation</label>
+                                            <div class="col-sm-10">
+                                                {{ form6.dt_installation }}
+                                            </div>
+                                            <span class="text-danger"><em>{{ form6.dt_installation.help_text }}</em></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="overal_rem" class="col-sm-2 col-form-label">Overall
+                                            Remarks/Reportable Incidence</label>
+                                        <div class="col-sm-10">
+                                            {{ form6.overal_rem }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form6.overal_rem.help_text }}</em></span>
+                                    </div>
+                                    {#                                    <div class="form-check" id="declaration">#}
+                                    {#                                        {{ form9.declaration }}#}
+                                    {#                                        <label class="form-check-label" for="declaration">I DECLARE THAT I HAVE CHECKED#}
+                                    {#                                            THE INSTALLATION AND CONFIRMED THAT THE ENERGY METERING IS CORRECT/ ANY#}
+                                    {#                                            ANOMALIES ASSOCIATED WITH THE FEEDER HAVE ALSO BEEN CAPTURED AND#}
+                                    {#                                            HIGHLIGHTED.</label>#}
+                                    {#                                        <span class="text-danger">{{ form9.errors.declaration }}</span>#}
+                                    {#                                    </div>#}
+
+
+                                    <div>
+                                        <ul>
+                                            {% for field in form6 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form6.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit Other Info
+                                                Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-finalsubmission" role="tabpanel"
+                                 aria-labelledby="custom-tabs-four-finalsubmission-tab">
+                                <form class="form-horizontal" method="post"
+                                      action="{% url 'postpaid:lp-finalsubmission' customer.id %}">
+                                    {% csrf_token %}
+                                    <p>Kindly note this is the final submission. Once submitted you will not be able to
+                                        update or delete any information.</p>
+                                    <div class="form-group row">
+                                        <label for="overal_rem" class="col-sm-2 col-form-label">Overall
+                                            Remarks/Reportable Incidence</label>
+                                        <div class="col-sm-10">
+                                            {{ form7.over_rem }}
+                                        </div>
+                                        <span class="text-danger"><em>{{ form7.over_rem.help_text }}</em></span>
+                                    </div>
+                                    <div class="form-check" id="declaration">
+                                        {{ form7.declaration }}
+                                        <label class="form-check-label" for="declaration">I DECLARE THAT I HAVE CHECKED
+                                            THE INSTALLATION AND CONFIRMED THAT THE ENERGY METERING IS CORRECT/ ANY
+                                            ANOMALIES ASSOCIATED WITH THE SUPPLY HAVE ALSO BEEN CAPTURED AND
+                                            HIGHLIGHTED.</label>
+                                        <span class="text-danger">{{ form7.errors.declaration }}</span>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            {% for field in form7 %}
+                                                <!-- /.card-body -->
+                                                {% if field.errors %}
+                                                    <!-- /.card-body -->
+                                                    {% for error in field.errors %}
+                                                        <li style="color: red">{{ error }}</li>
+                                                    {% endfor %}
+                                                    <!-- /.card-body -->
+                                                {% endif %}
+                                                <!-- /.card-body -->
+                                            {% endfor %}
+                                            <li style="color: red">{{ form7.non_field_errors }}</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success btn-sm">Submit Final
+                                                Inspection
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock content %}

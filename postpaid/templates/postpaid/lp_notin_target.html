@@ -1,0 +1,645 @@
+{% extends "index.html" %} {% load widget_tweaks %}
+<!-- /.col-md-6 -->
+{% load humanize %}
+<!-- /.col-md-6 -->
+{% block title %}
+<title>FOA | Upload Anomaly</title>
+{% endblock title %}
+<!-- /.col-md-6 -->
+{% block pagetitle %}
+<h1 class="m-0"><small>Large Power Inspection Form</small></h1>
+{% endblock pagetitle %} {% block breadcrumb %}
+
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">
+      <a href="{% url 'main:my-dashboard' %}">Home</a>
+    </li>
+    <li class="breadcrumb-item active">LP Inspection</li>
+  </ol>
+</div>
+{% endblock breadcrumb %}
+<!-- /.col-md-6 -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-md-6 -->
+    <div class="col-lg-8">
+      <!-- /.col-md-6 -->
+      <div class="card">
+        <div class="card-header">
+          <br />
+        </div>
+
+        <div class="card-body">
+          <form
+            class="form-horizontal"
+            method="POST"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            {% csrf_token %}
+            <div>
+              {% if form.errors %}
+              <div class="alert alert-danger">{{ form.errors }}</div>
+              {% endif %}
+            </div>
+            <div>
+              <h5 class="text-uppercase text-bold">Get Cordinates</h5>
+              <div class="form-group row">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  type="button"
+                  id="find-me"
+                >
+                  Click Here to Get Cordinates
+                </button>
+                <br />
+                <p id="status"></p>
+                <a id="map-link" target="_blank"></a>
+                <div class="col-sm-10">{{ form.x }} {{ form.y }}</div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div class="form-group row">
+                  <label for="srn" class="col-sm-3 col-form-label text-sm"
+                    >SRN</label
+                  >
+                  <div class="col-sm-9">{{ n_form.srn }}</div>
+                  <span><em>{{ n_form.srn.help_text }}</em></span>
+                </div>
+                <div class="form-group row">
+                  <label for="meterno" class="col-sm-3 col-form-label text-sm"
+                    >METER NUMBER</label
+                  >
+                  <div class="col-sm-9">{{ n_form.meterno }}</div>
+                  <span><em>{{ n_form.meterno.help_text }}</em></span>
+                </div>
+                <div class="form-group row">
+                  <label for="accountno" class="col-sm-3 col-form-label text-sm"
+                    >ACCOUNT NUMBER</label
+                  >
+                  <div class="col-sm-9">{{ n_form.accountno }}</div>
+                  <span><em>{{ n_form.accountno.help_text }}</em></span>
+                </div>
+                <div class="form-group row">
+                  <label
+                    for="customer_name"
+                    class="col-sm-3 col-form-label text-sm"
+                    >CUSTOMER NAME</label
+                  >
+                  <div class="col-sm-9">{{ n_form.customer_name }}</div>
+                  <span><em>{{ n_form.customer_name.help_text }}</em></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="type_of_industry"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Type Of Industry</label
+                >
+                <div class="col-sm-9">
+                  {{ form.type_of_industry }}
+                  <span class="text-danger"
+                    ><em>{{ form.type_of_industry.help_text }}</em></span
+                  >
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="smartmeter" class="col-sm-3 col-form-label text-sm"
+                  >Supply on Smart Metering?</label
+                >
+                <div class="col-sm-9">{{ form.smartmeter }}</div>
+                <span><em>{{ form.smartmeter.help_text }}</em></span>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <h5 class="text-uppercase text-bold">Sealing Data</h5>
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th>Seal Type</th>
+                    <th>Initial</th>
+                    <th>Final</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Meterbox Enclosure Seal Number</td>
+                    <td>{{ form.meterbox_enclosure_seal_b4 }}</td>
+                    <td>{{ form.meterbox_enclosure_seal_after }}</td>
+                  </tr>
+                  <tr>
+                    <td>Meter Terminal Seal Number</td>
+                    <td>{{ form.meterbox_terminal_seal_b4 }}</td>
+                    <td>{{ form.meterbox_terminal_seal_after }}</td>
+                  </tr>
+                  <tr>
+                    <td>Test Block Seal Number</td>
+                    <td>{{ form.testblock_seal_b4 }}</td>
+                    <td>{{ form.testblock_seal_after }}</td>
+                  </tr>
+                  <tr>
+                    <td>Meter Body Seal Number</td>
+                    <td>{{ form.meterbody_seal_b4 }}</td>
+                    <td>{{ form.meterbody_seal_after }}</td>
+                  </tr>
+                  <tr>
+                    <td id="ct-chamber-AMR">CT Chamber for AMR Seal Number</td>
+                    <td>{{ form.ctchamber_seal_b4 }}</td>
+                    <td>{{ form.ctchamber_seal_after }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr />
+
+            <div>
+              <h5 class="text-uppercase text-bold">ct & vt data</h5>
+              <div class="form-group row">
+                <label for="mpcc" class="col-sm-3 col-form-label text-sm"
+                  >Meter Programmed Connection Config</label
+                >
+                <div class="col-sm-9">{{ form.mpcc }}</div>
+                <span><em>{{ form.mpcc.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="metervoltage"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Meter Voltage at Site</label
+                >
+                <div class="col-sm-9">{{ form.metervoltage }}</div>
+                <span><em>{{ form.metervoltage.help_text }}</em></span>
+              </div>
+              <div class="form-group row" id="ctratio_ci">
+                <label for="ctratio_ci" class="col-sm-3 col-form-label text-sm"
+                  >CT ratio in C&I</label
+                >
+                <div class="col-sm-9">{{ form.ctratio_ci }}</div>
+                <span><em>{{ form.ctratio_ci.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="ctratio_programed"
+                  class="col-sm-3 col-form-label text-sm"
+                  >CT ratio Programmed In Meter</label
+                >
+                <div class="col-sm-9">{{ form.ctratio_programed }}</div>
+                <span><em>{{ form.ctratio_programed.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label for="ctratio_img" class="col-sm-3 col-form-label text-sm"
+                  >CT ratio Programmed In Meter Image</label
+                >
+                <div class="col-sm-9">{{ form.ctratio_img }}</div>
+                <span><em>{{ form.ctratio_programed.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="ctratio_installedsite"
+                  class="col-sm-3 col-form-label text-sm"
+                  >CT ratio CTs Installed on Site</label
+                >
+                <div class="col-sm-9">{{ form.ctratio_installedsite }}</div>
+                <span><em>{{ form.ctratio_installedsite.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="ctratio_ci_match"
+                  class="col-sm-3 col-form-label text-sm"
+                  >CT ratio in C&I & Installed CT are Correctly Matched
+                </label>
+                <div class="col-sm-9">{{ form.ctratio_ci_match }}</div>
+                <span><em>{{ form.ctratio_ci_match.help_text }}</em></span>
+              </div>
+              <div class="form-group row" id="ctratio_ci_match_rsn">
+                <label
+                  for="ctratio_ci_match_rsn"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Reason for mismacth
+                </label>
+                <div class="col-sm-9">{{ form.ctratio_ci_match_rsn }}</div>
+                <span><em>{{ form.ctratio_ci_match_rsn.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label for="vtratio" class="col-sm-3 col-form-label text-sm"
+                  >Programmed VT Ratio
+                </label>
+                <div class="col-sm-9">{{ form.vtratio }}</div>
+                <span><em>{{ form.vtratio.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="amrrecovered"
+                  class="col-sm-3 col-form-label text-sm"
+                  >AMR Recovered
+                </label>
+                <div class="col-sm-9">{{ form.amrrecovered }}</div>
+                <span><em>{{ form.amrrecovered.help_text }}</em></span>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <h5 class="text-uppercase text-bold">Meter Readings</h5>
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Readings</th>
+                    <th>Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Total Kwh (1.8.0)</td>
+                    <td>{{ form.total_180 }}</td>
+                    <td>
+                      {{ form.total_180_img }}
+                      <span class="text-danger"
+                        >{{ form.errors.total_180_img }}</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Reverse Energy (Where Applicable) (2.8.0)</td>
+                    <td>{{ form.r_energy }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Current Max KVA demand (9.6.0)</td>
+                    <td>{{ form.max_kva_960 }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Current Max kW demand (1.5.0)</td>
+                    <td>{{ form.max_kw_150 }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Current T1 total kWh (Hi) (1.8.1)</td>
+                    <td>{{ form.t1_181 }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Current T2 total kWh (Lo) (1.8.2)</td>
+                    <td>{{ form.t2_182 }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>RED PHASE VOLTAGE</td>
+                    <td>{{ form.voltage_red }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>YELLOW PHASE VOLTAGE</td>
+                    <td>{{ form.voltage_yellow }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>BLUE PHASE VOLTAGE</td>
+                    <td>{{ form.voltage_blue }}</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>RED PHASE CURRENT</td>
+                    <td>{{ form.current_red }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>YELLOW PHASE CURRENT</td>
+                    <td>{{ form.current_yellow }}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>BLUE PHASE CURRENT</td>
+                    <td>{{ form.current_blue }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="form-group row">
+                <label
+                  for="reverse_consumption"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Meter Having Moving Reverse Consumption
+                </label>
+                <div class="col-sm-9">{{ form.reverse_consumption }}</div>
+                <span><em>{{ form.reverse_consumption.help_text }}</em></span>
+              </div>
+
+              <div class="form-group row" id="reverse_consumption_rsn">
+                <label
+                  for="reverse_consumption_rsn"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Reasons for Reverse Consumption
+                </label>
+                <div class="col-sm-9">{{ form.reverse_consumption_rsn }}</div>
+                <span
+                  ><em>{{ form.reverse_consumption_rsn.help_text }}</em></span
+                >
+              </div>
+            </div>
+            <hr />
+            <div>
+              <div class="form-group row" id="moduleinstalled">
+                <label
+                  for="moduleinstalled"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Module Installed
+                </label>
+                <div class="col-sm-9">{{ form.moduleinstalled }}</div>
+                <span><em>{{ form.moduleinstalled.help_text }}</em></span>
+              </div>
+            </div>
+            <div id="module-information">
+              <h5 class="text-uppercase text-bold">Module Information</h5>
+
+              <div class="form-group row">
+                <label
+                  for="modulecomm_ci"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Module Communicating to C&I
+                </label>
+                <div class="col-sm-9">{{ form.modulecomm_ci }}</div>
+                <span><em>{{ form.modulecomm_ci.help_text }}</em></span>
+              </div>
+              <div class="form-group row" id="modulecom_not_rsn">
+                <label
+                  for="modulecom_not_rsn"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Reason for Non Communicating</label
+                >
+                <div class="col-sm-9">{{ form.modulecom_not_rsn }}</div>
+                <span><em>{{ form.modulecom_not_rsn.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="civector_img"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Upload Vector Diagram
+                </label>
+                <div class="col-sm-9">{{ form.civector_img }}</div>
+                <span><em>{{ form.civector_img.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label for="sim_serial" class="col-sm-3 col-form-label text-sm"
+                  >SIM Card Serial Number
+                </label>
+                <div class="col-sm-9">{{ form.sim_serial }}</div>
+                <span><em>{{ form.sim_serial.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="sim_provider"
+                  class="col-sm-3 col-form-label text-sm"
+                  >SIM Service Provider
+                </label>
+                <div class="col-sm-9">{{ form.sim_provider }}</div>
+                <span><em>{{ form.sim_provider.help_text }}</em></span>
+              </div>
+            </div>
+            <hr />
+
+            <div>
+              <h5 class="text-uppercase text-bold">
+                VERIFICATION TESTS USING PORTABLE STANDARD
+              </h5>
+              <div class="form-group row">
+                <label for="zera_test" class="col-sm-3 col-form-label text-sm"
+                  >Zera tests Done?
+                </label>
+                <div class="col-sm-9">{{ form.zera_test }}</div>
+                <span><em>{{ form.zera_test.help_text }}</em></span>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="error_register"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Error/Register Test % Meter Error
+                </label>
+                <div class="col-sm-9">{{ form.error_register }}</div>
+                <span><em>{{ form.error_register.help_text }}</em></span>
+              </div>
+
+
+
+              <div class="card-body p-0 p-0 table-responsive">
+                <table class="table table-bordered table-sm">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Zera</th>
+                      <th>Meter</th>
+                      <th>Amcoder/Clamp Meter</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Red Phase</td>
+                      <td>{{ form.redphase_zera }}</td>
+                      <td>{{ form.redphase_meter }}</td>
+                      <td>{{ form.redphase_clamp }}</td>
+                    </tr>
+                    <tr>
+                      <td>Yellow Phase</td>
+
+                      <td>{{ form.yellowphase_zera }}</td>
+
+                      <td>{{ form.yellowphase_meter }}</td>
+                      <td>{{ form.yellowphase_clamp }}</td>
+                    </tr>
+                    <tr>
+                      <td>Blue Phase</td>
+                      <td>{{ form.bluephase_zera }}</td>
+                      <td>{{ form.bluephase_meter }}</td>
+                      <td>{{ form.bluephase_clamp }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group row">
+                <label for="loadbalance" class="col-sm-3 col-form-label text-sm"
+                  >Load Balancing
+                </label>
+                <div class="col-sm-9">{{ form.loadbalance }}</div>
+                <span><em>{{ form.loadbalance.help_text }}</em></span>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="powerfactor_value"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Power Factor Value
+                </label>
+                <div class="col-sm-9">{{ form.powerfactor_value }}</div>
+                <span><em>{{ form.powerfactor_value.help_text }}</em></span>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <h5 class="text-uppercase text-bold">ANOMALIES & FALLBACK</h5>
+              <div class="form-group row">
+                <label
+                  for="arethereanomalies"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Is there any anomally detected during the Inspection?
+                </label>
+                <div class="col-sm-9">
+                  {{ form.arethereanomalies }}
+                  <span><em>{{ form.arethereanomalies.help_text }}</em></span>
+                </div>
+              </div>
+              <div class="form-group row" id="anomalies_list">
+                <label
+                  for="anomalies_list"
+                  class="col-sm-3 col-form-label text-sm"
+                  >List the Anomalies Detected separated by comma
+                </label>
+                <div class="col-sm-9">
+                  {{ form.anomalies_list }}
+                  <span><em>{{ form.anomalies_list.help_text }}</em></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="anomalies_addressed_insp"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Is there any anommaly Rectified/Addressed during the
+                  Inspection?
+                </label>
+                <div class="col-sm-9">
+                  {{ form.anomalies_addressed_insp }}
+                  <span
+                    ><em
+                      >{{ form.anomalies_addressed_insp.help_text }}</em
+                    ></span
+                  >
+                </div>
+              </div>
+              <div class="form-group row" id="anomalies_addressed_insp_list">
+                <label
+                  for="anomalies_addressed_insp_list"
+                  class="col-sm-3 col-form-label text-sm"
+                  >List anomalies Rectified/Addressed during the Inspection?
+                </label>
+                <div class="col-sm-9">
+                  {{ form.anomalies_addressed_insp_list }}
+                  <span
+                    ><em
+                      >{{ form.anomalies_addressed_insp_list.help_text }}</em
+                    ></span
+                  >
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  for="fallback_req"
+                  class="col-sm-3 col-form-label text-sm"
+                  >Is there any anomally that requires fallback?
+                </label>
+                <div class="col-sm-9">
+                  {{ form.fallback_req }}
+                  <span><em>{{ form.fallback_req.help_text }}</em></span>
+                </div>
+              </div>
+              <div class="form-group row" id="fallback_activities">
+                <label
+                  for="fallback_activities"
+                  class="col-sm-3 col-form-label text-sm"
+                  >List anomalies that require fallback?
+                </label>
+                <div class="col-sm-9">
+                  {{ form.fallback_activities }}
+                  <span><em>{{ form.fallback_activities.help_text }}</em></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                                    <label for="oktoworkwith" class="col-sm-3 col-form-label text-sm">Is the meter Installation Safe to work on? </label>
+                                    <div class="col-sm-9">
+                                        {{ form.oktoworkwith }}
+                                        <span><em>{{ form.oktoworkwith.help_text }}</em></span>
+                                    </div>
+
+                                </div>
+            </div>
+            <hr />
+            <div>
+              <h5 class="text-uppercase text-bold">REMARKS & DECLARATION</h5>
+              <div class="form-group row">
+                <label for="remarks" class="col-sm-3 col-form-label text-sm"
+                  >Overall Remarks
+                </label>
+                <div class="col-sm-9">{{ form.remarks }}</div>
+                <span><em>{{ form.remarks.help_text }}</em></span>
+              </div>
+            </div>
+            <div class="form-check" id="commit_inspection">
+              {{ form.commit_inspection }}
+              <label class="form-check-label" for="commit_inspection">
+                I, declare that I have checked the installation and confirmed
+                that the energy metering is correct and there are no
+                anomalies.</label
+              >
+              <span class="text-danger"
+                >{{ form.errors.commit_inspection }}</span
+              >
+            </div>
+            <div class="form-check" id="commit_annomalies">
+              {{ form.commit_annomalies }}
+              <label class="form-check-label" for="commit_annomalies">
+                I, declare that I have checked the installation and confirmed
+                That there were anomalies as captured in the applicaiton.</label
+              >
+              <span class="text-danger"
+                >{{ form.errors.commit_annomalies }}</span
+              >
+            </div>
+
+            {#
+            <div>
+              #} {#
+              <ul>
+                #} {# {% for field in form %}#} {#
+                <!-- /.card-body -->#} {# {% if field.errors %}#} {#
+                <!-- /.card-body -->#} {# {% for error in field.errors %}#} {#
+                <li style="color: red">{{ error }}</li>
+                #} {# {% endfor %}#} {#
+                <!-- /.card-body -->#} {# {% endif %}#} {#
+                <!-- /.card-body -->#} {# {% endfor %}#} {#
+                <li style="color: red">{{ form.non_field_errors }}</li>
+                #} {#
+              </ul>
+              #} {#
+            </div>
+            #}
+            <br />
+
+            <div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">
+                    Submit Inspection
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock content %}
